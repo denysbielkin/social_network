@@ -34,9 +34,17 @@ class SignUpForm extends React.Component {
 
     handleChange(event, id, typeOfRegexp) {
         let thisInput = {
-            content: event.target.value,
-            isValid: Validations.typeOfRegexp(event.target.value, typeOfRegexp)
+            content: '',
+            isValid: false
         };
+        if (typeOfRegexp === 'photo') {
+            thisInput.isValid = Validations.regexpImage(id)
+        } else {
+            thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
+            thisInput.content = event.target.value;
+
+        }
+
 
         // this.setState({[event.target.name]: thisInput});
 
@@ -50,7 +58,7 @@ class SignUpForm extends React.Component {
     detectIfValid(thisInput, id) {
         const thisInputTag = document.getElementById(`${id}`);
         const isValid = 'alert-success';
-        const isNotValid = 'alert-danger'
+        const isNotValid = 'alert-danger';
 
         if (!thisInput.isValid) {
             if (thisInputTag.className.indexOf(' ' + isNotValid) === -1) {
@@ -71,6 +79,13 @@ class SignUpForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        let validateFlag = Validations.validateForm(this.props.signup);
+
+        if (validateFlag) {
+            console.log(1);
+        } else {
+            console.log(2);
+        }
     }
 
     render() {
@@ -134,13 +149,14 @@ class SignUpForm extends React.Component {
                                        aria-describedby="sign-up-photo-tip"
                                     // value={this.state.photo.content}
                                        name='photo'
-                                    //onChange={(event) => this.handleChange(event, this.inputId.photo, this.typesOfRegexp.photo)}
+                                       onChange={(event) => this.handleChange(event, this.inputId.photo, this.typesOfRegexp.photo)}
                                 />
                             </label>
                             <div>
-                                <small className='form-text text-muted'>Photo preview:</small>
-                                <div id='photo-preview'>_</div>
+
+                                <div id='photo-preview'></div>
                             </div>
+
                             <small id='sign-up-photo-tip' className='form-text text-muted'>
                                 Photo size must be between 40kb and 5mb
                             </small>

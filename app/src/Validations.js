@@ -16,27 +16,51 @@ class Validations {
         }
     }
 
-    /*static regexpImage(imgId) {
-        const validImageExtensions = /(\.jpg|\.jpeg|\.png|\.bmp)$/i;
+    static validateForm(props) {
+        for (let i in props) {
+            if (props[i] !== props.middleName && !props[i].isValid) {
+                return false;
+            }
 
+        }
+
+        if (!props.middleName.isValid && !props.middleName.content) {
+            return true;
+        } else if (!props.middleName.isValid && props.middleName.content) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    static regexpImage(imgId) {
         const img = document.getElementById(imgId);
-        const fileUploadPath = img.value;
-        const imgExtension = fileUploadPath.substring(fileUploadPath.lastIndexOf('.')+1).toLowerCase();
-        let extensionFlag=false;
-        for(let i in validImageExtensions.length){
-            if(validImageExtensions[i]===imgExtension){
-                extensionFlag=true;
-                break;
-            }
-        }
-        if(!extensionFlag){
-            if(img.files===img.files[0]){
-                const reader = new FileReader();
+        const imgPath = img.value;
+        const validImageExtensions = /(\.jpg|\.jpeg|\.png|\.bmp)$/i;
+        if (!validImageExtensions.exec(imgPath)) {
+            console.log('bad file');
+            return false;
+        } else {
+            console.log('all good');
+            if ( img.files && img.files[0]) {
+              //  if(img.size >= 4000 && img.size <= 5120000 ) {
 
-               reader.readAsDataURL(img.files[0]);
-            }
+
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        document.getElementById('photo-preview').innerHTML = `
+                     <small class='form-text text-muted'>Photo preview:</small>
+                     <img id="photo-preview-img" src='${event.target.result}'/>`
+                    };
+                    reader.readAsDataURL(img.files[0]);
+                    return true;
+                }//else{
+                //     console.log('invalid size');
+                //}
+            //}
         }
-    }*/
+
+    }
 
     static regexpName(name) {
         //console.log(name);

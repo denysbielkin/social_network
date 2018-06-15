@@ -21,7 +21,7 @@ const initialState = {
     },
     photo: {
         content: null,
-        isValid: false
+        isValid: true
     },
     middleName: {
         content: '',

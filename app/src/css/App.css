@@ -19,7 +19,10 @@
 #photo-preview{
   flex-flow: column;
 }
-
+#photo-preview-img{
+  max-height: 300px;
+  max-width: 300px;
+}
 .signUpGender{
   margin-right: 10px;
 }
