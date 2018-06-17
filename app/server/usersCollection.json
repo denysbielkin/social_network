@@ -1,0 +1,34 @@
+[
+  {
+    "firstName": "Mike",
+    "lastName": "Brown",
+    "email": "botbotmike@dot.com",
+    "gender": "male",
+    "age": 21,
+    "photo":"",
+    "middleName": ""
+
+  },
+
+  {
+    "firstName": "Jane",
+    "lastName": "Yellow",
+    "email": "janebot@dot.com",
+    "gender": "female",
+    "age": 29,
+    "photo":"",
+    "middleName": "Cleo"
+
+  },
+
+  {
+    "firstName": "Bruce",
+    "lastName": "Canada",
+    "email": "bruceruce@dot.com",
+    "gender": "male",
+    "age": 15,
+    "photo":"",
+    "middleName": ""
+
+  }
+]

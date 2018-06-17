@@ -1,8 +1,12 @@
 import React, {Component} from 'react'
 import Validations from '../Validations.js';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../css/App.css'
-import {connect} from 'react-redux'
+import UsersDataRequests from '../UsersDataRequests';
+// import '../../node_modules/jquery/dist/jquery.min'
+import $ from 'jquery'
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../css/App.css';
+import {connect} from 'react-redux';
+import typeOfRegexpReducer from "../reducers/typeOfRegexpReducer";
 
 class SignUpForm extends React.Component {
     constructor(props) {
@@ -28,22 +32,52 @@ class SignUpForm extends React.Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.photoHandleChange = this.photoHandleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
-    handleChange(event, id, typeOfRegexp) {
-        let thisInput = {
+    photoHandleChange(event, imgId) {
+        const thisInput = {
             content: '',
             isValid: false
         };
-        if (typeOfRegexp === 'photo') {
-            thisInput.isValid = Validations.regexpImage(id)
-        } else {
-            thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
-            thisInput.content = event.target.value;
 
+
+        const img = document.getElementById(imgId);
+
+        const reader = new FileReader();
+        let imgToReturn;
+        const validationFlag = Validations.regexpImage(img);
+        if (validationFlag) {
+            thisInput.isValid = true;
+            reader.onload = (eventOfLoad) => {
+                document.getElementById('photo-preview').innerHTML = `
+                     <small class='form-text text-muted'>Photo preview:</small>
+                     <img id="photo-preview-img" src='${eventOfLoad.target.result}'/>`;
+
+                thisInput.content = reader.result;
+
+                console.log(thisInput.content);
+                this.props.changeRegFormInput({key: 'photo', value: thisInput});
+            };
+
+            reader.readAsDataURL(img.files[0]);
+
+        } else {
+            console.log('it is not correct file');
         }
+
+        //return imgToReturn;
+
+    }
+
+    handleChange(event, id, typeOfRegexp) {
+        const thisInput = {
+            content: '',
+            isValid: false
+        };
+        thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
+        thisInput.content = event.target.value;
 
 
         // this.setState({[event.target.name]: thisInput});
@@ -79,13 +113,38 @@ class SignUpForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        let validateFlag = Validations.validateForm(this.props.signup);
+        console.log(this.props.signup);
+        // $.getJSON('../../server/usersCollection.json', (data)=>{
+        //    console.log(data);
+        // }); //it is there only for some tests todo: remove from here
 
+        const validateFlag = this.validateForm();
+        if (validateFlag) {
+            console.log('valid validation');
+            UsersDataRequests.signUpReq(this.props.signup);
+        } else {
+            console.log('invalid validation');
+        }
+    }
+
+    validateForm() {
+        const validStatus = document.getElementById('valid-status');
+        const validateFlag = Validations.validateForm(this.props.signup);
         if (validateFlag) {
             console.log(1);
+            console.log(this.props.signup);
+            validStatus.innerHTML = '';
+            validStatus.classList.remove('alert-danger');
+
+
+            //  UsersDataRequests.signUpReq(this.props.signup);
         } else {
             console.log(2);
+            validStatus.innerHTML = 'Invalid form filling';
+            validStatus.classList.add('alert-danger');
+
         }
+        return validateFlag;
     }
 
     render() {
@@ -97,6 +156,7 @@ class SignUpForm extends React.Component {
                             <label htmlFor='sign-up-firstName'>
                                 First name<span className='mandatory-field'>*</span>:
                                 <input className='form-control alert' type="text" id='sign-up-firstName'
+                                    // required
                                        name='firstName'
                                        value={this.props.signup.firstName.content}
                                        onChange={(event) => this.handleChange(event, this.inputId.firstName, this.typesOfRegexp.name)}/>
@@ -106,6 +166,7 @@ class SignUpForm extends React.Component {
                             <label htmlFor='sign-up-lastName'>
                                 Last name<span className='mandatory-field'>*</span>:
                                 <input className='form-control alert' type="text" id='sign-up-lastName' name='lastName'
+                                    //       required
                                        value={this.props.signup.lastName.content}
                                        onChange={(event) => this.handleChange(event, this.inputId.lastName, this.typesOfRegexp.name)}/>
                             </label>
@@ -114,6 +175,7 @@ class SignUpForm extends React.Component {
                             <label htmlFor='sign-up-email'>
                                 Email<span className='mandatory-field'>*</span>:
                                 <input className='form-control alert' type="email" id='sign-up-email' name='email'
+                                    //       required
                                        value={this.props.signup.email.content}
                                        onChange={(event) => this.handleChange(event, this.inputId.email, this.typesOfRegexp.email)}/>
                             </label>
@@ -137,6 +199,7 @@ class SignUpForm extends React.Component {
                             <label htmlFor='sign-up-age'>
                                 Age<span className='mandatory-field'>*</span>:
                                 <input className='form-control alert' type="number" id='sign-up-age'
+                                    // required
                                        value={this.props.signup.age.content}
                                        name='age'
                                        onChange={(event) => this.handleChange(event, this.inputId.age, this.typesOfRegexp.age)}/>
@@ -147,9 +210,9 @@ class SignUpForm extends React.Component {
                                 Photo<span className='mandatory-field'>*</span>:
                                 <input className='form-control alert' type="file" id='sign-up-photo'
                                        aria-describedby="sign-up-photo-tip"
-                                    // value={this.state.photo.content}
                                        name='photo'
-                                       onChange={(event) => this.handleChange(event, this.inputId.photo, this.typesOfRegexp.photo)}
+                                    // required
+                                       onChange={(event) => this.photoHandleChange(event, this.inputId.photo)}
                                 />
                             </label>
                             <div>
@@ -183,7 +246,9 @@ class SignUpForm extends React.Component {
                             </small>
                         </div>
                         <br/>
-
+                        <div>
+                            <small className='alert form-text' id='valid-status'></small>
+                        </div>
                         <div className='form-group'>
                             <input className='btn btn-warning' type="submit" value="Submit"/>
                         </div>

@@ -33,38 +33,32 @@ class Validations {
         }
     }
 
-    static regexpImage(imgId) {
-        const img = document.getElementById(imgId);
+    static regexpImage(img) {
+
         const imgPath = img.value;
         const validImageExtensions = /(\.jpg|\.jpeg|\.png|\.bmp)$/i;
+
         if (!validImageExtensions.exec(imgPath)) {
             console.log('bad file');
             return false;
         } else {
             console.log('all good');
-            if ( img.files && img.files[0]) {
-              //  if(img.size >= 4000 && img.size <= 5120000 ) {
-
-
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        document.getElementById('photo-preview').innerHTML = `
-                     <small class='form-text text-muted'>Photo preview:</small>
-                     <img id="photo-preview-img" src='${event.target.result}'/>`
-                    };
-                    reader.readAsDataURL(img.files[0]);
-                    return true;
-                }//else{
+            console.log(img.files);
+            if (img.files && img.files[0]) {
+                //  if(img.size >= 4000 && img.size <= 5120000 ) {
+                //}//else{
                 //     console.log('invalid size');
                 //}
-            //}
+                //}
+                return true;
+            }
         }
 
     }
 
     static regexpName(name) {
         //console.log(name);
-        let pattern = /^[A-Z][a-z]{1,}$/;
+        let pattern = /^[A-Z][a-z]{1,32}$/;
         return pattern.test(name);
     };
 
