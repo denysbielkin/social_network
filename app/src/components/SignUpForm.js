@@ -46,7 +46,6 @@ class SignUpForm extends React.Component {
         const img = document.getElementById(imgId);
 
         const reader = new FileReader();
-        let imgToReturn;
         const validationFlag = Validations.regexpImage(img);
         if (validationFlag) {
             thisInput.isValid = true;
@@ -113,6 +112,8 @@ class SignUpForm extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+
+
         console.log(this.props.signup);
         // $.getJSON('../../server/usersCollection.json', (data)=>{
         //    console.log(data);
@@ -127,14 +128,21 @@ class SignUpForm extends React.Component {
         }
     }
 
+
     validateForm() {
         const validStatus = document.getElementById('valid-status');
         const validateFlag = Validations.validateForm(this.props.signup);
+
         if (validateFlag) {
             console.log(1);
             console.log(this.props.signup);
             validStatus.innerHTML = '';
             validStatus.classList.remove('alert-danger');
+            const middleName = this.props.signup.middleName;
+            if (middleName.isValid === false) {
+                middleName.isValid = true;
+                this.props.changeRegFormInput({key: 'middleName', value: middleName});
+            }
 
 
             //  UsersDataRequests.signUpReq(this.props.signup);
@@ -170,6 +178,21 @@ class SignUpForm extends React.Component {
                                        value={this.props.signup.lastName.content}
                                        onChange={(event) => this.handleChange(event, this.inputId.lastName, this.typesOfRegexp.name)}/>
                             </label>
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor='sign-up-middleName'>
+                                Middle-name:
+                                <input className='form-control alert' type="text"
+                                       aria-describedby="sign-up-middleName-tip"
+                                       id='sign-up-middleName'
+                                       value={this.props.signup.middleName.content}
+                                       name='middleName'
+                                       onChange={(event) => this.handleChange(event, this.inputId.middleName, this.typesOfRegexp.name)}/>
+                            </label>
+                            <small id='sign-up-middleName-tip' className='form-text text-muted'>Middle-name is optional
+                                for
+                                filling
+                            </small>
                         </div>
                         <div className='form-group'>
                             <label htmlFor='sign-up-email'>
@@ -222,23 +245,10 @@ class SignUpForm extends React.Component {
 
                             <small id='sign-up-photo-tip' className='form-text text-muted'>
                                 Photo size must be between 40kb and 5mb
+                                <div>There is list of valid photo extensions: .jpeg .jpg .png .bmp </div>
                             </small>
                         </div>
-                        <div className='form-group'>
-                            <label htmlFor='sign-up-middleName'>
-                                Middle-name:
-                                <input className='form-control alert' type="text"
-                                       aria-describedby="sign-up-middleName-tip"
-                                       id='sign-up-middleName'
-                                       value={this.props.signup.middleName.content}
-                                       name='middleName'
-                                       onChange={(event) => this.handleChange(event, this.inputId.middleName, this.typesOfRegexp.name)}/>
-                            </label>
-                            <small id='sign-up-middleName-tip' className='form-text text-muted'>Middle-name is optional
-                                for
-                                filling
-                            </small>
-                        </div>
+
                         <div>
                             <small className='form-text text-muted'><span className='mandatory-field'>*</span> - is
                                 mandatory

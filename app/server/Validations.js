@@ -85,4 +85,4 @@ class Validations {
 
 
 }
-export default Validations;
+module.exports = Validations;

@@ -7,11 +7,7 @@ const initialState = {
         content: '',
         isValid: false
     },
-    age: {
-        content: '',
-        isValid: false
-    },
-    gender: {
+    middleName: {
         content: '',
         isValid: false
     },
@@ -19,12 +15,16 @@ const initialState = {
         content: '',
         isValid: false
     },
-    photo: {
-        content: null,
+    gender: {
+        content: '',
         isValid: false
     },
-    middleName: {
+    age: {
         content: '',
+        isValid: false
+    },
+    photo: {
+        content: null,
         isValid: false
     }
 

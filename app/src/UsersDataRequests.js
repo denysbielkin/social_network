@@ -7,11 +7,11 @@ class UsersDataRequests {
     static signUpReq(newUser) {
         $.ajax({
             method: "POST",
-            url: "http://localhost:3005/save-new-user",
-            data: {value: newUser}
+            url: "http://localhost:3010/save-new-user",
+            data: newUser
         })
             .done(res => {
-                console.log('Good: ' + res);
+            console.log('Good: ' + res);
             }).fail(err => {
             console.log('Bad: ' + err);
         })
