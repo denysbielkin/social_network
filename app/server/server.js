@@ -1,53 +1,22 @@
 //import db from './db'
 
 //const Validations = require("./Validations.js");
-const Validations = require("../src/Validations.js");
+const Validations = require("../src/common/Validations.js");
 //import Validations from '../src/Validations.js'
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 3010;
 const bodyParser = require('body-parser');
+//const bcrypt = require('bcrypt');
 const mongodb = require('mongodb').MongoClient;
 const pswHash = require('password-hash');
 
 
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://127.0.0.1:27017/myUsers');
-// mongoose.Promise = global.Promise;
-// const myDb = mongoose.connection;
-// const userTextValuesSchema = new mongoose.Schema({
-//     content: String,
-//     isValid: Boolean
-// });
-//
-// const userNumberValuesSchema = new mongoose.Schema({
-//     content: Number,
-//     isValid: Boolean
-// });
-//
-//
-// const userPhotoValuesSchema = new mongoose.Schema({
-//     content: Buffer,
-//     isValid: Boolean
-// });
-//
-//
-// const userSchema = new mongoose.Schema({
-//     firstName: userTextValuesSchema,
-//     lastName: userTextValuesSchema,
-//     middleName: userTextValuesSchema,
-//     email: userTextValuesSchema,
-//     gender: userTextValuesSchema,
-//     age: userNumberValuesSchema,
-//     photo: userPhotoValuesSchema,
-// }, {collection:'users'});
-//
-// const UserData = mongoose.model('UserData', userSchema);
-//
 
 
 app.use(cors());//todo: use proxy instead of cors
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
@@ -78,9 +47,10 @@ const passwordGenerator = () => {
 app.post('/save-new-user', (req, res) => {
     const params = req.body;
     const validationFlag = Validations.Validations.validateForm(params);
+
     if (validationFlag) {
-        //console.log(params, ':123:');
-        const password = pswHash.generate(passwordGenerator());
+        const unHpassword = passwordGenerator();
+        const password = pswHash.generate(unHpassword);
 
         const userInfo = {
             firstName: params.firstName.content,
@@ -109,12 +79,12 @@ app.post('/save-new-user', (req, res) => {
                         }
                        // console.log(result.ops);
 
-                        res.send(200, 'Account has been created! Congrats!')
+                        res.send(200, 'Account has been created! Congrats! Take your password: ' + unHpassword)
                     });
                 } else {
 
                     console.log('THERE IS TOO:', result.email, ':THERE IS HAS TO BE EMAIL!!!!!');
-                    res.send(405, 'This user already exist')
+                    res.send(200, 'This user already exist')
 
                 }
                 db.close();
@@ -123,11 +93,6 @@ app.post('/save-new-user', (req, res) => {
 
         });
 
-        //
-        // const data = new UserData(userInfo);
-        // data.save();
-
-        // res.send(200, userInfo.firstName.content);
     } else {
         console.log(':Data is not valid!:');
         res.send(200, ':Data is not valid!:');
@@ -136,18 +101,3 @@ app.post('/save-new-user', (req, res) => {
 
 });
 app.listen(port);
-//
-// });
-//
-//
-//
-
-
-//
-
-//
-// app.get('/get-my-data', (req, res) => {
-//     res.send(200, 'Hello World?');
-// });
-//
-// app.listen(port);

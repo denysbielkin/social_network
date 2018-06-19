@@ -1,17 +1,19 @@
 import React, {Component} from 'react'
-import {Validations} from '../Validations.js';
-import UsersDataRequests from '../UsersDataRequests';
+import {Validations} from '../common/Validations.js';
+import UsersDataRequests from '../common/UsersDataRequests';
 // import '../../node_modules/jquery/dist/jquery.min'
 import $ from 'jquery'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import {connect} from 'react-redux';
 import typeOfRegexpReducer from "../reducers/typeOfRegexpReducer";
+import { Alert } from 'react-bootstrap'
+//import Alerts from '../Alerts.js'
 
-class SignUpForm extends React.Component {
+class SignUpForm extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {};
         this.inputId = {
             firstName: 'sign-up-firstName',
             lastName: 'sign-up-lastName',
@@ -109,8 +111,7 @@ class SignUpForm extends React.Component {
         }
     }
 
-
-    handleSubmit(event) {
+    async handleSubmit(event) {
         event.preventDefault();
 
 
@@ -122,7 +123,11 @@ class SignUpForm extends React.Component {
         const validateFlag = this.validateForm();
         if (validateFlag) {
             console.log('valid validation');
-            UsersDataRequests.signUpReq(this.props.signup);
+            const result = await UsersDataRequests.signUpReq(this.props.signup);
+            console.log(result.status);
+            if (result.status === 'success') {
+                this.setState({...this.state, alert: result});
+            }
         } else {
             console.log('invalid validation');
         }
@@ -156,113 +161,120 @@ class SignUpForm extends React.Component {
     }
 
     render() {
+        const alert = this.state.alert ? <Alert bsStyle={this.state.alert.status}> {this.state.alert.message} </Alert> : '';
         return (
-            <div id='wrapper'>
-                <div id='signUpBlock' className='container'>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className='form-group form'>
-                            <label htmlFor='sign-up-firstName'>
-                                First name<span className='mandatory-field'>*</span>:
-                                <input className='form-control alert' type="text" id='sign-up-firstName'
-                                    // required
-                                       name='firstName'
-                                       value={this.props.signup.firstName.content}
-                                       onChange={(event) => this.handleChange(event, this.inputId.firstName, this.typesOfRegexp.name)}/>
-                            </label>
-                        </div>
-                        <div className='form-group'>
-                            <label htmlFor='sign-up-lastName'>
-                                Last name<span className='mandatory-field'>*</span>:
-                                <input className='form-control alert' type="text" id='sign-up-lastName' name='lastName'
-                                    //       required
-                                       value={this.props.signup.lastName.content}
-                                       onChange={(event) => this.handleChange(event, this.inputId.lastName, this.typesOfRegexp.name)}/>
-                            </label>
-                        </div>
-                        <div className='form-group'>
-                            <label htmlFor='sign-up-middleName'>
-                                Middle-name:
-                                <input className='form-control alert' type="text"
-                                       aria-describedby="sign-up-middleName-tip"
-                                       id='sign-up-middleName'
-                                       value={this.props.signup.middleName.content}
-                                       name='middleName'
-                                       onChange={(event) => this.handleChange(event, this.inputId.middleName, this.typesOfRegexp.name)}/>
-                            </label>
-                            <small id='sign-up-middleName-tip' className='form-text text-muted'>Middle-name is optional
-                                for
-                                filling
-                            </small>
-                        </div>
-                        <div className='form-group'>
-                            <label htmlFor='sign-up-email'>
-                                Email<span className='mandatory-field'>*</span>:
-                                <input className='form-control alert' type="email" id='sign-up-email' name='email'
-                                    //       required
-                                       value={this.props.signup.email.content}
-                                       onChange={(event) => this.handleChange(event, this.inputId.email, this.typesOfRegexp.email)}/>
-                            </label>
-                        </div>
-                        <div className='form-group'>
-                            <div>Gender<span className='mandatory-field'>*</span>:</div>
-                            <div>
-                                <label htmlFor='sign-up-gender-male' className='signUpGender'><input name="gender"
-                                                                                                     id='sign-up-gender-male'
-                                                                                                     onChange={(event) => this.handleChange(event, this.inputId.genderMale, this.typesOfRegexp.gender)}
-                                                                                                     type="radio"
-                                                                                                     value="male"/> Male</label>
-                                <label htmlFor='sign-up-gender-female' className='signUpGender'><input name="gender"
-                                                                                                       id='sign-up-gender-female'
-                                                                                                       onChange={(event) => this.handleChange(event, this.inputId.genderFemale, this.typesOfRegexp.gender)}
-                                                                                                       type="radio"
-                                                                                                       value="female"/> Female</label>
+            <div>
+                {alert}
+                <div id='wrapper'>
+
+                    <div id='signUpBlock' className='container'>
+                        <form id='signUpForm' onSubmit={this.handleSubmit}>
+                            <div className='form-group form'>
+                                <label htmlFor='sign-up-firstName'>
+                                    First name<span className='mandatory-field'>*</span>:
+                                    <input className='form-control alert' type="text" id='sign-up-firstName'
+                                           required
+                                           name='firstName'
+                                           value={this.props.signup.firstName.content}
+                                           onChange={(event) => this.handleChange(event, this.inputId.firstName, this.typesOfRegexp.name)}/>
+                                </label>
                             </div>
-                        </div>
-                        <div className='form-group'>
-                            <label htmlFor='sign-up-age'>
-                                Age<span className='mandatory-field'>*</span>:
-                                <input className='form-control alert' type="number" id='sign-up-age'
-                                    // required
-                                       value={this.props.signup.age.content}
-                                       name='age'
-                                       onChange={(event) => this.handleChange(event, this.inputId.age, this.typesOfRegexp.age)}/>
-                            </label>
-                        </div>
-                        <div className='form-group'>
-                            <label htmlFor='sign-up-photo'>
-                                Photo<span className='mandatory-field'>*</span>:
-                                <input className='form-control alert' type="file" id='sign-up-photo'
-                                       aria-describedby="sign-up-photo-tip"
-                                       name='photo'
-                                    // required
-                                       onChange={(event) => this.photoHandleChange(event, this.inputId.photo)}
-                                />
-                            </label>
-                            <div>
+                            <div className='form-group'>
+                                <label htmlFor='sign-up-lastName'>
+                                    Last name<span className='mandatory-field'>*</span>:
+                                    <input className='form-control alert' type="text" id='sign-up-lastName'
+                                           name='lastName'
+                                           required
+                                           value={this.props.signup.lastName.content}
+                                           onChange={(event) => this.handleChange(event, this.inputId.lastName, this.typesOfRegexp.name)}/>
+                                </label>
+                            </div>
+                            <div className='form-group'>
+                                <label htmlFor='sign-up-middleName'>
+                                    Middle-name:
+                                    <input className='form-control alert' type="text"
+                                           aria-describedby="sign-up-middleName-tip"
+                                           id='sign-up-middleName'
+                                           value={this.props.signup.middleName.content}
+                                           name='middleName'
+                                           onChange={(event) => this.handleChange(event, this.inputId.middleName, this.typesOfRegexp.name)}/>
+                                </label>
+                                <small id='sign-up-middleName-tip' className='form-text text-muted'>Middle-name is
+                                    optional
+                                    for
+                                    filling
+                                </small>
+                            </div>
+                            <div className='form-group'>
+                                <label htmlFor='sign-up-email'>
+                                    Email<span className='mandatory-field'>*</span>:
+                                    <input className='form-control alert' type="email" id='sign-up-email' name='email'
+                                           required
+                                           value={this.props.signup.email.content}
+                                           onChange={(event) => this.handleChange(event, this.inputId.email, this.typesOfRegexp.email)}/>
+                                </label>
+                            </div>
+                            <div className='form-group'>
+                                <div>Gender<span className='mandatory-field'>*</span>:</div>
+                                <div>
+                                    <label htmlFor='sign-up-gender-male' className='signUpGender'><input name="gender"
+                                                                                                         id='sign-up-gender-male'
+                                                                                                         onChange={(event) => this.handleChange(event, this.inputId.genderMale, this.typesOfRegexp.gender)}
+                                                                                                         type="radio"
+                                                                                                         value="male"/> Male</label>
+                                    <label htmlFor='sign-up-gender-female' className='signUpGender'><input name="gender"
+                                                                                                           id='sign-up-gender-female'
+                                                                                                           onChange={(event) => this.handleChange(event, this.inputId.genderFemale, this.typesOfRegexp.gender)}
+                                                                                                           type="radio"
+                                                                                                           value="female"/> Female</label>
+                                </div>
+                            </div>
+                            <div className='form-group'>
+                                <label htmlFor='sign-up-age'>
+                                    Age<span className='mandatory-field'>*</span>:
+                                    <input className='form-control alert' type="number" id='sign-up-age'
+                                           required
+                                           value={this.props.signup.age.content}
+                                           name='age'
+                                           onChange={(event) => this.handleChange(event, this.inputId.age, this.typesOfRegexp.age)}/>
+                                </label>
+                            </div>
+                            <div className='form-group'>
+                                <label htmlFor='sign-up-photo'>
+                                    Photo<span className='mandatory-field'>*</span>:
+                                    <input className='form-control alert' type="file" id='sign-up-photo'
+                                           aria-describedby="sign-up-photo-tip"
+                                           name='photo'
+                                           required
+                                           onChange={(event) => this.photoHandleChange(event, this.inputId.photo)}
+                                    />
+                                </label>
+                                <div>
 
-                                <div id='photo-preview'></div>
+                                    <div id='photo-preview'></div>
+                                </div>
+
+                                <small id='sign-up-photo-tip' className='form-text text-muted'>
+                                    Photo size must be between 40kb and 5mb
+                                    <div>There is list of valid photo extensions: .jpeg .jpg .png .bmp </div>
+                                </small>
                             </div>
 
-                            <small id='sign-up-photo-tip' className='form-text text-muted'>
-                                Photo size must be between 40kb and 5mb
-                                <div>There is list of valid photo extensions: .jpeg .jpg .png .bmp </div>
-                            </small>
-                        </div>
-
-                        <div>
-                            <small className='form-text text-muted'><span className='mandatory-field'>*</span> - is
-                                mandatory
-                                for filling
-                            </small>
-                        </div>
-                        <br/>
-                        <div>
-                            <small className='alert form-text' id='valid-status'></small>
-                        </div>
-                        <div className='form-group'>
-                            <input className='btn btn-warning' type="submit" value="Submit"/>
-                        </div>
-                    </form>
+                            <div>
+                                <small className='form-text text-muted'><span className='mandatory-field'>*</span> - is
+                                    mandatory
+                                    for filling
+                                </small>
+                            </div>
+                            <br/>
+                            <div>
+                                <small className='alert form-text' id='valid-status'></small>
+                            </div>
+                            <div className='form-group'>
+                                <input className='btn btn-warning' type="submit" value="Submit"/>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         );
