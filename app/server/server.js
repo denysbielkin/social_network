@@ -1,6 +1,7 @@
 //import db from './db'
 
-const Validations = require("./Validations.js");
+//const Validations = require("./Validations.js");
+const Validations = require("../src/Validations.js");
 //import Validations from '../src/Validations.js'
 const express = require('express');
 const cors = require('cors');
@@ -8,6 +9,8 @@ const app = express();
 const port = 3010;
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb').MongoClient;
+const pswHash = require('password-hash');
+
 
 // const mongoose = require('mongoose');
 // mongoose.connect('mongodb://127.0.0.1:27017/myUsers');
@@ -44,10 +47,6 @@ const mongodb = require('mongodb').MongoClient;
 //
 
 
-
-
-
-
 app.use(cors());//todo: use proxy instead of cors
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -56,9 +55,9 @@ const passwordGenerator = () => {
     const max = 20;
     const min = 15;
     const length = Math.random() * (max - min) + min;
-    let string = "abcdefghijklmnopqrstuvwxyz"; //to upper
-    let numeric = '0123456789';
-    let punctuation = '!@#$%^&*()_+~`|}{[]\:;?><,./-=';
+    const string = "abcdefghijklmnopqrstuvwxyz";
+    const numeric = '0123456789';
+    const punctuation = '!@#$%^&*()_+~`|}{[]\:;?><,./-=';
     let password = "";
     let character = "";
     while (password.length < length) {
@@ -72,21 +71,18 @@ const passwordGenerator = () => {
         character += punctuation.charAt(entity3);
         password = character;
     }
-   return password;
+    return password;
 };
-
-
-
 
 
 app.post('/save-new-user', (req, res) => {
     const params = req.body;
-    const validationFlag = Validations.validateForm(params);
+    const validationFlag = Validations.Validations.validateForm(params);
     if (validationFlag) {
-        console.log(params, ':123:');
+        //console.log(params, ':123:');
+        const password = pswHash.generate(passwordGenerator());
 
-
-        const userInfo={
+        const userInfo = {
             firstName: params.firstName.content,
             lastName: params.lastName.content,
             middleName: params.middleName.content,
@@ -94,25 +90,36 @@ app.post('/save-new-user', (req, res) => {
             gender: params.gender.content,
             age: params.age.content,
             photo: params.photo.content,
-            password: passwordGenerator()
+            password
         };
-
-
         mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
             const myDb = db.db('socialNetwork');
             const myCollection = myDb.collection('users');
-
-            myCollection.insertOne(userInfo, (err, result) => {
+            myCollection.findOne({email: userInfo.email}, (err, result) => {
 
                 if (err) {
-                    console.log(err);
-                    return;
+                    throw err;
                 }
-                console.log('Connection successful', result.ops);
-                
+                if (result === null) {
+                    console.log('No results');
+                    myCollection.insertOne(userInfo, (err, result) => {
 
+                        if (err) {
+                            throw err;
+                        }
+                       // console.log(result.ops);
+
+                        res.send(200, 'Account has been created! Congrats!')
+                    });
+                } else {
+
+                    console.log('THERE IS TOO:', result.email, ':THERE IS HAS TO BE EMAIL!!!!!');
+                    res.send(405, 'This user already exist')
+
+                }
                 db.close();
             });
+
 
         });
 

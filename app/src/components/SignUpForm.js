@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Validations from '../Validations.js';
+import {Validations} from '../Validations.js';
 import UsersDataRequests from '../UsersDataRequests';
 // import '../../node_modules/jquery/dist/jquery.min'
 import $ from 'jquery'
