@@ -4,13 +4,13 @@ import UsersDataRequests from '../common/UsersDataRequests';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import {connect} from 'react-redux';
-import { Alert } from 'react-bootstrap'
+import {Alert} from 'react-bootstrap'
 
 class SignUpForm extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.inputId = {
+        this.signUpInputId = {
             firstName: 'sign-up-firstName',
             lastName: 'sign-up-lastName',
             email: 'sign-up-email',
@@ -28,11 +28,20 @@ class SignUpForm extends Component {
             photo: 'photo'
 
         };
+        this.typesOfForm = {
+            signUp: 'signUp',
+            signIn: 'signIn'
+
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.photoHandleChange = this.photoHandleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    // componentDidMount() {
+    //     this.setState({...state, typeOfForm: this.typesOfForm.signUp})
+    // }
 
     photoHandleChange(event, imgId) {
         const thisInput = {
@@ -65,6 +74,7 @@ class SignUpForm extends Component {
     }
 
     handleChange(event, id, typeOfRegexp) {
+
         const thisInput = {
             content: '',
             isValid: false
@@ -140,32 +150,37 @@ class SignUpForm extends Component {
     }
 
     render() {
-        const alert = this.state.alert ? <Alert bsStyle={this.state.alert.status}> {this.state.alert.message} </Alert> : '';
+        const alert = this.state.alert ?
+            <Alert bsStyle={this.state.alert.status}> {this.state.alert.message} </Alert> : '';
+
+
         return (
             <div>
                 {alert}
                 <div id='wrapper'>
 
-                    <div id='signUpBlock' className='container'>
-                        <form id='signUpForm' onSubmit={this.handleSubmit}>
+                    <div id='sign-up-block' className='formBlock container'>
+                        <form id='sign-up-form' onSubmit={this.handleSubmit}>
                             <div className='form-group form'>
                                 <label htmlFor='sign-up-firstName'>
                                     First name<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="text" id='sign-up-firstName'
+                                    <input className='form-control alert signUpElement' type="text"
+                                           id='sign-up-firstName'
                                            required
                                            name='firstName'
                                            value={this.props.signup.firstName.content}
-                                           onChange={(event) => this.handleChange(event, this.inputId.firstName, this.typesOfRegexp.name)}/>
+                                           onChange={(event) => this.handleChange(event, this.signUpInputId.firstName, this.typesOfRegexp.name)}/>
                                 </label>
                             </div>
                             <div className='form-group'>
                                 <label htmlFor='sign-up-lastName'>
                                     Last name<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="text" id='sign-up-lastName'
+                                    <input className='form-control alert signUpElement' type="text"
+                                           id='sign-up-lastName'
                                            name='lastName'
                                            required
                                            value={this.props.signup.lastName.content}
-                                           onChange={(event) => this.handleChange(event, this.inputId.lastName, this.typesOfRegexp.name)}/>
+                                           onChange={(event) => this.handleChange(event, this.signUpInputId.lastName, this.typesOfRegexp.name)}/>
                                 </label>
                             </div>
                             <div className='form-group'>
@@ -176,7 +191,7 @@ class SignUpForm extends Component {
                                            id='sign-up-middleName'
                                            value={this.props.signup.middleName.content}
                                            name='middleName'
-                                           onChange={(event) => this.handleChange(event, this.inputId.middleName, this.typesOfRegexp.name)}/>
+                                           onChange={(event) => this.handleChange(event, this.signUpInputId.middleName, this.typesOfRegexp.name)}/>
                                 </label>
                                 <small id='sign-up-middleName-tip' className='form-text text-muted'>Middle-name is
                                     optional
@@ -187,37 +202,45 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-email'>
                                     Email<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="email" id='sign-up-email' name='email'
+                                    <input className='form-control alert signUpElement' type="email" id='sign-up-email'
+                                           name='email'
                                            required
                                            value={this.props.signup.email.content}
-                                           onChange={(event) => this.handleChange(event, this.inputId.email, this.typesOfRegexp.email)}/>
+                                           onChange={(event) => this.handleChange(event, this.signUpInputId.email, this.typesOfRegexp.email)}/>
                                 </label>
                             </div>
-                            <div className='form-group'>
+                            <div className='form-group' id='sign-up-gender'>
                                 <div>Gender<span className='mandatory-field'>*</span>:</div>
                                 <div>
+                                    <div>
                                     <label htmlFor='sign-up-gender-male' className='signUpGender'><input name="gender"
                                                                                                          id='sign-up-gender-male'
-                                                                                                         onChange={(event) => this.handleChange(event, this.inputId.genderMale, this.typesOfRegexp.gender)}
+                                                                                                         onChange={(event) => this.handleChange(event, this.signUpInputId.genderMale, this.typesOfRegexp.gender)}
                                                                                                          type="radio"
                                                                                                          value="male"/> Male</label>
+                                    </div>
+                                    <div>
                                     <label htmlFor='sign-up-gender-female' className='signUpGender'><input name="gender"
                                                                                                            id='sign-up-gender-female'
-                                                                                                           onChange={(event) => this.handleChange(event, this.inputId.genderFemale, this.typesOfRegexp.gender)}
+                                                                                                           onChange={(event) => this.handleChange(event, this.signUpInputId.genderFemale, this.typesOfRegexp.gender)}
                                                                                                            type="radio"
                                                                                                            value="female"/> Female</label>
+
+                                    </div>
                                 </div>
                             </div>
                             <div className='form-group'>
                                 <label htmlFor='sign-up-age'>
                                     Age<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="number" id='sign-up-age'
+                                    <input className='form-control alert signUpElement' type="number"
+                                           id='sign-up-age'
                                            required
                                            value={this.props.signup.age.content}
                                            name='age'
-                                           onChange={(event) => this.handleChange(event, this.inputId.age, this.typesOfRegexp.age)}/>
+                                           onChange={(event) => this.handleChange(event, this.signUpInputId.age, this.typesOfRegexp.age)}/>
                                 </label>
                             </div>
+
                             <div className='form-group'>
                                 <label htmlFor='sign-up-photo'>
                                     Photo<span className='mandatory-field'>*</span>:
@@ -225,7 +248,7 @@ class SignUpForm extends Component {
                                            aria-describedby="sign-up-photo-tip"
                                            name='photo'
                                            required
-                                           onChange={(event) => this.photoHandleChange(event, this.inputId.photo)}
+                                           onChange={(event) => this.photoHandleChange(event, this.signUpInputId.photo)}
                                     />
                                 </label>
                                 <div>

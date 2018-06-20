@@ -3,8 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 3010;
-const bodyParser = require('body-parser');
 const mongodb = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+//const insertUserInDb = require('./db/insertUser');
 const pswHash = require('password-hash');
 
 
@@ -37,7 +38,7 @@ const passwordGenerator = () => {
     }
     return password;
 };
-
+const signUpEndPoint = '/sign-up';
 
 app.post('/save-new-user', (req, res) => {
     const params = req.body;
@@ -57,33 +58,37 @@ app.post('/save-new-user', (req, res) => {
             photo: params.photo.content,
             password
         };
-        mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
-            const myDb = db.db('socialNetwork');
-            const myCollection = myDb.collection('users');
-            myCollection.findOne({email: userInfo.email}, (err, result) => {
 
-                if (err) {
-                    throw err;
-                }
-                if (result === null) {
-                    console.log('No results');
-                    myCollection.insertOne(userInfo, (err, result) => {
 
-                        if (err) {
-                            throw err;
-                        }
+            mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
+                const myDb = db.db('socialNetwork');
+                const myCollection = myDb.collection('users');
+                myCollection.findOne({email: userInfo.email}, (err, result) => {
 
-                        res.send(200, 'Account has been created! Congrats! Take your password: ' + notHPassword)
-                    });
-                } else {
-                    res.send(200, 'This user already exist')
+                    if (err) {
+                        throw err;
+                    }
+                    if (result === null) {
+                        console.log('No results');
+                        myCollection.insertOne(userInfo, (err, result) => {
 
-                }
-                db.close();
+                            if (err) {
+                                throw err;
+                            }
+
+                            res.send(200, 'Account has been created! Congrats! Take your password: ' + notHPassword)
+                        });
+                    } else {
+                        res.send(200, 'This user already exist')
+
+                    }
+                    db.close();
+                });
+
+
             });
 
-
-        });
+        //todo instead of code above this   //insertUserInDb.insertUserInDb(res, notHPassword, userInfo);
 
     } else {
         console.log(':Data is not valid!:');

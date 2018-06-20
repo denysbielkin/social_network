@@ -3,11 +3,16 @@
   background-size: cover;
   min-height: 100vh;
 }
+#sign-up-form, #sign-in-form{
 
-.signUpElement{
+  text-align: center;
+}
+
+
+.signUpElement, .signInElement{
   width: 330px;
 }
-#signUpBlock{
+.formBlock{
   border:darkgoldenrod 3px dashed;
   border-radius: 5px;
   background-color: darkslategray;
@@ -29,4 +34,8 @@
 }
 .signUpGender{
   margin-right: 10px;
+}
+
+.signUpGender:first-child{
+  float:left;
 }
