@@ -6,7 +6,6 @@ import '../css/App.css';
 import {connect} from 'react-redux';
 import { Alert } from 'react-bootstrap'
 
-
 class SignUpForm extends Component {
     constructor(props) {
         super(props);
