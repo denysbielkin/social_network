@@ -1,6 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+import rootReducer from './reducers/typeOfRegexpReducer'
+import SignUpForm from './components/SignUpForm'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+const store = createStore(rootReducer);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <SignUpForm/>
+  </Provider>
+
+  , document.getElementById('root'));
 
