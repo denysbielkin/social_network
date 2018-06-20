@@ -8,11 +8,9 @@ class UsersDataRequests {
             .then(function(res) {
                 if (res.data.indexOf('Congrats') !== -1) {
                     $('#signUpBlock').hide(1000);
-                    // Alert
-                    console.log({status: 'success', message: res.data});
                     return {status: 'success', message: res.data};
 
-                } else if (res.data === 'This user already exist') {
+                } else if (res.data.indexOf('exist') !==-1) {
                     return {status: 'danger', message: res.data};                }
             });
     }

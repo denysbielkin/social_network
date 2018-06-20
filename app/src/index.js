@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
-// import './css/App.css'
 import {createStore} from 'redux'
 import rootReducer from './reducers/typeOfRegexpReducer'
 import SignUpForm from './components/SignUpForm'

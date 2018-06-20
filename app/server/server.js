@@ -1,14 +1,9 @@
-//import db from './db'
-
-//const Validations = require("./Validations.js");
 const Validations = require("../src/common/Validations.js");
-//import Validations from '../src/Validations.js'
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 3010;
 const bodyParser = require('body-parser');
-//const bcrypt = require('bcrypt');
 const mongodb = require('mongodb').MongoClient;
 const pswHash = require('password-hash');
 
@@ -77,13 +72,10 @@ app.post('/save-new-user', (req, res) => {
                         if (err) {
                             throw err;
                         }
-                       // console.log(result.ops);
 
                         res.send(200, 'Account has been created! Congrats! Take your password: ' + notHPassword)
                     });
                 } else {
-
-                    console.log('THERE IS TOO:', result.email, ':THERE IS HAS TO BE EMAIL!!!!!');
                     res.send(200, 'This user already exist')
 
                 }

@@ -60,14 +60,12 @@ class Validations {
     }
 
     static regexpName(name) {
-        //console.log(name);
         let pattern = /^[A-Z][a-z]{1,32}$/;
         return pattern.test(name);
     };
 
 
     static regexpEmail(email) {
-        //console.log(email);
         let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return pattern.test(String(email).toLowerCase());
     };
@@ -89,4 +87,3 @@ class Validations {
 module.exports ={
     Validations:Validations,
 };
-//export default Validations;

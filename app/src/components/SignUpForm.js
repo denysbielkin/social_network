@@ -1,14 +1,11 @@
 import React, {Component} from 'react'
 import {Validations} from '../common/Validations.js';
 import UsersDataRequests from '../common/UsersDataRequests';
-// import '../../node_modules/jquery/dist/jquery.min'
-import $ from 'jquery'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import {connect} from 'react-redux';
-import typeOfRegexpReducer from "../reducers/typeOfRegexpReducer";
 import { Alert } from 'react-bootstrap'
-//import Alerts from '../Alerts.js'
+
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -58,7 +55,6 @@ class SignUpForm extends Component {
 
                 thisInput.content = reader.result;
 
-                console.log(thisInput.content);
                 this.props.changeRegFormInput({key: 'photo', value: thisInput});
             };
 
@@ -67,9 +63,6 @@ class SignUpForm extends Component {
         } else {
             console.log('it is not correct file');
         }
-
-        //return imgToReturn;
-
     }
 
     handleChange(event, id, typeOfRegexp) {
@@ -80,8 +73,6 @@ class SignUpForm extends Component {
         thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
         thisInput.content = event.target.value;
 
-
-        // this.setState({[event.target.name]: thisInput});
 
         this.props.changeRegFormInput({key: event.target.name, value: thisInput});
 
@@ -114,17 +105,11 @@ class SignUpForm extends Component {
     async handleSubmit(event) {
         event.preventDefault();
 
-
-        console.log(this.props.signup);
-        // $.getJSON('../../server/usersCollection.json', (data)=>{
-        //    console.log(data);
-        // }); //it is there only for some tests todo: remove from here
-
         const validateFlag = this.validateForm();
         if (validateFlag) {
             console.log('valid validation');
             const result = await UsersDataRequests.signUpReq(this.props.signup);
-            console.log(result.status);
+
             if (result.status === 'success') {
                 this.setState({...this.state, alert: result});
             }
@@ -139,8 +124,6 @@ class SignUpForm extends Component {
         const validateFlag = Validations.validateForm(this.props.signup);
 
         if (validateFlag) {
-            console.log(1);
-            console.log(this.props.signup);
             validStatus.innerHTML = '';
             validStatus.classList.remove('alert-danger');
             const middleName = this.props.signup.middleName;
@@ -149,10 +132,7 @@ class SignUpForm extends Component {
                 this.props.changeRegFormInput({key: 'middleName', value: middleName});
             }
 
-
-            //  UsersDataRequests.signUpReq(this.props.signup);
         } else {
-            console.log(2);
             validStatus.innerHTML = 'Invalid form filling';
             validStatus.classList.add('alert-danger');
 
@@ -172,7 +152,7 @@ class SignUpForm extends Component {
                             <div className='form-group form'>
                                 <label htmlFor='sign-up-firstName'>
                                     First name<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert' type="text" id='sign-up-firstName'
+                                    <input className='form-control alert signUpElement' type="text" id='sign-up-firstName'
                                            required
                                            name='firstName'
                                            value={this.props.signup.firstName.content}
@@ -182,7 +162,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-lastName'>
                                     Last name<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert' type="text" id='sign-up-lastName'
+                                    <input className='form-control alert signUpElement' type="text" id='sign-up-lastName'
                                            name='lastName'
                                            required
                                            value={this.props.signup.lastName.content}
@@ -192,7 +172,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-middleName'>
                                     Middle-name:
-                                    <input className='form-control alert' type="text"
+                                    <input className='form-control alert signUpElement' type="text"
                                            aria-describedby="sign-up-middleName-tip"
                                            id='sign-up-middleName'
                                            value={this.props.signup.middleName.content}
@@ -208,7 +188,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-email'>
                                     Email<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert' type="email" id='sign-up-email' name='email'
+                                    <input className='form-control alert signUpElement' type="email" id='sign-up-email' name='email'
                                            required
                                            value={this.props.signup.email.content}
                                            onChange={(event) => this.handleChange(event, this.inputId.email, this.typesOfRegexp.email)}/>
@@ -232,7 +212,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-age'>
                                     Age<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert' type="number" id='sign-up-age'
+                                    <input className='form-control alert signUpElement' type="number" id='sign-up-age'
                                            required
                                            value={this.props.signup.age.content}
                                            name='age'
@@ -242,7 +222,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-photo'>
                                     Photo<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert' type="file" id='sign-up-photo'
+                                    <input className='form-control alert signUpElement' type="file" id='sign-up-photo'
                                            aria-describedby="sign-up-photo-tip"
                                            name='photo'
                                            required
@@ -271,7 +251,7 @@ class SignUpForm extends Component {
                                 <small className='alert form-text' id='valid-status'></small>
                             </div>
                             <div className='form-group'>
-                                <input className='btn btn-warning' type="submit" value="Submit"/>
+                                <input className='btn btn-warning signUpElement' type="submit" value="Submit"/>
                             </div>
                         </form>
                     </div>
