@@ -6,7 +6,7 @@ class UsersDataRequests {
     static signUpReq(newUser) {
         return axios.post("http://localhost:3010/save-new-user", newUser)
             .then(function(res) {
-                if (res.data === 'Account has been created! Congrats!') {
+                if (res.data.indexOf('Congrats') !== -1) {
                     $('#signUpBlock').hide(1000);
                     // Alert
                     console.log({status: 'success', message: res.data});

@@ -49,8 +49,8 @@ app.post('/save-new-user', (req, res) => {
     const validationFlag = Validations.Validations.validateForm(params);
 
     if (validationFlag) {
-        const unHpassword = passwordGenerator();
-        const password = pswHash.generate(unHpassword);
+        const notHPassword = passwordGenerator();
+        const password = pswHash.generate(notHPassword);
 
         const userInfo = {
             firstName: params.firstName.content,
@@ -79,7 +79,7 @@ app.post('/save-new-user', (req, res) => {
                         }
                        // console.log(result.ops);
 
-                        res.send(200, 'Account has been created! Congrats! Take your password: ' + unHpassword)
+                        res.send(200, 'Account has been created! Congrats! Take your password: ' + notHPassword)
                     });
                 } else {
 
