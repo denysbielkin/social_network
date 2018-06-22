@@ -3,8 +3,11 @@ import React, {Component} from 'react'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import { NavLink } from 'react-router-dom'
+import { Validations } from '../common/Validations'
 //import {connect} from "react-redux";
-import {Alert} from 'react-bootstrap'
+
+import Alerts from './Alerts'
+import UsersDataRequests from "../common/UsersDataRequests";
 class SignInForm extends Component {
 
     constructor(props) {
@@ -16,35 +19,61 @@ class SignInForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange() {
+    handleChange(event) {
         console.log(321)
+
+        this.setState({[event.target.name]:event.target.value});
+
     }
 
-    handleSubmit() {
+
+
+    handleSubmit(event) {
         //todo
         //const validationFlag = Validation.validateAuth(user);
         //request to server, from server to db
-        console.log(123)
-    }
-    validateForm(){
+        event.preventDefault();
+
+        const validationResult = UsersDataRequests.signInReq({email:this.state.email, password: this.state.password});
+        if(validationResult.isError){
+            delete validationResult.isError;
+            this.setState({...this.state, alert: validationResult});
+        }
 
     }
+    validateForm(user) {
+        if (this.props.settings.show) {
 
+            if (!(user.email && user.password)) {
+                return {isError: true, show: true, type: 'danger', tittle: 'Fields are empty!'}
+            } else {
+                const reqToDb = UsersDataRequests.signInReq(user);
+                if (reqToDb) {
+                    console.log('Authorized')
+                } else {
+                    console.log('Nope')
+                }
+
+            }
+        }
+    }
 
     render() {
         const alert = this.state.alert ?
-            <Alert bsStyle={this.state.alert.status}> {this.state.alert.message} </Alert> : '';
+            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle} show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
         return (
 
                 <div>
                     {alert}
+
+
                     <div id='wrapper'>
                         <div id='sign-in-form' className='container formBlock'>
                             <form id='sign-in-form' onSubmit={this.handleSubmit}>
                                 <div className='form-group'>
                                     <label htmlFor='sign-in-email'>
                                         Email:
-                                        <input className='form-control alert signInElement' type="email"
+                                        <input className='form-control signInElement' type="email"
                                                id='sign-in-email'
                                                name='email'
                                                required
@@ -56,7 +85,7 @@ class SignInForm extends Component {
                                 <div className='form-group'>
                                     <label htmlFor='sign-in-password'>
                                         Password:
-                                        <input className='form-control alert signInElement' type="password"
+                                        <input className='form-control signInElement' type="password"
                                                id='sign-in-password'
                                                name='password'
                                                required
@@ -72,7 +101,7 @@ class SignInForm extends Component {
                                 </div>
 
                                     <div className='form-group'>
-                                        <NavLink to'/sign-up'>
+                                        <NavLink to='/sign-up'>
                                         <input className='btn btn-dark' type="button"
                                                value="Create new account" />
                                         </NavLink>

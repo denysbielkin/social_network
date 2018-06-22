@@ -16,8 +16,13 @@ class Validations {
         }
     }
 
+
+
+
+
+
+
     static validateForm(props) {
-        console.log('PROPS', props);
         for (let i in props) {
             if (props[i] !== props.middleName && !props[i].isValid) {
                 return false;
@@ -84,6 +89,7 @@ class Validations {
 
 
 }
-module.exports ={
-    Validations:Validations,
+
+module.exports = {
+    Validations: Validations,
 };

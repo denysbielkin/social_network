@@ -1,10 +1,12 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import {Validations} from '../common/Validations.js';
 import UsersDataRequests from '../common/UsersDataRequests';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import {connect} from 'react-redux';
-import {Alert} from 'react-bootstrap'
+import '../../node_modules/jquery/dist/jquery.min'
+
+import Alerts from './Alerts';
 
 class SignUpForm extends Component {
     constructor(props) {
@@ -119,9 +121,8 @@ class SignUpForm extends Component {
             console.log('valid validation');
             const result = await UsersDataRequests.signUpReq(this.props.signup);
 
-            if (result.status === 'success') {
                 this.setState({...this.state, alert: result});
-            }
+
         } else {
             console.log('invalid validation');
         }
@@ -149,14 +150,17 @@ class SignUpForm extends Component {
         return validateFlag;
     }
 
-    render() {
-        const alert = this.state.alert ?
-            <Alert bsStyle={this.state.alert.status}> {this.state.alert.message} </Alert> : '';
 
+
+    render() {
+
+        const alert = this.state.alert ?
+            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle} show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
 
         return (
             <div>
                 {alert}
+
                 <div id='wrapper'>
 
                     <div id='sign-up-block' className='formBlock container'>
@@ -164,7 +168,7 @@ class SignUpForm extends Component {
                             <div className='form-group form'>
                                 <label htmlFor='sign-up-firstName'>
                                     First name<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="text"
+                                    <input className='form-control signUpElement' type="text"
                                            id='sign-up-firstName'
                                            required
                                            name='firstName'
@@ -175,7 +179,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-lastName'>
                                     Last name<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="text"
+                                    <input className='form-control signUpElement' type="text"
                                            id='sign-up-lastName'
                                            name='lastName'
                                            required
@@ -186,7 +190,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-middleName'>
                                     Middle-name:
-                                    <input className='form-control alert signUpElement' type="text"
+                                    <input className='form-control signUpElement' type="text"
                                            aria-describedby="sign-up-middleName-tip"
                                            id='sign-up-middleName'
                                            value={this.props.signup.middleName.content}
@@ -202,7 +206,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-email'>
                                     Email<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="email" id='sign-up-email'
+                                    <input className='form-control signUpElement' type="email" id='sign-up-email'
                                            name='email'
                                            required
                                            value={this.props.signup.email.content}
@@ -232,7 +236,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-age'>
                                     Age<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="number"
+                                    <input className='form-control signUpElement' type="number"
                                            id='sign-up-age'
                                            required
                                            value={this.props.signup.age.content}
@@ -244,7 +248,7 @@ class SignUpForm extends Component {
                             <div className='form-group'>
                                 <label htmlFor='sign-up-photo'>
                                     Photo<span className='mandatory-field'>*</span>:
-                                    <input className='form-control alert signUpElement' type="file" id='sign-up-photo'
+                                    <input className='form-control signUpElement' type="file" id='sign-up-photo'
                                            aria-describedby="sign-up-photo-tip"
                                            name='photo'
                                            required
@@ -270,7 +274,7 @@ class SignUpForm extends Component {
                             </div>
                             <br/>
                             <div>
-                                <small className='alert form-text' id='valid-status'></small>
+                                <small className='form-text' id='valid-status'></small>
                             </div>
                             <div className='form-group'>
                                 <input className='btn btn-warning signUpElement' type="submit" value="Submit"/>

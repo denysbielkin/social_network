@@ -7,8 +7,16 @@
 
   text-align: center;
 }
+.alertCloseBtn{
+  background: red;
+  text-align: start;
+}
 
+#myAlert{
 
+  text-align: center;
+  position: fixed;
+}
 .signUpElement, .signInElement{
   width: 330px;
 }

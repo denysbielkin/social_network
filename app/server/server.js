@@ -8,9 +8,7 @@ const bodyParser = require('body-parser');
 //const insertUserInDb = require('./db/insertUser');
 const pswHash = require('password-hash');
 
-
-
-
+console.log(pswHash.generate('password'));
 app.use(cors());//todo: use proxy instead of cors
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -38,7 +36,7 @@ const passwordGenerator = () => {
     }
     return password;
 };
-const signUpEndPoint = '/sign-up';
+//const signUpEndPoint = '/sign-up';
 
 app.post('/save-new-user', (req, res) => {
     const params = req.body;
@@ -60,33 +58,48 @@ app.post('/save-new-user', (req, res) => {
         };
 
 
-            mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
-                const myDb = db.db('socialNetwork');
-                const myCollection = myDb.collection('users');
-                myCollection.findOne({email: userInfo.email}, (err, result) => {
+        mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
+            const myDb = db.db('socialNetwork');
+            const myCollection = myDb.collection('users');
+            myCollection.findOne({email: userInfo.email}, (err, result) => {
 
-                    if (err) {
-                        throw err;
-                    }
-                    if (result === null) {
-                        console.log('No results');
-                        myCollection.insertOne(userInfo, (err, result) => {
+                if (err) {
+                    throw err;
+                }
 
-                            if (err) {
-                                throw err;
-                            }
+                let dataToSend;
+                if (result === null) {
+                    console.log('No results');
+                    myCollection.insertOne(userInfo, (err, result) => {
 
-                            res.send(200, 'Account has been created! Congrats! Take your password: ' + notHPassword)
-                        });
-                    } else {
-                        res.send(200, 'This user already exist')
+                        if (err) {
+                            throw err;
+                        }
 
-                    }
-                    db.close();
-                });
+                        dataToSend = {
+                            show: true,
+                            type: 'success',
+                            tittle: 'Account has been created successfully! Congrats! Take your password: ' + notHPassword
 
+                        };
+                        res.send(200, dataToSend);
+                    });
+                } else {
+                    dataToSend = {
+                        show: true,
+                        type: 'danger',
+                        tittle: 'Fail! This user is already exist'
 
+                    };
+                    //res.data=dataToSend;
+                    res.send(200, dataToSend);
+                }
+
+                db.close();
             });
+
+
+        });
 
         //todo instead of code above this   //insertUserInDb.insertUserInDb(res, notHPassword, userInfo);
 
@@ -97,4 +110,57 @@ app.post('/save-new-user', (req, res) => {
 
 
 });
+
+app.post('/checking-auth-of-user', (req, res) => {
+    const params = req.body;
+    const userInfo = {
+        email: params.email,
+        password: params.password
+    };
+    mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
+        const myDb = db.db('socialNetwork');
+        const myCollection = myDb.collection('users');
+        myCollection.findOne({email: userInfo.email, password: userInfo.password}, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            let dataToSend;
+            const tmpUserPsw = pswHash.generate(userInfo.password);
+            if (userInfo.email === result.email) {
+                if (tmpUserPsw !== result.password) {
+                    dataToSend = {
+                        show: true,
+                        type: 'danger',
+                        tittle: 'Fail! Wrong password'
+                    };
+                    //todo localstorage only 3 times you can try to sign in
+                    res.send(200, dataToSend);
+                    // let counter=1;
+                    //
+                    // return ()=>{
+                    //     counter++;
+                    //     counter=String(counter);
+                    //     localStorage.setItem('Login tries', counter);
+                    //    return counter = Number(counter);
+                    // };
+
+
+                } else {
+                    dataToSend = {
+                        show: true,
+                        type: 'success',
+                        tittle: 'Congrats! You are in'
+                    };
+                    res.send(200, dataToSend);
+                }
+            }
+
+
+            db.close();
+        });
+
+
+    });
+});
+
 app.listen(port);
