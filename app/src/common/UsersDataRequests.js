@@ -9,19 +9,16 @@ class UsersDataRequests {
                 const alertSettings = res.data;
                 if (alertSettings.type === 'success') {
                     $('#sign-up-block').hide(1000);
-
-                } //else if (alertSettings.type ==='danger') {
-                //}
-
+                }
                 return alertSettings;
             });
     }
 
     static signInReq(user) {
-
+        console.log('email1: ' + user.email,'password1:' + user.password);
             return axios.post("http://localhost:3010/checking-auth-of-user", user)
                 .then((res) => {
-                  return {one:'123',two:'123321'};
+                  return res.data;
 
                 });
         }

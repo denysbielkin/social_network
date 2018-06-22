@@ -137,7 +137,7 @@ class SignUpForm extends Component {
             validStatus.innerHTML = '';
             validStatus.classList.remove('alert-danger');
             const middleName = this.props.signup.middleName;
-            if (middleName.isValid === false) {
+            if (!middleName.isValid) {
                 middleName.isValid = true;
                 this.props.changeRegFormInput({key: 'middleName', value: middleName});
             }
@@ -160,9 +160,7 @@ class SignUpForm extends Component {
         return (
             <div>
                 {alert}
-
                 <div id='wrapper'>
-
                     <div id='sign-up-block' className='formBlock container'>
                         <form id='sign-up-form' onSubmit={this.handleSubmit}>
                             <div className='form-group form'>

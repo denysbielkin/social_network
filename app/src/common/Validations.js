@@ -17,11 +17,6 @@ class Validations {
     }
 
 
-
-
-
-
-
     static validateForm(props) {
         for (let i in props) {
             if (props[i] !== props.middleName && !props[i].isValid) {
@@ -43,16 +38,16 @@ class Validations {
 
         const imgPath = img.value;
         const validImageExtensions = /(\.jpg|\.jpeg|\.png|\.bmp)$/i;
+        const minSize = 40000;
+        const maxSize = 5120000;
 
         if (!validImageExtensions.exec(imgPath)) {
             console.log('bad file');
             return false;
         } else {
-            console.log('it is image');
 
             if (img.files && img.files[0]) {
-                if (img.files[0].size >= 40000 && img.files[0].size <= 5120000) {
-                    console.log('size ok');
+                if (img.files[0].size >= minSize && img.files[0].size <= maxSize) {
                     return true;
                 } else {
                     console.log('invalid size');
@@ -82,7 +77,9 @@ class Validations {
     }
 
     static regExpAge(age) {
-        if (age >= 1 && age <= 99) {
+        const minAge = 1;
+        const maxAge = 99;
+        if (age >= minAge && age <= maxAge) {
             return true;
         }
     };

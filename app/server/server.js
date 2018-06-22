@@ -1,4 +1,4 @@
-const Validations = require("../src/common/Validations.js");
+const {Validations} = require("../src/common/Validations.js");
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 //const insertUserInDb = require('./db/insertUser');
 const pswHash = require('password-hash');
 
-console.log(pswHash.generate('password'));
+
 app.use(cors());//todo: use proxy instead of cors
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -40,7 +40,7 @@ const passwordGenerator = () => {
 
 app.post('/save-new-user', (req, res) => {
     const params = req.body;
-    const validationFlag = Validations.Validations.validateForm(params);
+    const validationFlag = Validations.validateForm(params);
 
     if (validationFlag) {
         const notHPassword = passwordGenerator();
@@ -117,17 +117,27 @@ app.post('/checking-auth-of-user', (req, res) => {
         email: params.email,
         password: params.password
     };
+
     mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
+
         const myDb = db.db('socialNetwork');
         const myCollection = myDb.collection('users');
-        myCollection.findOne({email: userInfo.email, password: userInfo.password}, (err, result) => {
+
+        myCollection.findOne({email: userInfo.email}, (err, result) => {
+            const hashFlag = pswHash.verify(userInfo.password, result.password);
             if (err) {
                 throw err;
             }
+
             let dataToSend;
-            const tmpUserPsw = pswHash.generate(userInfo.password);
+
+
             if (userInfo.email === result.email) {
-                if (tmpUserPsw !== result.password) {
+                console.log('12123');
+
+                console.log(hashFlag);
+                if (!hashFlag) {
+                    console.log('223');
                     dataToSend = {
                         show: true,
                         type: 'danger',
@@ -146,6 +156,7 @@ app.post('/checking-auth-of-user', (req, res) => {
 
 
                 } else {
+                    console.log('123');
                     dataToSend = {
                         show: true,
                         type: 'success',
@@ -154,7 +165,6 @@ app.post('/checking-auth-of-user', (req, res) => {
                     res.send(200, dataToSend);
                 }
             }
-
 
             db.close();
         });

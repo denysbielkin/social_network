@@ -12,7 +12,10 @@ class SignInForm extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            email: '',
+            password: ''
+        };
 
 
         this.handleChange = this.handleChange.bind(this);
@@ -20,7 +23,8 @@ class SignInForm extends Component {
     }
 
     handleChange(event) {
-        console.log(321)
+        console.log(this.state.email);
+        console.log(this.state.password);
 
         this.setState({[event.target.name]:event.target.value});
 
@@ -33,8 +37,9 @@ class SignInForm extends Component {
         //const validationFlag = Validation.validateAuth(user);
         //request to server, from server to db
         event.preventDefault();
-
+        console.log('email: ' + this.state.email,'password:' + this.state.password);
         const validationResult = UsersDataRequests.signInReq({email:this.state.email, password: this.state.password});
+
         if(validationResult.isError){
             delete validationResult.isError;
             this.setState({...this.state, alert: validationResult});
@@ -65,8 +70,6 @@ class SignInForm extends Component {
 
                 <div>
                     {alert}
-
-
                     <div id='wrapper'>
                         <div id='sign-in-form' className='container formBlock'>
                             <form id='sign-in-form' onSubmit={this.handleSubmit}>
