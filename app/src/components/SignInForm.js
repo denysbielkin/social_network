@@ -32,18 +32,19 @@ class SignInForm extends Component {
 
 
 
-    handleSubmit(event) {
+    async handleSubmit(event) {
         //todo
         //const validationFlag = Validation.validateAuth(user);
         //request to server, from server to db
         event.preventDefault();
         console.log('email: ' + this.state.email,'password:' + this.state.password);
-        const validationResult = UsersDataRequests.signInReq({email:this.state.email, password: this.state.password});
-
-        if(validationResult.isError){
-            delete validationResult.isError;
-            this.setState({...this.state, alert: validationResult});
-        }
+        const validationResult = await UsersDataRequests.signInReq({email:this.state.email, password: this.state.password});
+        //
+        // if(validationResult.isError){
+        //     delete validationResult.isError;
+        //
+        // }
+        this.setState({...this.state, alert: validationResult});
 
     }
     validateForm(user) {
@@ -64,8 +65,10 @@ class SignInForm extends Component {
     }
 
     render() {
+        console.log(this.state.alert);
         const alert = this.state.alert ?
-            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle} show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
+            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle} show={this.state.alert.show}> 111 </Alerts> : '';
+            console.log(alert);
         return (
 
                 <div>
@@ -79,7 +82,7 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="email"
                                                id='sign-in-email'
                                                name='email'
-                                               required
+                                               //required
                                                value={this.state.email}
                                                onChange={(event) => this.handleChange(event)}
                                         />
@@ -91,7 +94,7 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="password"
                                                id='sign-in-password'
                                                name='password'
-                                               required
+                                              // required
                                                value={this.state.password}
                                                onChange={(event) => this.handleChange(event)}
                                         />

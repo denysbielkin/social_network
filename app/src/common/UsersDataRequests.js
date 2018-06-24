@@ -18,6 +18,9 @@ class UsersDataRequests {
         console.log('email1: ' + user.email,'password1:' + user.password);
             return axios.post("http://localhost:3010/checking-auth-of-user", user)
                 .then((res) => {
+                    const myTok = res.data.token;
+                    console.log(myTok);
+                    localStorage.setItem('auth-tok', myTok);
                   return res.data;
 
                 });

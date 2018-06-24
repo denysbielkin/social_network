@@ -5,6 +5,9 @@ const app = express();
 const port = 3010;
 const mongodb = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+
+
 //const insertUserInDb = require('./db/insertUser');
 const pswHash = require('password-hash');
 
@@ -129,6 +132,10 @@ app.post('/checking-auth-of-user', (req, res) => {
                 throw err;
             }
 
+            if(!result) {
+                return res.send(200, 'not found this user');
+            }
+
             let dataToSend;
 
 
@@ -138,6 +145,8 @@ app.post('/checking-auth-of-user', (req, res) => {
                 console.log(hashFlag);
                 if (!hashFlag) {
                     console.log('223');
+
+
                     dataToSend = {
                         show: true,
                         type: 'danger',
@@ -156,11 +165,15 @@ app.post('/checking-auth-of-user', (req, res) => {
 
 
                 } else {
-                    console.log('123');
+                    const token = jwt.sign({ id:userInfo.email }, 'auth-user', {
+                        expiresIn: 86400
+                    });
+                    console.log(token);
                     dataToSend = {
                         show: true,
                         type: 'success',
-                        tittle: 'Congrats! You are in'
+                        tittle: 'Congrats! You are in',
+                        token
                     };
                     res.send(200, dataToSend);
                 }
