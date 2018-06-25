@@ -7,9 +7,9 @@ class Alerts extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
+
         this.state = {
-            show:false
+            show: false
         };
 
         this.handleDismiss = this.handleDismiss.bind(this);
@@ -19,19 +19,21 @@ class Alerts extends Component {
     handleDismiss() {
         this.setState({show: false});
     }
-    componentDidMount(){
-        if(this.props.show){
-            this.setState({show:true});
+
+    componentDidMount() {
+        if (this.props.show) {
+            this.setState({show: true});
         }
         console.log(this.props.show);
     }
+
     render() {
-        console.log(this.props.show,this.state.show);
+        console.log(this.props.show, this.state.show);
         if (this.state.show) {
             console.log(this.props.show);
             return (
 
-                <Alert bsStyle={this.props.type} id='myAlert' >
+                <Alert bsStyle={this.props.type} id='myAlert'>
                     <h4>{this.props.tittle}</h4>
                     <p>
                         {this.props.message}
@@ -42,7 +44,7 @@ class Alerts extends Component {
 
 
             );
-        }else{
+        } else {
             return <div></div>
         }
     }

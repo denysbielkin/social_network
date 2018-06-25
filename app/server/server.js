@@ -6,11 +6,13 @@ const port = 3010;
 const mongodb = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const endPoints = require('../src/common/endPointsList');
 
 
 //const insertUserInDb = require('./db/insertUser');
 const pswHash = require('password-hash');
-
+const socialNetworkDb = 'socialNetwork';
+const usersCollection = 'users';
 
 app.use(cors());//todo: use proxy instead of cors
 app.use(bodyParser.json());
@@ -41,7 +43,7 @@ const passwordGenerator = () => {
 };
 //const signUpEndPoint = '/sign-up';
 
-app.post('/save-new-user', (req, res) => {
+app.post(endPoints.saveNewUser, (req, res) => {
     const params = req.body;
     const validationFlag = Validations.validateForm(params);
 
@@ -61,22 +63,29 @@ app.post('/save-new-user', (req, res) => {
         };
 
 
-        mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
-            const myDb = db.db('socialNetwork');
-            const myCollection = myDb.collection('users');
+        mongodb.connect(endPoints.db, (err, db) => {
+            const myDb = db.db(socialNetworkDb);
+            const myCollection = myDb.collection(usersCollection);
             myCollection.findOne({email: userInfo.email}, (err, result) => {
-
-                if (err) {
-                    throw err;
+                try{
+                    if (err) {
+                        throw new Error('Error is somewhere in sign up: '+err);
+                    }
+                }catch(err){
+                    console.log(err);
                 }
 
                 let dataToSend;
                 if (result === null) {
                     console.log('No results');
                     myCollection.insertOne(userInfo, (err, result) => {
-
-                        if (err) {
-                            throw err;
+                        //todo: m8 move forward by 1 code-block content of this func
+                        try{
+                            if (err) {
+                                throw new Error('Error is somewhere in adding new user: '+err);
+                            }
+                        }catch(err){
+                            console.log(err);
                         }
 
                         dataToSend = {
@@ -114,76 +123,118 @@ app.post('/save-new-user', (req, res) => {
 
 });
 
-app.post('/checking-auth-of-user', (req, res) => {
+app.post(endPoints.checkingAuthOfUser, (req, res) => {
     const params = req.body;
     const userInfo = {
         email: params.email,
         password: params.password
     };
 
-    mongodb.connect('mongodb://127.0.0.1:27017/myUsers', (err, db) => {
+    mongodb.connect(endPoints.db, (err, db) => {
 
-        const myDb = db.db('socialNetwork');
-        const myCollection = myDb.collection('users');
+        const myDb = db.db(socialNetworkDb);
+        const myCollection = myDb.collection(usersCollection);
 
         myCollection.findOne({email: userInfo.email}, (err, result) => {
             const hashFlag = pswHash.verify(userInfo.password, result.password);
-            if (err) {
-                throw err;
-            }
-
-            if(!result) {
-                return res.send(200, 'not found this user');
+            try{
+                if (err) {
+                    throw new Error('Error is somewhere in auth: '+err);
+                }
+            }catch(err){
+                console.log(err);
             }
 
             let dataToSend;
+            if (!result) {
+                dataToSend = {
+                    show: true,
+                    type: 'danger',
+                    tittle: `Fail! We haven't this user`
+                };
+                res.send(200, dataToSend);
+            } else {
 
 
-            if (userInfo.email === result.email) {
-                console.log('12123');
+                if (userInfo.email === result.email) {
+                    console.log('12123');
 
-                console.log(hashFlag);
-                if (!hashFlag) {
-                    console.log('223');
-
-
-                    dataToSend = {
-                        show: true,
-                        type: 'danger',
-                        tittle: 'Fail! Wrong password'
-                    };
-                    //todo localstorage only 3 times you can try to sign in
-                    res.send(200, dataToSend);
-                    // let counter=1;
-                    //
-                    // return ()=>{
-                    //     counter++;
-                    //     counter=String(counter);
-                    //     localStorage.setItem('Login tries', counter);
-                    //    return counter = Number(counter);
-                    // };
+                    console.log(hashFlag);
+                    if (!hashFlag) {
+                        console.log('223');
 
 
-                } else {
-                    const token = jwt.sign({ id:userInfo.email }, 'auth-user', {
-                        expiresIn: 86400
-                    });
-                    console.log(token);
-                    dataToSend = {
-                        show: true,
-                        type: 'success',
-                        tittle: 'Congrats! You are in',
-                        token
-                    };
-                    res.send(200, dataToSend);
+                        dataToSend = {
+                            show: true,
+                            type: 'danger',
+                            tittle: 'Fail! Wrong password'
+                        };
+                        //todo localstorage only 3 times you can try to sign in
+                        res.send(200, dataToSend);
+                        // let counter=1;
+                        //
+                        // return ()=>{
+                        //     counter++;
+                        //     counter=String(counter);
+                        //     localStorage.setItem('Login tries', counter);
+                        //    return counter = Number(counter);
+                        // };
+
+
+                    } else {
+                        const token = jwt.sign({id: userInfo.email}, 'auth-user', {
+                            expiresIn: 86400 // 24h
+                        });
+                        console.log(token);
+                        dataToSend = {
+                            show: true,
+                            type: 'success',
+                            tittle: 'Congrats! You are in',
+                            token
+                        };
+                        myCollection.update({email: result.email}, {...result, token});
+
+                        res.send(200, dataToSend);
+                    }
                 }
             }
-
             db.close();
         });
 
 
     });
+});
+
+app.post(endPoints.myPage, (req, res) => {
+
+    const token = req.body;
+
+
+    mongodb.connect(endPoints.db, (err, db) => {
+        const myDb = db.db(socialNetworkDb);
+        const myCollection = myDb.collection(usersCollection);
+
+        myCollection.findOne({token}, (err, result) => {
+            try{
+                if (err) {
+                    throw new Error('Error is somewhere in checking token: '+err);
+                }
+            }catch(err){
+                console.log(err);
+            }
+
+            if (token === result.token) {
+
+                res.send(200, result);
+
+            }
+            db.close();
+        });
+
+
+    });
+
+
 });
 
 app.listen(port);

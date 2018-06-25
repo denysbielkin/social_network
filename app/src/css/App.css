@@ -20,14 +20,23 @@
 .signUpElement, .signInElement{
   width: 330px;
 }
-.formBlock{
+.formBlock, .user-page-data-block {
   border:darkgoldenrod 3px dashed;
   border-radius: 5px;
   background-color: darkslategray;
+
   color:darkgoldenrod;
-  max-width: 400px;
   padding: 30px;
 
+}
+
+.formBlock{
+  max-width: 400px;
+
+}
+.user-page-data-block{
+  max-width: 300px;
+  color:white;
 }
 
 .mandatory-field{
