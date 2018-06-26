@@ -4,13 +4,20 @@ import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 import rootReducer from './reducers/typeOfRegexpReducer'
 
+import endPointsList from './common/endPointsList';
+import {Router, Route} from 'react-router-dom'
+import createBrowserHistory from 'history/createBrowserHistory'
+
+
 //routes
 import SignUpForm from './components/SignUpForm'
 import SignInForm from './components/SignInForm'
-import UserHomePage from './components/UserHomePage'
+import News from './components/nav-menu/News'
+import Settings from './components/nav-menu/Settings'
+import Friends from './components/nav-menu/Friends'
+import Search from './components/nav-menu/Search'
+import UserHomePage from './components/nav-menu/UserHomePage'
 
-import {Router, Route} from 'react-router-dom'
-import createBrowserHistory from 'history/createBrowserHistory'
 
 const history = createBrowserHistory();
 
@@ -19,9 +26,13 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <div>
-                <Route path='/' exact component={SignInForm}/>
-                <Route path='/sign-up' component={SignUpForm}/>
-                <Route path='/my-page' component={UserHomePage}/>
+                <Route path={endPointsList.signIn} exact component={SignInForm}/>
+                <Route path={endPointsList.signUp} component={SignUpForm}/>
+                <Route path={endPointsList.myPage} component={UserHomePage}/>
+                <Route path={endPointsList.news} component={News}/>
+                <Route path={endPointsList.settings} component={Settings}/>
+                <Route path={endPointsList.friends} component={Friends}/>
+                <Route path={endPointsList.search} component={Search}/>
             </div>
         </Router>
     </Provider>

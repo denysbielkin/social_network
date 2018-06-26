@@ -30,11 +30,36 @@
 
 }
 
+#nav-menu-block{
+
+
+
+}
+#nav-menu{
+  list-style: none;
+}
+.menu-button, #sign-out-btn{
+  width:100px;
+}
+
+
 .formBlock{
   max-width: 400px;
 
 }
+
+
+#sign-up-back{
+  margin-top: 80px;
+  position: absolute;
+}
+
+/*.nav-menu-active{*/
+  /*background: grey !important;*/
+/*}*/
+
 .user-page-data-block{
+
   max-width: 300px;
   color:white;
 }

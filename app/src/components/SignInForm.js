@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-
+import isGuest from '../common/isGuest'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
 import {NavLink, Redirect} from 'react-router-dom'
 import Alerts from './Alerts';
 import UsersDataRequests from "../common/UsersDataRequests";
 import endPointsList from '../common/endPointsList';
-let isLoggedIn;
 
 class SignInForm extends Component {
 
@@ -34,7 +33,7 @@ class SignInForm extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        console.log(user)
+        console.log(user);
         const validationResult = await this.validateForm(user);
 
 
@@ -56,7 +55,6 @@ class SignInForm extends Component {
     }
 
 
-
     async validateForm(user) {
 
 
@@ -74,75 +72,69 @@ class SignInForm extends Component {
             return reqToDb;
         }
     }
-    //componentWillMount(){
-
-    //}
 
     render() {
         const alert = this.state.alert ?
             <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
                     show={this.state.alert.show}> </Alerts> : '';
-        if (this.state.isLoggedIn) {
+
+        const checkingIsGuest = isGuest;
+        if (checkingIsGuest()) {
+            return isGuest();
+        } else {
+
 
             return (
+
                 <div>
-                    {/*{alert}*/}
-                    <Redirect to={endPointsList.myPage}/>
-                </div>
-            )
-        }
-
-        return (
-
-            <div>
-                {alert}
-                {isLoggedIn}
-                <div id='wrapper'>
-                    <div id='sign-in-form' className='container formBlock'>
-                        <form id='sign-in-form' onSubmit={this.handleSubmit}>
-                            <div className='form-group'>
-                                <label htmlFor='sign-in-email'>
-                                    Email:
-                                    <input className='form-control signInElement' type="email"
-                                           id='sign-in-email'
-                                           name='email'
-                                        //required
-                                           value={this.state.email}
-                                           onChange={(event) => this.handleChange(event)}
-                                    />
-                                </label>
-                            </div>
-                            <div className='form-group'>
-                                <label htmlFor='sign-in-password'>
-                                    Password:
-                                    <input className='form-control signInElement' type="password"
-                                           id='sign-in-password'
-                                           name='password'
-                                        // required
-                                           value={this.state.password}
-                                           onChange={(event) => this.handleChange(event)}
-                                    />
-                                </label>
-                            </div>
+                    {alert}
+                    <div id='wrapper'>
+                        <div id='sign-in-form' className='container formBlock'>
+                            <form id='sign-in-form' onSubmit={this.handleSubmit}>
+                                <div className='form-group'>
+                                    <label htmlFor='sign-in-email'>
+                                        Email:
+                                        <input className='form-control signInElement' type="email"
+                                               id='sign-in-email'
+                                               name='email'
+                                            //required
+                                               value={this.state.email}
+                                               onChange={(event) => this.handleChange(event)}
+                                        />
+                                    </label>
+                                </div>
+                                <div className='form-group'>
+                                    <label htmlFor='sign-in-password'>
+                                        Password:
+                                        <input className='form-control signInElement' type="password"
+                                               id='sign-in-password'
+                                               name='password'
+                                            // required
+                                               value={this.state.password}
+                                               onChange={(event) => this.handleChange(event)}
+                                        />
+                                    </label>
+                                </div>
 
 
-                            <div className='form-group'>
-                                <input className='btn btn-warning signInElement' type="submit" value="Sign in"/>
-                            </div>
+                                <div className='form-group'>
+                                    <input className='btn btn-warning signInElement' type="submit" value="Sign in"/>
+                                </div>
 
-                            <div className='form-group'>
-                                <NavLink to='/sign-up'>
-                                    <input className='btn btn-dark' type="button"
-                                           value="Create new account"/>
-                                </NavLink>
-                            </div>
+                                <div className='form-group'>
+                                    <NavLink to={endPointsList.signUp}>
+                                        <input className='btn btn-dark' type="button"
+                                               value="Create new account"/>
+                                    </NavLink>
+                                </div>
 
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        )
+            )
+        }
     }
 }
 

@@ -10,6 +10,7 @@ class UsersDataRequests {
                 const alertSettings = res.data;
                 if (alertSettings.type === 'success') {
                     $('#sign-up-block').hide(1000);
+
                 }
                 return alertSettings;
             });
