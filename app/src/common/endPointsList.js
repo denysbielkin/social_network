@@ -7,6 +7,7 @@ const friends = '/friends';
 const news = '/news';
 const search = '/search';
 const signIn = '/';
+const loadUserInfo = '/load-user-info';
 const db = 'mongodb://127.0.0.1:27017/myUsers';
 const serverUrl = 'http://localhost:3010';
 module.exports = {
@@ -20,5 +21,6 @@ module.exports = {
     news,
     friends,
     settings,
-    search
+    search,
+    loadUserInfo
 };

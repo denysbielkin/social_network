@@ -129,7 +129,7 @@ class NavigateMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isClicked:false
+            isLoggedIn: true
         };
         this.typesOfLiButton = [
             'home',
@@ -137,29 +137,34 @@ class NavigateMenu extends Component {
             'friends',
             'search',
             'settings'
-        ]
+        ];
+    }
+    generateLiButtons() {
+        let allLinks= [];
+        for (let i in this.typesOfLiButton) {
+            const id = `menu-button-${this.typesOfLiButton[i]}`;
+            const value = `${this.typesOfLiButton[i].toUpperCase()}`;
+            const path = `/${this.typesOfLiButton[i]}`;
+            allLinks.push(
+
+            <NavLink to={path}>
+                <li className='menu-button-li'>
+                    <input key={i} type="button" className="menu-button btn btn-outline-secondary" id={id}  value={value} />
+                </li>
+            </NavLink>
+
+            );
+
+        }
+
+        //allLinks.push(
+
+        //);
+        return (<div>{allLinks}</div>)
+
     }
 
-    // generateLiButtons() {
-    //
-    //     for (let i in this.typesOfLiButton) {
-    //         const li = `
-    //         <li class="menu-button-li">
-    //         <NavLink to="/${this.typesOfLiButton[i]}">
-    //                 <input type="button" class="menu-button btn btn-outline-secondary" id='menu-button-${this.typesOfLiButton[i]}'  value="${this.typesOfLiButton[i].toUpperCase()}" /></NavLink>
-    //         </li>`;
-    //         document.getElementById('nav-menu').innerHTML += li;
-    //
-    //     }
-
-    //}
-
-    //componentDidMount() {
-        //this.generateLiButtons();
-   // }
-
     render() {
-
 
         return (
 
@@ -167,29 +172,7 @@ class NavigateMenu extends Component {
 
 
                 <ul id='nav-menu'>
-
-                    <li className="menu-button-li">
-                                 <NavLink to={endPointsList.myPage}>
-                                         <input type="button" className="menu-button btn btn-outline-secondary"   value='HOME' /></NavLink>
-                                </li>`;
-                    <li className="menu-button-li">
-                        <NavLink to={endPointsList.news}>
-                            <input type="button" className="menu-button btn btn-outline-secondary"   value='NEWS' /></NavLink>
-                    </li>`;
-                    <li className="menu-button-li">
-                        <NavLink to={endPointsList.friends}>
-                            <input type="button" className="menu-button btn btn-outline-secondary"   value='FRIENDS' /></NavLink>
-                    </li>`;
-                    <li className="menu-button-li">
-                        <NavLink to={endPointsList.search}>
-                            <input type="button" className="menu-button btn btn-outline-secondary"   value='SEARCH' /></NavLink>
-                    </li>`;
-                    <li className="menu-button-li">
-                        <NavLink to={endPointsList.settings}>
-                            <input type="button" className="menu-button btn btn-outline-secondary"   value='SETTINGS' /></NavLink>
-                    </li>`;
-
-
+                    {this.generateLiButtons()}
                 </ul>
 
 

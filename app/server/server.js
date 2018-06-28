@@ -67,11 +67,11 @@ app.post(endPoints.saveNewUser, (req, res) => {
             const myDb = db.db(socialNetworkDb);
             const myCollection = myDb.collection(usersCollection);
             myCollection.findOne({email: userInfo.email}, (err, result) => {
-                try{
+                try {
                     if (err) {
-                        throw new Error('Error is somewhere in sign up: '+err);
+                        throw new Error('Error is somewhere in sign up: ' + err);
                     }
-                }catch(err){
+                } catch (err) {
                     console.log(err);
                 }
 
@@ -80,11 +80,11 @@ app.post(endPoints.saveNewUser, (req, res) => {
                     console.log('No results');
                     myCollection.insertOne(userInfo, (err, result) => {
                         //todo: m8 move forward by 1 code-block content of this func
-                        try{
+                        try {
                             if (err) {
-                                throw new Error('Error is somewhere in adding new user: '+err);
+                                throw new Error('Error is somewhere in adding new user: ' + err);
                             }
-                        }catch(err){
+                        } catch (err) {
                             console.log(err);
                         }
 
@@ -137,11 +137,11 @@ app.post(endPoints.checkingAuthOfUser, (req, res) => {
 
         myCollection.findOne({email: userInfo.email}, (err, result) => {
             const hashFlag = pswHash.verify(userInfo.password, result.password);
-            try{
+            try {
                 if (err) {
-                    throw new Error('Error is somewhere in auth: '+err);
+                    throw new Error('Error is somewhere in auth: ' + err);
                 }
-            }catch(err){
+            } catch (err) {
                 console.log(err);
             }
 
@@ -205,28 +205,44 @@ app.post(endPoints.checkingAuthOfUser, (req, res) => {
     });
 });
 
-app.post(endPoints.myPage, (req, res) => {
-
-    const token = req.body;
-
-
+app.post(endPoints.loadUserInfo, (req, res) => {
+    console.log('We are in');
+    const params = req.body;
+    const token = params.token;
+    console.log(token);
     mongodb.connect(endPoints.db, (err, db) => {
+        console.log('in mongodb');
+        console.log(token);
         const myDb = db.db(socialNetworkDb);
         const myCollection = myDb.collection(usersCollection);
 
         myCollection.findOne({token}, (err, result) => {
-            try{
+            console.log('token in findOne');
+            console.log(token);
+
+
+            try {
                 if (err) {
-                    throw new Error('Error is somewhere in checking token: '+err);
+                    throw new Error('Error is somewhere in checking token: ' + err);
                 }
-            }catch(err){
+            } catch (err) {
                 console.log(err);
             }
+            if (result) {
+                console.log('result token');
+                console.log(result);
 
-            if (token === result.token) {
+                if (token === result.token) {
+                    console.log('token is good, token of ' + result.firstName);
+                    res.send(200, result);
 
-                res.send(200, result);
-
+                } else {
+                    res.send(200, 'nope');
+                    console.log('nope');
+                }
+            } else {
+                res.send(200, 'nope and nope');
+                console.log('nope and nope');
             }
             db.close();
         });

@@ -30,19 +30,18 @@ class UsersDataRequests {
             });
     }
 
-    static isTokenExist(currentPage) {
-        const token = localStorage.getItem('auth-tok');
-        if (!token) {
-            return false;
-        } else {
-            return axios.post(`${endPointsList.serverUrl}${currentPage}`, token)
-                .then(res => {
-                    const userData = res.data;
 
-                    return {userData, isTokenGood:true };
-                });
-        }
+    static loadUserInfo() {
+        console.log('We are almost in');
 
+        console.log(`${endPointsList.serverUrl}${endPointsList.loadUserInfo}`);
+        const token = {token:localStorage.getItem('auth-tok')};
+        console.log(token);
+        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadUserInfo}`, token)
+            .then(res => {
+                console.log('We did reach the main goal');
+                return res.data;
+            });
     }
 
 

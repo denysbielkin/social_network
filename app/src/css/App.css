@@ -12,6 +12,18 @@
   text-align: start;
 }
 
+
+.user-page-form{
+  background: none;
+  border: none;
+  color: white;
+}
+.user-page-form-editable{
+  background: lightcyan!important;
+}
+
+
+
 #myAlert{
 
   text-align: center;
@@ -20,7 +32,7 @@
 .signUpElement, .signInElement{
   width: 330px;
 }
-.formBlock, .user-page-data-block {
+.formBlock{
   border:darkgoldenrod 3px dashed;
   border-radius: 5px;
   background-color: darkslategray;
@@ -29,13 +41,32 @@
   padding: 30px;
 
 }
+.user-page-data-block{
+  float:left;
+  border:darkgoldenrod 3px dashed;
+  border-radius: 5px;
+  background-color: darkslategray;
+
+  max-width: 300px;
+  color:white;
+  padding: 30px;
+}
+
+#user-page-user-age-title{
+ font-weight: lighter;
+  font-size: 12px;
+}
+
+#user-page-user-names{
+  font-size: 20px;
+}
 
 #nav-menu-block{
 
 
 
 }
-#nav-menu{
+#nav-menu, #sign-out-btn{
   list-style: none;
 }
 .menu-button, #sign-out-btn{
@@ -58,11 +89,6 @@
   /*background: grey !important;*/
 /*}*/
 
-.user-page-data-block{
-
-  max-width: 300px;
-  color:white;
-}
 
 .mandatory-field{
   color: red;

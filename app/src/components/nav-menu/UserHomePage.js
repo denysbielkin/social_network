@@ -14,54 +14,101 @@ class UserHomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: true
+            isLoggedIn: true,
+            isNeedUserInfo: true,
+            userInfo: '',
+            formattedUserInfo: ''
         };
-        this.onSignOut=this.onSignOut.bind(this);
-        // this.isLoggedIn = false;
-    }
 
+        //  this.loadUserInfo=this.loadUserInfo.bind(this)
 
-    isTokenGood() {
-        // const checkToken = await UsersDataRequests.isTokenExist(endPointsList.myPage);
-        const checkToken = localStorage.getItem('auth-tok');
-
-        if (checkToken) {
-
-            this.setState({isLoggedIn: true});
-
-        } else {
-            this.setState({isLoggedIn: false});
-
-        }
-
+        this.onSignOut = this.onSignOut.bind(this);
     }
 
     onSignOut() {
         localStorage.removeItem('auth-tok');
-        this.setState({isLoggedIn: false});
-        //make redux action
-        //<Redirect to='/' />;
+        this.setState({...this.state, isLoggedIn: false});
+
+    }
+
+
+    isTokenGood() {
+
+        const checkToken = localStorage.getItem('auth-tok');
+
+        if (checkToken) {
+
+            this.setState({...this.state, isLoggedIn: true});
+
+        } else {
+            this.setState({...this.state, isLoggedIn: false});
+        }
+
+    }
+
+
+    async loadUserInfo() {
+
+        const userInfo = await UsersDataRequests.loadUserInfo();
+        console.log(userInfo);
+
+        if (userInfo) {
+            this.setState({...this.state, userInfo: userInfo, isNeedUserInfo: false});
+            console.log(this.state.userInfo);
+            console.log(this.state.userInfo.firstName);
+        }
+        //
     }
 
     componentWillMount() {
         this.isTokenGood();
+
+
+    }
+
+    renderUserInfo() {
+//         let allBlocks = [];
+//         for (let i of this.state.userInfo) {
+// console.log(i);
+//             if (this.state.userInfo[i] === 'photo' ){//&& !this.state.userInfo[i] === this.state.userInfo.gender) {
+//                 const id = `user-page-infoBlock-input-${this.state.userInfo[i].value}`;
+//             allBlocks.push (
+//                     <div className="user-page-data">
+//                         <input key={i} type="text" className="user-page-infoBlock-input" id={id}
+//                                value={this.state.userInfo[i].value.toUpperCase()} readOnly/>
+//                     </div>
+//                 );
+//             }
+//
+//
+//        }
+//
+//         return (<div>{allBlocks}</div>)
+
+
     }
 
     render() {
-
-        //  return (<div></div>)
-        // if (this.isTokenGood()) {
-        // console.log(this.state.userInfo);
 
         if (!this.state.isLoggedIn) {
 
             return (
                 <div>
-                    <Redirect to={endPointsList.signIn} />
+                    <Redirect to={endPointsList.signIn}/>
                 </div>
             )
         }
+        console.log(this.state.userInfo);
+        console.log(this.state.isNeedUserInfo);
+        if (this.state.isNeedUserInfo) {
+            this.loadUserInfo();
+            //  this.s.userInfo =
 
+        }
+        let middleName = '';
+        if (this.state.userInfo.middleName) {
+            middleName = (<span id='user-page-user-names-first-name'>'<input className='user-page-form' type="text" value={this.state.userInfo.middleName} readOnly />' </span>)
+        }
         return (
             <div>
 
@@ -71,16 +118,39 @@ class UserHomePage extends Component {
                         <div>
 
                             <NavigateMenu/>
-                            <button id='sign-out-btn' className='btn btn-outline-danger' onClick={this.onSignOut}>SIGN OUT</button>
+                            <li>
+                                <button id='sign-out-btn' className='btn btn-outline-danger'
+                                        onClick={this.onSignOut}>SIGN OUT
+                                </button>
+                            </li>
                         </div>
-                        <div id='sign-out-btn-block'>
 
-                        </div>
-                        <div id='user-page'>
-                            <div className='user-page-data-block'>
-                                <p>Some blah-blah text {this.state.firstName}</p>
+                        <div className='user-page-data-block' id='user-page-infoBlock'>
+
+                            {/*{this.renderUserInfo()}*/}
+                            <div id='user-page-user-friendlist-block' className='user-page-data-block'>
+                                <h2>Friends</h2>
+                                <div id='user-page-user-friendlist'>
+                                    Blah-blah
+                                </div>
+                            </div>
+                            <div id='user-page'>
+
+
+                                <div id='user-page-user-avatar'>*photo place*</div>
+                                <div id='user-page-user-names'>
+                                    <span id='user-page-user-names-first-name'>  <input className='user-page-form' type="text" value={this.state.userInfo.firstName}   readOnly /></span>
+                                    {middleName}
+                                    <span id='user-page-user-names-last-name'> <input className='user-page-form' type="text" value={this.state.userInfo.lastName} readOnly /></span>
+                                </div>
+                                <div id='user-page-user-age'>
+                                    <span> <span id='user-page-user-age-title'>Age:</span><input className='user-page-form' type="number" value={this.state.userInfo.age} readOnly /> </span>
+                                </div>
+
+
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
