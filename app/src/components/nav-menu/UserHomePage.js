@@ -115,7 +115,7 @@ class UserHomePage extends Component {
                 <div id='wrapper'>
 
                     <div id='page-content'>
-                        <div>
+                        <div id='nav-menu-block'>
 
                             <NavigateMenu/>
                             <li>
@@ -124,16 +124,16 @@ class UserHomePage extends Component {
                                 </button>
                             </li>
                         </div>
-
+                        <div id='user-page-user-friendlist-block' className='user-page-data-block'>
+                            <h2>Friends</h2>
+                            <div id='user-page-user-friendlist'>
+                                Blah-blah
+                            </div>
+                        </div>
                         <div className='user-page-data-block' id='user-page-infoBlock'>
 
                             {/*{this.renderUserInfo()}*/}
-                            <div id='user-page-user-friendlist-block' className='user-page-data-block'>
-                                <h2>Friends</h2>
-                                <div id='user-page-user-friendlist'>
-                                    Blah-blah
-                                </div>
-                            </div>
+
                             <div id='user-page'>
 
 

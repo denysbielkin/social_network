@@ -22,6 +22,9 @@
   background: lightcyan!important;
 }
 
+#page-content {
+  display: flex;
+}
 
 
 #myAlert{
@@ -42,7 +45,6 @@
 
 }
 .user-page-data-block{
-  float:left;
   border:darkgoldenrod 3px dashed;
   border-radius: 5px;
   background-color: darkslategray;
@@ -62,8 +64,7 @@
 }
 
 #nav-menu-block{
-
-
+  flex-basis: 300px;
 
 }
 #nav-menu, #sign-out-btn{

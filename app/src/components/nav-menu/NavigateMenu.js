@@ -147,9 +147,9 @@ class NavigateMenu extends Component {
             const path = `/${this.typesOfLiButton[i]}`;
             allLinks.push(
 
-            <NavLink to={path}>
+            <NavLink to={path} key={i}>
                 <li className='menu-button-li'>
-                    <input key={i} type="button" className="menu-button btn btn-outline-secondary" id={id}  value={value} />
+                    <input type="button" className="menu-button btn btn-outline-secondary" id={id}  value={value} />
                 </li>
             </NavLink>
 
@@ -165,19 +165,10 @@ class NavigateMenu extends Component {
     }
 
     render() {
-
         return (
-
-            <div id='nav-menu-block'>
-
-
-                <ul id='nav-menu'>
-                    {this.generateLiButtons()}
-                </ul>
-
-
-            </div>
-
+            <ul id='nav-menu'>
+                {this.generateLiButtons()}
+            </ul>
         );
     }
 
