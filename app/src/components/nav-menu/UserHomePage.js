@@ -20,8 +20,6 @@ class UserHomePage extends Component {
             formattedUserInfo: ''
         };
 
-        //  this.loadUserInfo=this.loadUserInfo.bind(this)
-
         this.onSignOut = this.onSignOut.bind(this);
     }
 

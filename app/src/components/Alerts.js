@@ -28,7 +28,7 @@ class Alerts extends Component {
 
     render() {
         if (this.state.show) {
-            
+
             return (
 
                 <Alert bsStyle={this.props.type} id='myAlert'>
