@@ -11,7 +11,7 @@ const isGuest = () => {
                 <Redirect to={endPointsList.myPage}/>
             </div>
         )
-    }else{
+    } else {
         return false;
     }
 };

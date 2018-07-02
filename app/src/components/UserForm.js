@@ -24,7 +24,6 @@ class UserForm extends Component {
             isValid: false
         };
 
-
         const img = document.getElementById(imgId);
 
         const reader = new FileReader();
@@ -162,7 +161,6 @@ class UserForm extends Component {
                                onChange={(event) => this.handleChange(event, this.props.inputId.age, this.typesOfRegexp.age)}/>
                     </label>
                 </div>
-
                 <div className='form-group'>
                     <label htmlFor='sign-up-photo'>
                         Photo<span className='mandatory-field'>*</span>:
@@ -174,16 +172,13 @@ class UserForm extends Component {
                         />
                     </label>
                     <div>
-
                         <div id='photo-preview'></div>
                     </div>
-
                     <small id='sign-up-photo-tip' className='form-text text-muted'>
                         Photo size must be between 40kb and 5mb
                         <div>There is list of valid photo extensions: .jpeg .jpg .png .bmp </div>
                     </small>
                 </div>
-
                 <div>
                     <small className='form-text text-muted'><span className='mandatory-field'>*</span> -
                         is

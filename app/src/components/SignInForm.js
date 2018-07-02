@@ -8,7 +8,6 @@ import UsersDataRequests from "../common/UsersDataRequests";
 import endPointsList from '../common/endPointsList';
 
 class SignInForm extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +34,6 @@ class SignInForm extends Component {
 
         const validationResult = await this.validateForm(user);
 
-
         try {
             if (!validationResult) {
                 throw new Error(`Because we have some error we haven't any alerts`);
@@ -46,21 +44,14 @@ class SignInForm extends Component {
 
         this.setState({...this.state, alert: validationResult});
         if (this.state.alert.type === 'success') {
-
             this.setState({isLoggedIn: true});
-
         }
-
     }
 
-
     async validateForm(user) {
-
-
         if (!(user.email && user.password)) {
             return {show: true, type: 'danger', tittle: 'Fields are empty!'}
         } else {
-            console.log(user);
             const reqToDb = await UsersDataRequests.signInReq(user);
             if (reqToDb) {
 
@@ -76,14 +67,11 @@ class SignInForm extends Component {
         const alert = this.state.alert ?
             <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
                     show={this.state.alert.show}> </Alerts> : '';
-
         const checkingIsGuest = isGuest;
         if (checkingIsGuest()) {
             return isGuest();
         } else {
-
             return (
-
                 <div>
                     {alert}
                     <div id='wrapper'>
@@ -113,7 +101,6 @@ class SignInForm extends Component {
                                         />
                                     </label>
                                 </div>
-
                                 <div className='form-group'>
                                     <input className='btn btn-warning signInElement' type="submit" value="Sign in"/>
                                 </div>
@@ -124,12 +111,10 @@ class SignInForm extends Component {
                                                value="Create new account"/>
                                     </NavLink>
                                 </div>
-
                             </form>
                         </div>
                     </div>
                 </div>
-
             )
         }
     }

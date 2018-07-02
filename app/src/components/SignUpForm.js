@@ -31,7 +31,6 @@ class SignUpForm extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-
         const validateFlag = this.validateForm();
         if (validateFlag) {
             console.log('valid validation');
@@ -46,7 +45,6 @@ class SignUpForm extends Component {
     validateForm() {
         const validStatus = document.getElementById('valid-status');
         const validateFlag = Validations.validateForm(this.props.signup);
-
         if (validateFlag) {
             validStatus.innerHTML = '';
             validStatus.classList.remove('alert-danger');
@@ -59,7 +57,6 @@ class SignUpForm extends Component {
         } else {
             validStatus.innerHTML = 'Invalid form filling';
             validStatus.classList.add('alert-danger');
-
         }
         return validateFlag;
     }

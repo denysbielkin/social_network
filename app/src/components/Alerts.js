@@ -4,7 +4,6 @@ import '../css/App.css';
 import {Alert, Button} from 'react-bootstrap'
 
 class Alerts extends Component {
-
     constructor(props) {
         super(props);
 
@@ -28,18 +27,14 @@ class Alerts extends Component {
 
     render() {
         if (this.state.show) {
-
             return (
-
                 <Alert bsStyle={this.props.type} id='myAlert'>
                     <h4>{this.props.tittle}</h4>
                     <p>
                         {this.props.message}
                     </p>
                     <Button className='alertCloseBtn' onClick={this.handleDismiss}>X</Button>
-
                 </Alert>
-
             );
         } else {
             return <div></div>

@@ -18,7 +18,6 @@ class Validations {
             if (props[i] !== props.middleName && !props[i].isValid) {
                 return false;
             }
-
         }
 
         if (!props.middleName.isValid && !props.middleName.content) {
@@ -31,28 +30,22 @@ class Validations {
     }
 
     static regexpImage(img) {
-
         const imgPath = img.value;
         const validImageExtensions = /(\.jpg|\.jpeg|\.png|\.bmp)$/i;
         const minSize = 40000;
         const maxSize = 5120000;
-
         if (!validImageExtensions.exec(imgPath)) {
             console.log('bad file');
             return false;
         } else {
-
             if (img.files && img.files[0]) {
                 if (img.files[0].size >= minSize && img.files[0].size <= maxSize) {
                     return true;
                 } else {
                     console.log('invalid size');
                 }
-
-
             }
         }
-
     }
 
     static regexpName(name) {

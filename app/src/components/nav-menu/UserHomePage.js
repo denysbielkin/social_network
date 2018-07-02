@@ -19,6 +19,7 @@ class UserHomePage extends Component {
         };
 
         this.onSignOut = this.onSignOut.bind(this);
+        this.handleInfoClick = this.handleInfoClick.bind(this);
     }
 
     onSignOut() {
@@ -42,16 +43,16 @@ class UserHomePage extends Component {
     }
 
 
+    handleInfoClick(event) {
+
+    }
+
     async loadUserInfo() {
-
         const userInfo = await UsersDataRequests.loadUserInfo();
-
 
         if (userInfo) {
             this.setState({...this.state, userInfo: userInfo, isNeedUserInfo: false});
-
         }
-
     }
 
     componentWillMount() {
@@ -61,22 +62,23 @@ class UserHomePage extends Component {
     render() {
 
         if (!this.state.isLoggedIn) {
-
             return (
                 <div>
                     <Redirect to={endPointsList.signIn}/>
                 </div>
             )
         }
+
         if (this.state.isNeedUserInfo) {
             this.loadUserInfo();
-
-
         }
+
         let middleName = '';
         if (this.state.userInfo.middleName) {
             const middleNameValue = `'${this.state.userInfo.middleName}'`;
-            middleName = (<span id='user-page-user-names-first-name'><input className='user-page-userInfo-form-read' type="text" value={middleNameValue} readOnly /> </span>)
+            middleName = (
+                <span id='user-page-user-names-first-name'><input className='user-page-userInfo-form-read' type="text"
+                                                                  value={middleNameValue} readOnly/> </span>)
         }
         return (
             <div>
@@ -100,34 +102,29 @@ class UserHomePage extends Component {
                             </div>
                         </div>
                         <div className='user-page-data-block' id='user-page-infoBlock'>
-
-
                             <div id='user-page'>
-
-
                                 <div id='user-page-user-avatar'>*photo place*</div>
                                 <div id='user-page-user-names'>
-                                    <span id='user-page-user-names-first-name'>  <input className='user-page-userInfo-form-read' type="text" value={this.state.userInfo.firstName} readOnly /></span>
+                                    <span id='user-page-user-names-first-name'>  <input
+                                        className='user-page-userInfo-form-read' type="text"
+                                        value={this.state.userInfo.firstName} readOnly/></span>
                                     {middleName}
-                                    <span id='user-page-user-names-last-name'> <input className='user-page-userInfo-form-read' type="text" value={this.state.userInfo.lastName} readOnly /></span>
+                                    <span id='user-page-user-names-last-name'> <input
+                                        className='user-page-userInfo-form-read' type="text"
+                                        value={this.state.userInfo.lastName} readOnly/></span>
                                 </div>
                                 <div id='user-page-user-age'>
-                                    <span> <span id='user-page-user-age-title'>Age:</span><input className='user-page-userInfo-form-read' type="number" value={this.state.userInfo.age} readOnly /> </span>
+                                    <span> <span id='user-page-user-age-title'>Age:</span><input
+                                        className='user-page-userInfo-form-read' type="number"
+                                        value={this.state.userInfo.age} readOnly/> </span>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         );
-
-
     }
-
-
 }
 
 export default UserHomePage;
