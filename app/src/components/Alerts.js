@@ -24,13 +24,11 @@ class Alerts extends Component {
         if (this.props.show) {
             this.setState({show: true});
         }
-        console.log(this.props.show);
     }
 
     render() {
-        console.log(this.props.show, this.state.show);
         if (this.state.show) {
-            console.log(this.props.show);
+            
             return (
 
                 <Alert bsStyle={this.props.type} id='myAlert'>

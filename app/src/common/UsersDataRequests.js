@@ -18,12 +18,9 @@ class UsersDataRequests {
 
     static signInReq(user) {
         //console.log('email1: ' + user.email,'password1:' + user.password);
-        console.log(user);
         return axios.post(`${endPointsList.serverUrl}${endPointsList.checkingAuthOfUser}`, user)
             .then(res => {
                 const myTok = res.data.token;
-                console.log(user);
-                console.log(myTok);
                 localStorage.setItem('auth-tok', myTok);
                 return res.data;
 
@@ -32,14 +29,9 @@ class UsersDataRequests {
 
 
     static loadUserInfo() {
-        console.log('We are almost in');
-
-        console.log(`${endPointsList.serverUrl}${endPointsList.loadUserInfo}`);
         const token = {token:localStorage.getItem('auth-tok')};
-        console.log(token);
         return axios.post(`${endPointsList.serverUrl}${endPointsList.loadUserInfo}`, token)
             .then(res => {
-                console.log('We did reach the main goal');
                 return res.data;
             });
     }

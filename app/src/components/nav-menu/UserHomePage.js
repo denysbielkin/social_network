@@ -46,18 +46,27 @@ class UserHomePage extends Component {
 
     }
 
+    onInfoClick(event){
+        //todo: on click i must compare current user token and token of page owner(or maybe not by token, but by email. But maybe it is bad idea. I'm not sure). I can send email of current user to identify it in db. If current user token === token from db => add css class some like '.editable' 'n change attribute "readOnly" , because now user have to be able to edit them info. With adding css side of form, i have to add on the right side button some like 'save' to try validation of these new data. If it is ok => save it.
+
+
+
+
+
+
+    }
+
 
     async loadUserInfo() {
 
         const userInfo = await UsersDataRequests.loadUserInfo();
-        console.log(userInfo);
+
 
         if (userInfo) {
             this.setState({...this.state, userInfo: userInfo, isNeedUserInfo: false});
-            console.log(this.state.userInfo);
-            console.log(this.state.userInfo.firstName);
+
         }
-        //
+
     }
 
     componentWillMount() {
@@ -66,27 +75,6 @@ class UserHomePage extends Component {
 
     }
 
-    renderUserInfo() {
-//         let allBlocks = [];
-//         for (let i of this.state.userInfo) {
-// console.log(i);
-//             if (this.state.userInfo[i] === 'photo' ){//&& !this.state.userInfo[i] === this.state.userInfo.gender) {
-//                 const id = `user-page-infoBlock-input-${this.state.userInfo[i].value}`;
-//             allBlocks.push (
-//                     <div className="user-page-data">
-//                         <input key={i} type="text" className="user-page-infoBlock-input" id={id}
-//                                value={this.state.userInfo[i].value.toUpperCase()} readOnly/>
-//                     </div>
-//                 );
-//             }
-//
-//
-//        }
-//
-//         return (<div>{allBlocks}</div>)
-
-
-    }
 
     render() {
 
@@ -102,13 +90,13 @@ class UserHomePage extends Component {
         console.log(this.state.isNeedUserInfo);
         if (this.state.isNeedUserInfo) {
             this.loadUserInfo();
-            //  this.s.userInfo =
+
 
         }
         let middleName = '';
         if (this.state.userInfo.middleName) {
             const middleNameValue = `'${this.state.userInfo.middleName}'`;
-            middleName = (<span id='user-page-user-names-first-name'><input className='user-page-form' type="text" value={middleNameValue} readOnly /> </span>)
+            middleName = (<span id='user-page-user-names-first-name'><input className='user-page-userInfo-form-read' type="text" value={middleNameValue} readOnly /> </span>)
         }
         return (
             <div>
@@ -133,19 +121,18 @@ class UserHomePage extends Component {
                         </div>
                         <div className='user-page-data-block' id='user-page-infoBlock'>
 
-                            {/*{this.renderUserInfo()}*/}
 
                             <div id='user-page'>
 
 
                                 <div id='user-page-user-avatar'>*photo place*</div>
                                 <div id='user-page-user-names'>
-                                    <span id='user-page-user-names-first-name'>  <input className='user-page-form' type="text" value={this.state.userInfo.firstName}   readOnly /></span>
+                                    <span id='user-page-user-names-first-name'>  <input className='user-page-userInfo-form-read' type="text" value={this.state.userInfo.firstName} readOnly /></span>
                                     {middleName}
-                                    <span id='user-page-user-names-last-name'> <input className='user-page-form' type="text" value={this.state.userInfo.lastName} readOnly /></span>
+                                    <span id='user-page-user-names-last-name'> <input className='user-page-userInfo-form-read' type="text" value={this.state.userInfo.lastName} readOnly /></span>
                                 </div>
                                 <div id='user-page-user-age'>
-                                    <span> <span id='user-page-user-age-title'>Age:</span><input className='user-page-form' type="number" value={this.state.userInfo.age} readOnly /> </span>
+                                    <span> <span id='user-page-user-age-title'>Age:</span><input className='user-page-userInfo-form-read' type="number" value={this.state.userInfo.age} readOnly /> </span>
                                 </div>
 
 

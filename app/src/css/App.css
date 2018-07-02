@@ -13,11 +13,18 @@
 }
 
 
-.user-page-form{
+.user-page-userInfo-form-read{
   background: none;
   border: none;
   color: white;
 }
+.user-page-userInfo-form-edit{
+  background:white;
+  color:orange;
+  border: 2px black solid;
+}
+
+
 .user-page-form-editable{
   background: lightcyan!important;
 }
@@ -67,6 +74,7 @@
   flex-basis: 300px;
 
 }
+
 #nav-menu, #sign-out-btn{
   list-style: none;
 }
