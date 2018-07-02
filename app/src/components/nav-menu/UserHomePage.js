@@ -107,7 +107,8 @@ class UserHomePage extends Component {
         }
         let middleName = '';
         if (this.state.userInfo.middleName) {
-            middleName = (<span id='user-page-user-names-first-name'>'<input className='user-page-form' type="text" value={this.state.userInfo.middleName} readOnly />' </span>)
+            const middleNameValue = `'${this.state.userInfo.middleName}'`;
+            middleName = (<span id='user-page-user-names-first-name'><input className='user-page-form' type="text" value={middleNameValue} readOnly /> </span>)
         }
         return (
             <div>
