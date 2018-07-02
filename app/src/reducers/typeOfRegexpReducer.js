@@ -33,6 +33,7 @@ const initialState = {
 const typeOfRegexpReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'CHANGE_REG_FORM_INPUT':
+        case 'CHANGE_USER_INFO_FORM_INPUT':
             const key = action.payload.key;
             return {...state, [key]: action.payload.value};
         default:

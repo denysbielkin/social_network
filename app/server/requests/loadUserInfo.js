@@ -4,7 +4,6 @@ const socialNetworkDb = 'socialNetwork';
 const usersCollection = 'users';
 
 const loadUserInfo = (req,res) => {
-    console.log('We are in');
     const params = req.body;
     const token = params.token;
     mongodb.connect(endPoints.db, (err, db) => {

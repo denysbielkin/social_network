@@ -15,6 +15,7 @@
 }
 
 .user-page-userInfo-form-read {
+    cursor: pointer;
     background: none;
     border: none;
     color: white;
@@ -23,13 +24,18 @@
 .user-page-userInfo-form-edit {
     background: white;
     color: orange;
-    border: 2px black solid;
+    border: 2px darkgoldenrod dashed;
+    border-radius: 2px;
+    padding: 5px;
 }
-
-.user-page-form-editable {
-    background: lightcyan !important;
+#save-btn-block{
+    margin: 3px;
 }
+#user-page-user-age{
+    display: flex;
+    width: 50px;
 
+}
 #page-content {
     display: flex;
 }
@@ -67,6 +73,7 @@
 #user-page-user-age-title {
     font-weight: lighter;
     font-size: 12px;
+    margin-left: 2px;
 }
 
 #user-page-user-names {
