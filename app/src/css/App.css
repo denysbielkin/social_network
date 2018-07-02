@@ -3,15 +3,16 @@
   background-size: cover;
   min-height: 100vh;
 }
+
 #sign-up-form, #sign-in-form{
 
   text-align: center;
 }
+
 .alertCloseBtn{
   background: red;
   text-align: start;
 }
-
 
 .user-page-userInfo-form-read{
   background: none;
@@ -24,7 +25,6 @@
   border: 2px black solid;
 }
 
-
 .user-page-form-editable{
   background: lightcyan!important;
 }
@@ -32,7 +32,6 @@
 #page-content {
   display: flex;
 }
-
 
 #myAlert{
 
@@ -51,6 +50,7 @@
   padding: 30px;
 
 }
+
 .user-page-data-block{
   border:darkgoldenrod 3px dashed;
   border-radius: 5px;
@@ -88,16 +88,10 @@
 
 }
 
-
 #sign-up-back{
   margin-top: 80px;
   position: absolute;
 }
-
-/*.nav-menu-active{*/
-  /*background: grey !important;*/
-/*}*/
-
 
 .mandatory-field{
   color: red;

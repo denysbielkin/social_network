@@ -37,5 +37,5 @@ ReactDOM.render(
         </Router>
     </Provider>
 
-    , document.getElementById('root'));
-
+    , document.getElementById('root')
+);

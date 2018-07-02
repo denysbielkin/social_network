@@ -8,8 +8,6 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const endPoints = require('../src/common/endPointsList');
 
-
-//const insertUserInDb = require('./db/insertUser');
 const pswHash = require('password-hash');
 const socialNetworkDb = 'socialNetwork';
 const usersCollection = 'users';
@@ -17,7 +15,6 @@ const usersCollection = 'users';
 app.use(cors());//todo: use proxy instead of cors
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
 
 const passwordGenerator = () => {
     const max = 20;
@@ -79,7 +76,6 @@ app.post(endPoints.saveNewUser, (req, res) => {
                 if (result === null) {
                     console.log('No results');
                     myCollection.insertOne(userInfo, (err, result) => {
-                        //todo: m8 move forward by 1 code-block content of this func
                         try {
                             if (err) {
                                 throw new Error('Error is somewhere in adding new user: ' + err);
@@ -103,20 +99,15 @@ app.post(endPoints.saveNewUser, (req, res) => {
                         tittle: 'Fail! This user is already exist'
 
                     };
-                    //res.data=dataToSend;
                     res.send(200, dataToSend);
                 }
 
                 db.close();
             });
 
-
         });
 
-        //todo instead of code above this   //insertUserInDb.insertUserInDb(res, notHPassword, userInfo);
-
     } else {
-        console.log(':Data is not valid!:');
         res.send(200, ':Data is not valid!:');
     }
 
@@ -153,39 +144,27 @@ app.post(endPoints.checkingAuthOfUser, (req, res) => {
                     tittle: `Fail! We haven't this user`
                 };
                 res.send(200, dataToSend);
+
             } else {
 
-
                 if (userInfo.email === result.email) {
-                    console.log('12123');
 
-                    console.log(hashFlag);
                     if (!hashFlag) {
-                        console.log('223');
-
 
                         dataToSend = {
                             show: true,
                             type: 'danger',
                             tittle: 'Fail! Wrong password'
                         };
-                        //todo localstorage only 3 times you can try to sign in
+
                         res.send(200, dataToSend);
-                        // let counter=1;
-                        //
-                        // return ()=>{
-                        //     counter++;
-                        //     counter=String(counter);
-                        //     localStorage.setItem('Login tries', counter);
-                        //    return counter = Number(counter);
-                        // };
 
 
                     } else {
                         const token = jwt.sign({id: userInfo.email}, 'auth-user', {
                             expiresIn: 86400 // 24h
                         });
-                        console.log(token);
+
                         dataToSend = {
                             show: true,
                             type: 'success',
@@ -209,16 +188,12 @@ app.post(endPoints.loadUserInfo, (req, res) => {
     console.log('We are in');
     const params = req.body;
     const token = params.token;
-    console.log(token);
     mongodb.connect(endPoints.db, (err, db) => {
-        console.log('in mongodb');
-        console.log(token);
+
         const myDb = db.db(socialNetworkDb);
         const myCollection = myDb.collection(usersCollection);
 
         myCollection.findOne({token}, (err, result) => {
-            console.log('token in findOne');
-            console.log(token);
 
 
             try {
@@ -229,20 +204,15 @@ app.post(endPoints.loadUserInfo, (req, res) => {
                 console.log(err);
             }
             if (result) {
-                console.log('result token');
-                console.log(result);
 
                 if (token === result.token) {
-                    console.log('token is good, token of ' + result.firstName);
                     res.send(200, result);
 
                 } else {
                     res.send(200, 'nope');
-                    console.log('nope');
                 }
             } else {
                 res.send(200, 'nope and nope');
-                console.log('nope and nope');
             }
             db.close();
         });

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Validations} from "../common/Validations";
 
-
 class UserForm extends Component {
     constructor(props) {
         super(props);

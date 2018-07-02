@@ -4,12 +4,10 @@ import UsersDataRequests from '../../common/UsersDataRequests'
 import endPointsList from '../../common/endPointsList';
 import NavigateMenu from './NavigateMenu'
 
-
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../css/App.css';
 
 class UserHomePage extends Component {
-
 
     constructor(props) {
         super(props);
@@ -29,7 +27,6 @@ class UserHomePage extends Component {
 
     }
 
-
     isTokenGood() {
 
         const checkToken = localStorage.getItem('auth-tok');
@@ -41,16 +38,6 @@ class UserHomePage extends Component {
         } else {
             this.setState({...this.state, isLoggedIn: false});
         }
-
-    }
-
-    onInfoClick(event){
-        //todo: on click i must compare current user token and token of page owner(or maybe not by token, but by email. But maybe it is bad idea. I'm not sure). I can send email of current user to identify it in db. If current user token === token from db => add css class some like '.editable' 'n change attribute "readOnly" , because now user have to be able to edit them info. With adding css side of form, i have to add on the right side button some like 'save' to try validation of these new data. If it is ok => save it.
-
-
-
-
-
 
     }
 
@@ -69,10 +56,7 @@ class UserHomePage extends Component {
 
     componentWillMount() {
         this.isTokenGood();
-
-
     }
-
 
     render() {
 
@@ -84,8 +68,6 @@ class UserHomePage extends Component {
                 </div>
             )
         }
-        console.log(this.state.userInfo);
-        console.log(this.state.isNeedUserInfo);
         if (this.state.isNeedUserInfo) {
             this.loadUserInfo();
 

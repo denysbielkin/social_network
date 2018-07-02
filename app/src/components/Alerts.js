@@ -40,13 +40,11 @@ class Alerts extends Component {
 
                 </Alert>
 
-
             );
         } else {
             return <div></div>
         }
     }
 }
-
 
 export default Alerts;

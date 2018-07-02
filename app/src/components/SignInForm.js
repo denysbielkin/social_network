@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import isGuest from '../common/isGuest'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
-import {NavLink, Redirect} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import Alerts from './Alerts';
 import UsersDataRequests from "../common/UsersDataRequests";
 import endPointsList from '../common/endPointsList';
@@ -16,7 +16,6 @@ class SignInForm extends Component {
             password: '',
             isLoggedIn: false
         };
-
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,7 +32,7 @@ class SignInForm extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        console.log(user);
+
         const validationResult = await this.validateForm(user);
 
 
@@ -44,12 +43,12 @@ class SignInForm extends Component {
         } catch (err) {
             console.log(err);
         }
-        console.log(validationResult);
+
         this.setState({...this.state, alert: validationResult});
         if (this.state.alert.type === 'success') {
 
             this.setState({isLoggedIn: true});
-            console.log(this.state.isLoggedIn);
+
         }
 
     }
@@ -83,7 +82,6 @@ class SignInForm extends Component {
             return isGuest();
         } else {
 
-
             return (
 
                 <div>
@@ -97,7 +95,7 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="email"
                                                id='sign-in-email'
                                                name='email'
-                                            //required
+                                               required
                                                value={this.state.email}
                                                onChange={(event) => this.handleChange(event)}
                                         />
@@ -109,13 +107,12 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="password"
                                                id='sign-in-password'
                                                name='password'
-                                            // required
+                                               required
                                                value={this.state.password}
                                                onChange={(event) => this.handleChange(event)}
                                         />
                                     </label>
                                 </div>
-
 
                                 <div className='form-group'>
                                     <input className='btn btn-warning signInElement' type="submit" value="Sign in"/>

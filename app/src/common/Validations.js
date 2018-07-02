@@ -1,7 +1,4 @@
 class Validations {
-    constructor() {
-
-    }
 
     static typeOfRegexp(content, type) {
         switch (type) {
@@ -15,7 +12,6 @@ class Validations {
                 return Validations.regExpAge(content);
         }
     }
-
 
     static validateForm(props) {
         for (let i in props) {
@@ -83,7 +79,6 @@ class Validations {
             return true;
         }
     };
-
 
 }
 

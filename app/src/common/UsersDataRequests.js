@@ -17,7 +17,6 @@ class UsersDataRequests {
     }
 
     static signInReq(user) {
-        //console.log('email1: ' + user.email,'password1:' + user.password);
         return axios.post(`${endPointsList.serverUrl}${endPointsList.checkingAuthOfUser}`, user)
             .then(res => {
                 const myTok = res.data.token;
@@ -35,7 +34,6 @@ class UsersDataRequests {
                 return res.data;
             });
     }
-
 
 }
 
