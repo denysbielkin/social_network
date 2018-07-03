@@ -81,7 +81,7 @@ class UserHomePage extends Component {
     }
 
     saveData(formData){
-        
+        // Todo: send data to server
     }
 
     handleSaveInfoClick() {
@@ -101,8 +101,8 @@ class UserHomePage extends Component {
 
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadUserInfo();
-        const dataToToTo = ['firstName', 'lastName', 'middleName', 'age'];
-        dataToToTo.map(key => {
+        const dataToStore = ['firstName', 'lastName', 'middleName', 'age'];
+        dataToStore.map(key => {
             this.props.changeUserInfoFormInput({
                 key,
                 value: {

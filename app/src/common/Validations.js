@@ -43,6 +43,7 @@ class Validations {
                     return true;
                 } else {
                     console.log('invalid size');
+                    return false;
                 }
             }
         }

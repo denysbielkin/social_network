@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
-import typeOfRegexpReducer from './typeOfRegexpReducer'
+import formReducer from './formReducer'
 
 export default combineReducers({
-    typeOfRegexpReducer,
+    typeOfRegexpReducer: formReducer,
 
 });

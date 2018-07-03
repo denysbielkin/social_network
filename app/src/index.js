@@ -2,13 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
-import rootReducer from './reducers/typeOfRegexpReducer'
-
+import rootReducer from './reducers/formReducer'
 import endPointsList from './common/endPointsList';
 import {Router, Route} from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
-
-
 //routes
 import SignUpForm from './components/SignUpForm'
 import SignInForm from './components/SignInForm'
@@ -17,10 +14,7 @@ import Settings from './components/nav-menu/Settings'
 import Friends from './components/nav-menu/Friends'
 import Search from './components/nav-menu/Search'
 import UserHomePage from './components/nav-menu/UserHomePage'
-
-
 const history = createBrowserHistory();
-
 const store = createStore(rootReducer);
 ReactDOM.render(
     <Provider store={store}>
@@ -35,7 +29,5 @@ ReactDOM.render(
                 <Route path={endPointsList.search} component={Search}/>
             </div>
         </Router>
-    </Provider>
-
-    , document.getElementById('root')
+    </Provider> , document.getElementById('root')
 );

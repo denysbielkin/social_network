@@ -44,6 +44,7 @@ class UserForm extends Component {
 
         } else {
             console.log('it is not correct file');
+            return false;
         }
     }
     
