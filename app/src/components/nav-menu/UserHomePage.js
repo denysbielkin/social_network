@@ -32,9 +32,9 @@ class UserHomePage extends Component {
     handleChange(event){
         const thisInput = {
             content: '',
-            // isValid: false
+
         };
-        // thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
+
         thisInput.content = event.target.value;
 
         this.props.changeUserInfoFormInput({key: event.target.name, value: thisInput});
@@ -81,7 +81,7 @@ class UserHomePage extends Component {
     }
 
     saveData(formData){
-        // Todo: send data to server
+        
     }
 
     handleSaveInfoClick() {
@@ -97,6 +97,7 @@ class UserHomePage extends Component {
             this.saveData(formData);
         }
     }
+
 
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadUserInfo();
