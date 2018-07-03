@@ -1,0 +1,123 @@
+#wrapper {
+    background: black;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+#sign-up-form, #sign-in-form {
+
+    text-align: center;
+}
+
+.alertCloseBtn {
+    background: red;
+    text-align: start;
+}
+
+.user-page-userInfo-form-read {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+}
+
+.user-page-userInfo-form-edit {
+    background: white;
+    color: orange;
+    border: 2px darkgoldenrod dashed;
+    border-radius: 2px;
+    padding: 5px;
+}
+#save-btn-block{
+    margin: 3px;
+}
+#user-page-user-age{
+    display: flex;
+    width: 50px;
+
+}
+#page-content {
+    display: flex;
+}
+
+#myAlert {
+
+    text-align: center;
+    position: fixed;
+}
+
+.signUpElement, .signInElement {
+    width: 330px;
+}
+
+.formBlock {
+    border: darkgoldenrod 3px dashed;
+    border-radius: 5px;
+    background-color: darkslategray;
+
+    color: darkgoldenrod;
+    padding: 30px;
+
+}
+
+.user-page-data-block {
+    border: darkgoldenrod 3px dashed;
+    border-radius: 5px;
+    background-color: darkslategray;
+
+    max-width: 300px;
+    color: white;
+    padding: 30px;
+}
+
+#user-page-user-age-title {
+    font-weight: lighter;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+#user-page-user-names {
+    font-size: 20px;
+}
+
+#nav-menu-block {
+    flex-basis: 300px;
+}
+
+#nav-menu, #sign-out-btn {
+    list-style: none;
+}
+
+.menu-button, #sign-out-btn {
+    width: 100px;
+}
+
+.formBlock {
+    max-width: 400px;
+}
+
+#sign-up-back {
+    margin-top: 80px;
+    position: absolute;
+}
+
+.mandatory-field {
+    color: red;
+}
+
+#photo-preview {
+    flex-flow: column;
+}
+
+#photo-preview-img {
+    max-height: 300px;
+    max-width: 300px;
+}
+
+.signUpGender {
+    margin-right: 10px;
+}
+
+.signUpGender:first-child {
+    float: left;
+}
