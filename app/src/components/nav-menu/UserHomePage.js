@@ -244,7 +244,7 @@ class UserHomePage extends Component {
 
                                         </span>
                                     </div>
-                                    <div id='user-page-user-age'>
+                                    <div id='user-page-user-age-block'>
                                     <span>
                                         <input name='age'
                                                className='user-page-userInfo-form-read'
