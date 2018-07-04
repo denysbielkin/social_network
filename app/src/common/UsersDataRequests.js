@@ -26,13 +26,19 @@ class UsersDataRequests {
             });
     }
 
-    static loadUserInfo() {
+    static async loadUserInfo() {
         const token = {token: localStorage.getItem('auth-tok')};
+
         return axios.post(`${endPointsList.serverUrl}${endPointsList.loadUserInfo}`, token)
             .then(res => {
+                console.log(res.data.photo )
+
+                console.log(res.data.photo )
                 return res.data;
             });
     }
+
+
 
     static updateUserInfo(newData){
         const token = {token: localStorage.getItem('auth-tok')};
@@ -41,7 +47,6 @@ class UsersDataRequests {
                 return res.data;
             });
     }
-
 }
 
 export default UsersDataRequests;

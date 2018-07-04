@@ -15,7 +15,6 @@
 }
 
 
-
 .user-page-userInfo-form-read {
     cursor: pointer;
     background: none;
@@ -71,7 +70,7 @@
     border-radius: 5px;
     background-color: darkslategray;
 
-    max-width: 300px;
+    max-width: 400px;
     color: white;
     padding: 30px;
 }
@@ -115,7 +114,7 @@
     flex-flow: column;
 }
 
-#photo-preview-img {
+#photo-preview-img, #user-page-user-avatar {
     max-height: 300px;
     max-width: 300px;
 }

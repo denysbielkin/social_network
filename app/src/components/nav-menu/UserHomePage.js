@@ -27,7 +27,8 @@ class UserHomePage extends Component {
             firstName: 'user-page-user-names-first-name-input',
             middleName: 'user-page-user-names-middle-name-input',
             lastName: 'user-page-user-names-last-name-input',
-            age: 'user-page-user-age'
+            age: 'user-page-user-age',
+            photo: 'user-page-user-avatar'
 
         };
 
@@ -144,7 +145,9 @@ class UserHomePage extends Component {
 
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadUserInfo();
-        const dataToStore = ['firstName', 'middleName', 'lastName', 'age'];
+        const dataToStore = ['firstName', 'middleName', 'lastName', 'age', 'photo'];
+
+        console.log(userInfo.photo);
         dataToStore.map(key => {
             this.props.changeUserInfoFormInput({
                 key,
@@ -210,7 +213,9 @@ class UserHomePage extends Component {
                         <div className='user-page-data-block' id='user-page-infoBlock'>
                             <div id='user-page'>
                                 <form name='userInfoForm'>
-                                    <div id='user-page-user-avatar'>*photo place*</div>
+                                    <div id='user-page-user-avatar-block'>
+                                        <img id={this.inputId.photo} src={this.props.userInfo.photo.content} alt="photo"/>
+                                    </div>
                                     <div id='save-btn-block' onClick={this.handleSaveInfoClick}></div>
                                     <span><small
                                         className='text-muted'>Click on the field which you want to edit</small></span>
