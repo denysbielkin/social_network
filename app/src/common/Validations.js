@@ -14,17 +14,23 @@ class Validations {
     }
 
     static validateForm(props) {
+        console.log(props)
         for (let i in props) {
             if (props[i] !== props.middleName && !props[i].isValid) {
+                console.log(4)
+                console.log(props[i])
                 return false;
             }
         }
 
         if (!props.middleName.isValid && !props.middleName.content) {
+            console.log(1)
             return true;
         } else if (!props.middleName.isValid && props.middleName.content) {
+            console.log(2)
             return false;
         } else {
+            console.log(3)
             return true;
         }
     }
@@ -65,7 +71,23 @@ class Validations {
             return true;
         }
     }
+   static detectIfValid(thisInput, id) {
+        const thisInputTag = document.getElementById(`${id}`);
+        const isValid = 'alert-success';
+        const isNotValid = 'alert-danger';
 
+        if (!thisInput.isValid) {
+            if (thisInputTag.className.indexOf(' ' + isNotValid) === -1) {
+                thisInputTag.className += ' ' + isNotValid;
+                thisInputTag.classList.remove(isValid);
+            }
+        } else {
+            if (thisInputTag.className.indexOf(' ' + isValid) === -1) {
+                thisInputTag.className += ' ' + isValid;
+                thisInputTag.classList.remove(isNotValid);
+            }
+        }
+    }
     static regExpAge(age) {
         const minAge = 1;
         const maxAge = 99;

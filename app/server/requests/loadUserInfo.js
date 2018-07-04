@@ -1,14 +1,12 @@
 const endPoints = require('../../src/common/endPointsList');
-const mongodb = require('mongodb').MongoClient;
-const socialNetworkDb = 'socialNetwork';
-const usersCollection = 'users';
+const commonServerData = require ('../commonServerData');
 
 const loadUserInfo = (req,res) => {
     const params = req.body;
     const token = params.token;
-    mongodb.connect(endPoints.db, (err, db) => {
-        const myDb = db.db(socialNetworkDb);
-        const myCollection = myDb.collection(usersCollection);
+    commonServerData.mongodb.connect(endPoints.db, (err, db) => {
+        const myDb = db.db(commonServerData.socialNetworkDb);
+        const myCollection = myDb.collection(commonServerData.usersCollection);
         myCollection.findOne({token}, (err, result) => {
             try {
                 if (err) {

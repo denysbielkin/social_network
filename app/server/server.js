@@ -9,6 +9,7 @@ const endPoints = require('../src/common/endPointsList');
 const {saveNewUser} = require ('./requests/saveNewUser');
 const {checkingAuthOfUser} = require ('./requests/checkingAuthOfUser');
 const {loadUserInfo} = require ('./requests/loadUserInfo');
+const {updateUserInfo} = require ('./requests/updateUserInfo');
 
 app.use(cors());//todo: use proxy instead of cors
 app.use(bodyParser.json());
@@ -24,6 +25,10 @@ app.post(endPoints.checkingAuthOfUser, (req, res) => {
 
 app.post(endPoints.loadUserInfo, (req, res) => {
    loadUserInfo(req,res);
+});
+
+app.post(endPoints.updateUserInfo, (req, res) => {
+   updateUserInfo(req,res);
 });
 
 app.listen(port);

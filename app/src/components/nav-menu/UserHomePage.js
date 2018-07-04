@@ -13,6 +13,7 @@ class UserHomePage extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             isEdit: false,
             isLoggedIn: true,
@@ -20,6 +21,28 @@ class UserHomePage extends Component {
             userInfo: {},
             formattedUserInfo: ''
         };
+
+
+        this.inputId = {
+            firstName: 'user-page-user-names-first-name-input',
+            middleName: 'user-page-user-names-middle-name-input',
+            lastName: 'user-page-user-names-last-name-input',
+            age: 'user-page-user-age'
+
+        };
+
+        this.typesOfRegexp = {
+            name: 'name',
+            email: 'email',
+            gender: 'gender',
+            age: 'age',
+            photo: 'photo'
+
+        };
+
+        this.readMode = 'user-page-userInfo-form-read';
+        this.editMode = 'user-page-userInfo-form-edit';
+
 
         this.loadUserInfo();
 
@@ -29,15 +52,18 @@ class UserHomePage extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(event){
+    handleChange(event, id, typeOfRegexp) {
         const thisInput = {
             content: '',
+            isValid: ''
 
         };
 
         thisInput.content = event.target.value;
+        thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
 
         this.props.changeUserInfoFormInput({key: event.target.name, value: thisInput});
+        Validations.detectIfValid(thisInput, id);
     }
 
     onSignOut() {
@@ -56,35 +82,54 @@ class UserHomePage extends Component {
 
     onInfoClick(event) {
         const input = event.target;
-        const readMode = 'user-page-userInfo-form-read';
-        const editMode = 'user-page-userInfo-form-edit';
 
-        if (input.className.indexOf(editMode) === -1) {
-            input.classList.remove(readMode);
-            input.classList.add(editMode);
+        if (input.className.indexOf(this.editMode) === -1) {
+            input.classList.remove(this.readMode);
+            input.classList.add(this.editMode);
             input.removeAttribute('readonly');
-            this.setState({...this.state, isEdit:true});
+            this.setState({...this.state, isEdit: true});
             const saveBtnBlock = document.getElementById('save-btn-block');
 
             if (!document.getElementById('user-page-saveButton')) {
-                const saveBtn = document.createElement('input');
+                let saveBtn = document.createElement('input');
                 saveBtn.setAttribute('type', 'button');
                 saveBtn.setAttribute('id', 'user-page-saveButton');
                 saveBtn.setAttribute('value', 'Save');
                 saveBtn.classList.add('btn');
+
                 saveBtn.classList.add('btn-primary');
+
+
                 saveBtnBlock.appendChild(saveBtn);
-            }else{
-                this.setState({...this.state, isEdit:false});
             }
         }
     }
 
-    saveData(formData){
-        // Todo: send data to server
+    turnIntoReadMode(){
+        for(let i in this.inputId){
+            const input = document.getElementById(this.inputId[i]);
+            input.classList.remove(this.editMode);
+            input.classList.add(this.readMode);
+            input.setAttribute('readonly','readonly');
+            input.blur();
+        }
+        let saveBtn = document.getElementById('save-btn-block');
+        saveBtn.innerHTML='';
+
+        this.setState({...this.state, isEdit:false});
     }
 
-    handleSaveInfoClick() {
+    async saveData(updatedData) {
+        console.log(222)
+
+        const result = await UsersDataRequests.updateUserInfo(updatedData);
+        if(result){
+            this.turnIntoReadMode();
+        }
+    }
+
+    handleSaveInfoClick(event) {
+        event.preventDefault();
         const formData = this.props.userInfo;
         const dataToValidate = {
             firstName: formData.firstName,
@@ -93,15 +138,17 @@ class UserHomePage extends Component {
             age: formData.age,
         };
         const isValid = Validations.validateForm(dataToValidate);
-        if(isValid){
-            this.saveData(formData);
+        if (isValid) {
+            console.log(1)
+            console.log(dataToValidate)
+            this.saveData(dataToValidate);
         }
     }
 
 
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadUserInfo();
-        const dataToStore = ['firstName', 'lastName', 'middleName', 'age'];
+        const dataToStore = ['firstName', 'middleName', 'lastName', 'age'];
         dataToStore.map(key => {
             this.props.changeUserInfoFormInput({
                 key,
@@ -124,18 +171,28 @@ class UserHomePage extends Component {
                 </div>
             )
         }
+        let middleNameValue = '';
 
-        let middleName = '';
-        if (this.state.userInfo.middleName) {
-            const middleNameValue = `'${this.props.userInfo.middleName.content}'`;
-            middleName = (
-                <span id='user-page-user-names-first-name'>
-                    <input className='user-page-userInfo-form-read' type="text"
-                          value={middleNameValue} 
-                          onClick={this.onInfoClick}
-                          onChange={this.handleChange}
-                /> </span>)
+        if (this.props.userInfo.middleName.content) {
+            middleNameValue = `${this.props.userInfo.middleName.content}`;
+
         }
+        const placeholder = `'Middle name'`;
+        const middleName = (
+            <span id='user-page-user-names-first-name'>
+                    <input className='user-page-userInfo-form-read'
+                           type="text"
+                           id={this.inputId.middleName}
+                           value={middleNameValue}
+                           placeholder={placeholder}
+                           onClick={this.onInfoClick}
+                           readOnly
+                           onChange={(event) => {
+                               this.handleChange(event, this.inputId.middleName, this.typesOfRegexp.name)
+                           }}
+
+                    /> </span>
+        );
         return (
             <div>
                 <div id='wrapper'>
@@ -159,25 +216,34 @@ class UserHomePage extends Component {
                                 <form name='userInfoForm'>
                                     <div id='user-page-user-avatar'>*photo place*</div>
                                     <div id='save-btn-block' onClick={this.handleSaveInfoClick}></div>
-                                    <span><small className='text-muted'>Click on the field which you want to edit</small></span>
+                                    <span><small
+                                        className='text-muted'>Click on the field which you want to edit</small></span>
                                     <div id='user-page-user-names'>
 
                                     <span id='user-page-user-names-first-name'>
                                         <input name='firstName'
-                                            className='user-page-userInfo-form-read'
-                                            type="text"
-                                            value={this.props.userInfo.firstName.content}
-                                            onClick={this.onInfoClick}
-                                            onChange={this.handleChange}
+                                               className='user-page-userInfo-form-read'
+                                               type="text"
+                                               id={this.inputId.firstName}
+                                               value={this.props.userInfo.firstName.content}
+                                               onClick={this.onInfoClick}
+                                               readOnly
+                                               onChange={(event) => {
+                                                   this.handleChange(event, this.inputId.firstName, this.typesOfRegexp.name)
+                                               }}
                                         /></span>
                                         {middleName}
                                         <span id='user-page-user-names-last-name'>
                                             <input name='lastName'
-                                              className='user-page-userInfo-form-read'
-                                              type="text"
-                                              value={this.props.userInfo.lastName.content}
-                                              onClick={this.onInfoClick}
-                                              onChange={this.handleChange}
+                                                   className='user-page-userInfo-form-read'
+                                                   type="text"
+                                                   id={this.inputId.lastName}
+                                                   value={this.props.userInfo.lastName.content}
+                                                   onClick={this.onInfoClick}
+                                                   readOnly
+                                                   onChange={(event) => {
+                                                       this.handleChange(event, this.inputId.lastName, this.typesOfRegexp.name)
+                                                   }}
                                             />
 
                                         </span>
@@ -185,11 +251,14 @@ class UserHomePage extends Component {
                                     <div id='user-page-user-age'>
                                     <span>
                                         <input name='age'
-                                               id='user-page-user-age'
                                                className='user-page-userInfo-form-read'
                                                type="number"
+                                               id={this.inputId.age}
                                                value={this.props.userInfo.age.content}
-                                               
+                                               onChange={(event) => {
+                                                   this.handleChange(event, this.inputId.age, this.typesOfRegexp.age)
+                                               }}
+                                               readOnly
                                                onClick={this.onInfoClick}/>
                                    </span><span id='user-page-user-age-title'> years</span>
                                     </div>

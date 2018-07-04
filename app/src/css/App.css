@@ -14,6 +14,8 @@
     text-align: start;
 }
 
+
+
 .user-page-userInfo-form-read {
     cursor: pointer;
     background: none;
@@ -29,6 +31,7 @@
     padding: 5px;
 }
 #save-btn-block{
+    width:60px;
     margin: 3px;
 }
 #user-page-user-age{

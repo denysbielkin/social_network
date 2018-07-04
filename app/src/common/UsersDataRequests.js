@@ -33,6 +33,15 @@ class UsersDataRequests {
                 return res.data;
             });
     }
+
+    static updateUserInfo(newData){
+        const token = {token: localStorage.getItem('auth-tok')};
+        return axios.post(`${endPointsList.serverUrl}${endPointsList.updateUserInfo}`, {...newData, token})
+            .then(res => {
+                return res.data;
+            });
+    }
+
 }
 
 export default UsersDataRequests;

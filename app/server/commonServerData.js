@@ -1,3 +1,9 @@
+
+
+const mongodb = require('mongodb').MongoClient;
+const socialNetworkDb = 'socialNetwork';
+const usersCollection = 'users';
+
 const passwordGenerator = () => {
     const max = 20;
     const min = 15;
@@ -21,4 +27,4 @@ const passwordGenerator = () => {
     return password;
 };
 
-module.exports = {passwordGenerator};
+module.exports = {passwordGenerator, mongodb, socialNetworkDb, usersCollection};
