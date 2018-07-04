@@ -120,8 +120,6 @@ class UserHomePage extends Component {
     }
 
     async saveData(updatedData) {
-        console.log(222)
-
         const result = await UsersDataRequests.updateUserInfo(updatedData);
         if(result){
             this.turnIntoReadMode();
@@ -139,8 +137,6 @@ class UserHomePage extends Component {
         };
         const isValid = Validations.validateForm(dataToValidate);
         if (isValid) {
-            console.log(1)
-            console.log(dataToValidate)
             this.saveData(dataToValidate);
         }
     }

@@ -17,20 +17,15 @@ class Validations {
         console.log(props)
         for (let i in props) {
             if (props[i] !== props.middleName && !props[i].isValid) {
-                console.log(4)
-                console.log(props[i])
                 return false;
             }
         }
 
         if (!props.middleName.isValid && !props.middleName.content) {
-            console.log(1)
             return true;
         } else if (!props.middleName.isValid && props.middleName.content) {
-            console.log(2)
             return false;
         } else {
-            console.log(3)
             return true;
         }
     }
