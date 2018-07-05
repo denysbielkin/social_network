@@ -146,8 +146,6 @@ class UserHomePage extends Component {
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadUserInfo();
         const dataToStore = ['firstName', 'middleName', 'lastName', 'age', 'photo'];
-
-        console.log(userInfo.photo);
         dataToStore.map(key => {
             this.props.changeUserInfoFormInput({
                 key,

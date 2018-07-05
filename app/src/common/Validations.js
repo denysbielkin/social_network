@@ -14,7 +14,6 @@ class Validations {
     }
 
     static validateForm(props) {
-        console.log(props)
         for (let i in props) {
             if (props[i] !== props.middleName && !props[i].isValid) {
                 return false;

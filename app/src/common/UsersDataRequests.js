@@ -31,9 +31,6 @@ class UsersDataRequests {
 
         return axios.post(`${endPointsList.serverUrl}${endPointsList.loadUserInfo}`, token)
             .then(res => {
-                console.log(res.data.photo )
-
-                console.log(res.data.photo )
                 return res.data;
             });
     }

@@ -28,14 +28,12 @@ const updateUserInfo = (req,res) => {
                 } catch (err) {
                     console.log(err);
                 }
-                console.log('Document updated');
                 res.send(200, validationFlag);
                 db.close();
             });
         });
 
     } else {
-        console.log(':Data is not valid!:');
         res.send(200, validationFlag);
     }
 
