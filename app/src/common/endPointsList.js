@@ -12,6 +12,7 @@ const db = 'mongodb://127.0.0.1:27017/myUsers';
 const serverUrl = 'http://localhost:3010';
 const checkAccessForPageEdit = '/check-edit-access';
 const updateUserInfo = '/update-user-info';
+const loadUsersForSearch = '/load-users-for-search';
 
 module.exports = {
     saveNewUser,
@@ -27,5 +28,6 @@ module.exports = {
     search,
     loadUserInfo,
     checkAccessForPageEdit,
-    updateUserInfo
+    updateUserInfo,
+    loadUsersForSearch
 };

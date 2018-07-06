@@ -1,12 +1,22 @@
 import React, {Component} from 'react';
 
-class Settings extends Component{
-    constructor(props){
+class Settings extends Component {
+    constructor(props) {
         super(props);
     }
 
-    render(){
-        return(<div>1</div>)
+    render() {
+        return (
+            <div>
+
+                <div id='wrapper'>
+
+123
+
+                </div>
+
+            </div>
+        )
     }
 }
 

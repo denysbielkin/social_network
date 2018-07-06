@@ -21,6 +21,7 @@ class Validations {
         }
 
         if (!props.middleName.isValid && !props.middleName.content) {
+
             return true;
         } else if (!props.middleName.isValid && props.middleName.content) {
             return false;

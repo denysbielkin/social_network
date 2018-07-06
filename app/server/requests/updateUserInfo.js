@@ -7,6 +7,7 @@ const updateUserInfo = (req,res) => {
     const token = params.token;
     delete params.token;
     const validationFlag = Validations.validateForm(params);
+    const response = {status:'good'};
     if (validationFlag) {
         commonServerData.mongodb.connect(endPoints.db, (err, db) => {
             const myDb = db.db(commonServerData.socialNetworkDb);
@@ -28,13 +29,19 @@ const updateUserInfo = (req,res) => {
                 } catch (err) {
                     console.log(err);
                 }
-                res.send(200, validationFlag);
+                res.send(200, response.status);
                 db.close();
             });
         });
 
     } else {
-        res.send(200, validationFlag);
+        const dataToSend = {
+            show: true,
+            type: 'danger',
+            tittle: `Invalid form filling!`
+
+        };
+        res.send(200, dataToSend);
     }
 
 

@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import UsersDataRequests from '../../common/UsersDataRequests'
+import UsersDataRequests from '../../common/UsersDataRequests';
 import endPointsList from '../../common/endPointsList';
-import NavigateMenu from './NavigateMenu'
+import NavigateMenu from './NavigateMenu';
 import {Validations} from '../../common/Validations';
+import Alerts from '../Alerts';
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle} from 'react-bootstrap';
+import $ from 'jquery';
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../css/App.css';
@@ -15,6 +18,7 @@ class UserHomePage extends Component {
         super(props);
 
         this.state = {
+            showPhotoEditModal: false,
             isEdit: false,
             isLoggedIn: true,
             isNeedUserInfo: true,
@@ -28,7 +32,8 @@ class UserHomePage extends Component {
             middleName: 'user-page-user-names-middle-name-input',
             lastName: 'user-page-user-names-last-name-input',
             age: 'user-page-user-age',
-            photo: 'user-page-user-avatar'
+            photo: 'user-page-user-avatar',
+            email: 'user-page-user-email',
 
         };
 
@@ -43,28 +48,23 @@ class UserHomePage extends Component {
 
         this.readMode = 'user-page-userInfo-form-read';
         this.editMode = 'user-page-userInfo-form-edit';
-
-
         this.loadUserInfo();
-
         this.onSignOut = this.onSignOut.bind(this);
         this.onInfoClick = this.onInfoClick.bind(this);
         this.handleSaveInfoClick = this.handleSaveInfoClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handlePhoto = this.handlePhoto.bind(this);
     }
 
-    handleChange(event, id, typeOfRegexp) {
+    handleChange(event, typeOfRegexp) {
         const thisInput = {
             content: '',
             isValid: ''
-
         };
-
         thisInput.content = event.target.value;
         thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
-
         this.props.changeUserInfoFormInput({key: event.target.name, value: thisInput});
-        Validations.detectIfValid(thisInput, id);
+        Validations.detectIfValid(thisInput, event.target.id);
     }
 
     onSignOut() {
@@ -82,51 +82,88 @@ class UserHomePage extends Component {
     }
 
     onInfoClick(event) {
-        const input = event.target;
-
-        if (input.className.indexOf(this.editMode) === -1) {
-            input.classList.remove(this.readMode);
-            input.classList.add(this.editMode);
-            input.removeAttribute('readonly');
+        const input = $(event.target);
+        console.log($(input).attr.class );
+        if ($(input).className.indexOf(this.editMode) === -1) {
+            $(input).toggleClass(this.readMode);
+            $(input).toggleClass(this.editMode);
+            $(input).removeAttr('readonly');
             this.setState({...this.state, isEdit: true});
-            const saveBtnBlock = document.getElementById('save-btn-block');
-
-            if (!document.getElementById('user-page-saveButton')) {
+            const saveBtnBlock = $('#save-btn-block');
+            if (!$('#user-page-saveButton')) {
                 let saveBtn = document.createElement('input');
                 saveBtn.setAttribute('type', 'button');
                 saveBtn.setAttribute('id', 'user-page-saveButton');
                 saveBtn.setAttribute('value', 'Save');
                 saveBtn.classList.add('btn');
-
                 saveBtn.classList.add('btn-primary');
-
-
                 saveBtnBlock.appendChild(saveBtn);
             }
         }
     }
 
-    turnIntoReadMode(){
-        for(let i in this.inputId){
-            const input = document.getElementById(this.inputId[i]);
-            input.classList.remove(this.editMode);
-            input.classList.add(this.readMode);
-            input.setAttribute('readonly','readonly');
-            input.blur();
+    turnIntoReadMode() {
+        for (let i in this.inputId) {
+            const input = $(`#${this.inputId[i]}`);
+            $(input).toggleClass(this.editMode);
+            $(input).toggleClass(this.readMode);
+            $(input).setAttribute('readonly', 'readonly');
+            $(input).blur();
         }
-        let saveBtn = document.getElementById('save-btn-block');
-        saveBtn.innerHTML='';
+        let saveBtn = $('#save-btn-block');
+        $(saveBtn).html('');
 
-        this.setState({...this.state, isEdit:false});
+        this.setState({...this.state, isEdit: false});
     }
 
     async saveData(updatedData) {
         const result = await UsersDataRequests.updateUserInfo(updatedData);
-        if(result){
+        if (!result.show) {
             this.turnIntoReadMode();
+        } else {
+            this.setState({...this.state, alert: result});
         }
     }
+    handlePhoto(){
+console.log(1)
+        this.setState({...this.state, showPhotoEditModal: true });
+    }
+    handleCloseModal() {
+        console.log(2)
+        this.setState({...this.state, showPhotoEditModal: false });
+    }
 
+    generatePhotoEditModal(){
+        console.log(3)
+       return (
+            <div>
+
+
+                    <Modal id='photoProfileEdit' show={this.state.showPhotoEditModal} onHide={this.handleCloseModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Edit profile photo </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <input type="file"/>
+                            <p>
+                                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                            </p>
+
+                            <p>
+                                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+                                cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+                                dui. Donec ullamcorper nulla non metus auctor fringilla.
+                            </p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={this.handleCloseModal}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                </div>
+
+        );
+    }
     handleSaveInfoClick(event) {
         event.preventDefault();
         const formData = this.props.userInfo;
@@ -135,17 +172,28 @@ class UserHomePage extends Component {
             middleName: formData.middleName,
             lastName: formData.lastName,
             age: formData.age,
+            email: formData.email
         };
         const isValid = Validations.validateForm(dataToValidate);
         if (isValid) {
             this.saveData(dataToValidate);
+        } else {
+            this.setState({
+                ...this.state, alert: {
+                    show: true,
+                    type: 'danger',
+                    tittle: `Invalid form filling!`
+                }
+            });
         }
     }
 
 
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadUserInfo();
-        const dataToStore = ['firstName', 'middleName', 'lastName', 'age', 'photo'];
+
+
+        const dataToStore = ['firstName', 'middleName', 'lastName', 'age', 'photo', 'email'];
         dataToStore.map(key => {
             this.props.changeUserInfoFormInput({
                 key,
@@ -168,30 +216,33 @@ class UserHomePage extends Component {
                 </div>
             )
         }
-        let middleNameValue = '';
 
-        if (this.props.userInfo.middleName.content) {
-            middleNameValue = `${this.props.userInfo.middleName.content}`;
-
-        }
         const placeholder = `'Middle name'`;
         const middleName = (
-            <span id='user-page-user-names-first-name'>
+
                     <input className='user-page-userInfo-form-read'
+                           name='middleName'
                            type="text"
                            id={this.inputId.middleName}
-                           value={middleNameValue}
+                           value={this.props.userInfo.middleName.content}
                            placeholder={placeholder}
                            onClick={this.onInfoClick}
                            readOnly
                            onChange={(event) => {
-                               this.handleChange(event, this.inputId.middleName, this.typesOfRegexp.name)
+                               this.handleChange(event, this.typesOfRegexp.name)
                            }}
 
-                    /> </span>
+                    />
         );
+
+
+        const alert = this.state.alert ?
+            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
+                    show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
+
         return (
             <div>
+                {alert}
                 <div id='wrapper'>
                     <div id='page-content'>
                         <div id='nav-menu-block'>
@@ -212,14 +263,15 @@ class UserHomePage extends Component {
                             <div id='user-page'>
                                 <form name='userInfoForm'>
                                     <div id='user-page-user-avatar-block'>
-                                        <img id={this.inputId.photo} src={this.props.userInfo.photo.content} alt="photo"/>
+                                        <img id={this.inputId.photo} src={this.props.userInfo.photo.content}
+                                             alt="photo" onClick={this.handlePhoto}/>
                                     </div>
                                     <div id='save-btn-block' onClick={this.handleSaveInfoClick}></div>
                                     <span><small
                                         className='text-muted'>Click on the field which you want to edit</small></span>
                                     <div id='user-page-user-names'>
 
-                                    <span id='user-page-user-names-first-name'>
+
                                         <input name='firstName'
                                                className='user-page-userInfo-form-read'
                                                type="text"
@@ -228,11 +280,11 @@ class UserHomePage extends Component {
                                                onClick={this.onInfoClick}
                                                readOnly
                                                onChange={(event) => {
-                                                   this.handleChange(event, this.inputId.firstName, this.typesOfRegexp.name)
+                                                   this.handleChange(event, this.typesOfRegexp.name)
                                                }}
-                                        /></span>
+                                        />
                                         {middleName}
-                                        <span id='user-page-user-names-last-name'>
+
                                             <input name='lastName'
                                                    className='user-page-userInfo-form-read'
                                                    type="text"
@@ -241,26 +293,39 @@ class UserHomePage extends Component {
                                                    onClick={this.onInfoClick}
                                                    readOnly
                                                    onChange={(event) => {
-                                                       this.handleChange(event, this.inputId.lastName, this.typesOfRegexp.name)
+                                                       this.handleChange(event, this.typesOfRegexp.name)
                                                    }}
                                             />
 
-                                        </span>
+
                                     </div>
                                     <div id='user-page-user-age-block'>
-                                    <span>
                                         <input name='age'
                                                className='user-page-userInfo-form-read'
                                                type="number"
                                                id={this.inputId.age}
                                                value={this.props.userInfo.age.content}
                                                onChange={(event) => {
-                                                   this.handleChange(event, this.inputId.age, this.typesOfRegexp.age)
+                                                   this.handleChange(event, this.typesOfRegexp.age)
                                                }}
                                                readOnly
                                                onClick={this.onInfoClick}/>
-                                   </span><span id='user-page-user-age-title'> years</span>
+                                  <span id='user-page-user-age-title'> years</span>
                                     </div>
+                                    <div>
+                                        <input name='email'
+                                               className='user-page-userInfo-form-read'
+                                               type="email"
+                                               id={this.inputId.email}
+                                               value={this.props.userInfo.email.content}
+                                               onClick={this.onInfoClick}
+                                               readOnly
+                                               onChange={(event) => {
+                                                   this.handleChange(event, this.typesOfRegexp.email)
+                                               }}
+                                        />
+                                    </div>
+
                                 </form>
                             </div>
                         </div>
@@ -278,6 +343,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+
     return {
         changeUserInfoFormInput: (payload) => dispatch({
             type: 'CHANGE_USER_INFO_FORM_INPUT',

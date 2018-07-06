@@ -10,25 +10,20 @@ const {saveNewUser} = require('./requests/saveNewUser');
 const {checkingAuthOfUser} = require('./requests/checkingAuthOfUser');
 const {loadUserInfo} = require('./requests/loadUserInfo');
 const {updateUserInfo} = require('./requests/updateUserInfo');
+const {loadUsersForSearch} = require('./requests/loadUsersForSearch');
 
 app.use(cors());//todo: use proxy instead of cors
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post(endPoints.saveNewUser, (req, res) => {
-    saveNewUser(req, res);
-});
+app.post(endPoints.saveNewUser,saveNewUser);
 
-app.post(endPoints.checkingAuthOfUser, (req, res) => {
-    checkingAuthOfUser(req, res);
-});
+app.post(endPoints.checkingAuthOfUser,checkingAuthOfUser);
 
-app.post(endPoints.loadUserInfo, (req, res) => {
-    loadUserInfo(req, res);
-});
+app.post(endPoints.loadUserInfo, loadUserInfo);
 
-app.post(endPoints.updateUserInfo, (req, res) => {
-    updateUserInfo(req, res);
-});
+app.post(endPoints.updateUserInfo, updateUserInfo);
+
+app.post(endPoints.loadUsersForSearch, loadUsersForSearch);
 
 app.listen(port);

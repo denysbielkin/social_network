@@ -64,15 +64,40 @@
     padding: 30px;
 
 }
+#search-page-search-input{
+    margin: 10px;
+}
 
-.user-page-data-block {
+.user-page-data-block, #search-page-result-block, #search-page-search-block {
     border: darkgoldenrod 3px dashed;
     border-radius: 5px;
     background-color: darkslategray;
 
-    max-width: 400px;
+
     color: white;
+
+}
+.user-page-data-block,#search-page-result-block,#search-page-search-block{
     padding: 30px;
+}
+#search-page-result-block{
+    max-width: 1000px;
+}
+#search-page-result-block-content{
+    position: relative;
+}
+#search-page-search{
+    display: flex;
+}
+
+#search-page-search-block{
+    display:flex;
+
+    width:340px;
+}
+.user-page-data-block{
+
+    max-width: 400px;
 }
 
 #user-page-user-age-title {
@@ -96,7 +121,18 @@
 .menu-button, #sign-out-btn {
     width: 100px;
 }
-
+.modal-container {
+    position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+    position: absolute;
+}
+.user-page-gender-option{
+    background: darkslategray;
+}
+#photoProfileEdit{
+    z-index: 0;
+}
 .formBlock {
     max-width: 400px;
 }

@@ -1,4 +1,4 @@
-import $ from 'jquery'
+import $ from 'jquery';
 import axios from 'axios';
 import endPointsList from './endPointsList'
 
@@ -41,7 +41,18 @@ class UsersDataRequests {
         const token = {token: localStorage.getItem('auth-tok')};
         return axios.post(`${endPointsList.serverUrl}${endPointsList.updateUserInfo}`, {...newData, token})
             .then(res => {
-                return res.data;
+                if(res.data.status){
+                    return {show:false};
+                }else{
+                    return res.data;
+                }
+
+            });
+    }
+    static async loadUsersForSearch(searchData){
+        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadUsersForSearch}`, {name:searchData})
+            .then(res => {
+                    return res.data;
             });
     }
 }
