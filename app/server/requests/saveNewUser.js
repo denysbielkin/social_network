@@ -3,15 +3,17 @@ const pswHash = require('password-hash');
 
 const endPoints = require('../../src/common/endPointsList');
 const commonServerData = require ('../commonServerData');
+const md5 = require ('js-md5');
 
 const saveNewUser = (req, res) => {
     const params = req.body;
     const validationFlag = Validations.validateForm(params);
 
     if (validationFlag) {
-        const plainPassword = commonServerData.passwordGenerator();
+        const plainPassword = commonServerData.randomStringGenerator();
         const password = pswHash.generate(plainPassword);
-
+        const userId =  md5(commonServerData.randomStringGenerator());
+console.log(userId)
         const userInfo = {
             firstName: params.firstName.content,
             lastName: params.lastName.content,
@@ -20,7 +22,8 @@ const saveNewUser = (req, res) => {
             gender: params.gender.content,
             age: params.age.content,
             photo: params.photo.content,
-            password
+            password,
+            userId
         };
 
         commonServerData.mongodb.connect(endPoints.db, (err, db) => {

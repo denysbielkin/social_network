@@ -4,7 +4,7 @@ const mongodb = require('mongodb').MongoClient;
 const socialNetworkDb = 'socialNetwork';
 const usersCollection = 'users';
 
-const passwordGenerator = () => {
+const randomStringGenerator = () => {
     const max = 20;
     const min = 15;
     const length = Math.random() * (max - min) + min;
@@ -27,4 +27,4 @@ const passwordGenerator = () => {
     return password;
 };
 
-module.exports = {passwordGenerator, mongodb, socialNetworkDb, usersCollection};
+module.exports = {randomStringGenerator, mongodb, socialNetworkDb, usersCollection};

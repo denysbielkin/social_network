@@ -9,6 +9,7 @@ const endPoints = require('../src/common/endPointsList');
 const {saveNewUser} = require('./requests/saveNewUser');
 const {checkingAuthOfUser} = require('./requests/checkingAuthOfUser');
 const {loadUserInfo} = require('./requests/loadUserInfo');
+const {loadAnotherUserInfo} = require('./requests/loadAnotherUserInfo');
 const {updateUserInfo} = require('./requests/updateUserInfo');
 const {loadUsersForSearch} = require('./requests/loadUsersForSearch');
 
@@ -25,5 +26,7 @@ app.post(endPoints.loadUserInfo, loadUserInfo);
 app.post(endPoints.updateUserInfo, updateUserInfo);
 
 app.post(endPoints.loadUsersForSearch, loadUsersForSearch);
+
+app.post(endPoints.loadAnotherUserPage, loadAnotherUserInfo);
 
 app.listen(port);

@@ -13,6 +13,8 @@ const serverUrl = 'http://localhost:3010';
 const checkAccessForPageEdit = '/check-edit-access';
 const updateUserInfo = '/update-user-info';
 const loadUsersForSearch = '/load-users-for-search';
+const loadAnotherUserPage = '/load-another-user-page';
+const anotherUserPage = '/another-user-page/:userId';
 
 module.exports = {
     saveNewUser,
@@ -29,5 +31,7 @@ module.exports = {
     loadUserInfo,
     checkAccessForPageEdit,
     updateUserInfo,
-    loadUsersForSearch
+    loadUsersForSearch,
+    loadAnotherUserPage,
+    anotherUserPage
 };

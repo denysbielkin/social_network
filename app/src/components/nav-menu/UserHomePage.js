@@ -217,26 +217,10 @@ console.log(1)
             )
         }
 
-        const placeholder = `'Middle name'`;
-        const middleName = (
-
-                    <input className='user-page-userInfo-form-read'
-                           name='middleName'
-                           type="text"
-                           id={this.inputId.middleName}
-                           value={this.props.userInfo.middleName.content}
-                           placeholder={placeholder}
-                           onClick={this.onInfoClick}
-                           readOnly
-                           onChange={(event) => {
-                               this.handleChange(event, this.typesOfRegexp.name)
-                           }}
-
-                    />
-        );
+        const middleNamePlaceholder = `'Middle name'`;
 
 
-        const alert = this.state.alert ?
+                            const alert = this.state.alert ?
             <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
                     show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
 
@@ -283,7 +267,20 @@ console.log(1)
                                                    this.handleChange(event, this.typesOfRegexp.name)
                                                }}
                                         />
-                                        {middleName}
+
+                                        <input className='user-page-userInfo-form-read'
+                                               name='middleName'
+                                               type="text"
+                                               id={this.inputId.middleName}
+                                               value={this.props.userInfo.middleName.content}
+                                               placeholder={middleNamePlaceholder}
+                                               onClick={this.onInfoClick}
+                                               readOnly
+                                               onChange={(event) => {
+                                                   this.handleChange(event, this.typesOfRegexp.name)
+                                               }}
+
+                                        />
 
                                             <input name='lastName'
                                                    className='user-page-userInfo-form-read'

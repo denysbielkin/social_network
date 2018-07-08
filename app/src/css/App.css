@@ -4,6 +4,7 @@
     min-height: 100vh;
 }
 
+
 #sign-up-form, #sign-in-form {
 
     text-align: center;
@@ -81,9 +82,13 @@
     padding: 30px;
 }
 #search-page-result-block{
-    max-width: 1000px;
+    width: 630px;
+}
+#search-page{
+    display: flex;
 }
 #search-page-result-block-content{
+
     position: relative;
 }
 #search-page-search{
@@ -149,8 +154,23 @@
 #photo-preview {
     flex-flow: column;
 }
+.search-result-block{
+    border: 2px darkgoldenrod solid;
+    margin: 4px;
+    padding: 6px;
+    width:500px;
+}
+.search-page-addFriend-btn-block{
+    margin-left: 25px;
+}
+.search-page-btns-block{
 
-#photo-preview-img, #user-page-user-avatar {
+    display: flex;
+}
+.search-page-pageLink-btn-block{
+
+}
+#photo-preview-img, #user-page-user-avatar,.user-search-user-avatar {
     max-height: 300px;
     max-width: 300px;
 }

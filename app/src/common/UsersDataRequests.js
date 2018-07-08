@@ -35,6 +35,14 @@ class UsersDataRequests {
             });
     }
 
+    static async loadAnotherUserInfo(userId) {
+
+        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadAnotherUserPage}`, userId )
+            .then(res => {
+                return res.data;
+            });
+    }
+
 
 
     static updateUserInfo(newData){

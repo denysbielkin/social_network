@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import NavigateMenu from './NavigateMenu';
 import UsersDataRequests from "../../common/UsersDataRequests";
 
+import SearchResults from '../SearchResults'
+
 class Search extends Component {
     constructor(props) {
         super(props);
@@ -26,37 +28,37 @@ class Search extends Component {
         this.setState({...this.state, resultOfSearch})
     }
 
-    generateResultOfSearch() {
-        if(this.state.resultOfSearch.show){
-
-        }
-    }
 
     render() {
 
         return (
             <div>
                 <div id='wrapper'>
-                    <div id='nav-menu-block'>
-                        <NavigateMenu/>
-                    </div>
+
+                    <div id='search-page'>
+
+                        <div id='nav-menu-block'>
+                            <NavigateMenu/>
+                        </div>
 
 
-                    <div id='search-page-search-block'>
-                        <input type="text" id='search-page-search-input' onChange={this.handleChange}
-                               className='form-control'
-                        />
-                        <button id='search-page-search-button' onClick={this.handleClick}
-                                className='btn btn-secondary'>SEARCH
-                        </button>
-                    </div>
-                    <div id='search-page-result-block'>
-                        <div id='search-page-result-block-content'>
+                        <div id='search-page-result-block'>
 
+                            <div id='search-page-search-block'>
+                                <input type="text" id='search-page-search-input' onChange={this.handleChange}
+                                       className='form-control'
+                                />
+                                <button id='search-page-search-button' onClick={this.handleClick}
+                                        className='btn btn-secondary'>SEARCH
+                                </button>
+                            </div>
+                            <div id='search-page-result-block-content'>
 
+                                <SearchResults result={this.state.resultOfSearch}/>
+
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         )
