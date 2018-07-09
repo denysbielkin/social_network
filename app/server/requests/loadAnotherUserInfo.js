@@ -4,6 +4,8 @@ const commonServerData = require ('../commonServerData');
 const loadAnotherUserInfo = (req,res) => {
     const params = req.body;
     const userId = params.userId;
+    console.log('userId')
+    console.log(userId)
     commonServerData.mongodb.connect(endPoints.db, (err, db) => {
         const myDb = db.db(commonServerData.socialNetworkDb);
         const myCollection = myDb.collection(commonServerData.usersCollection);

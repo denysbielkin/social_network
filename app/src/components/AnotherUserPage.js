@@ -48,6 +48,7 @@ class AnotherUserPage extends Component {
 
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadAnotherUserInfo(this.props.match.params.userId);
+        console.log(userInfo)
         this.setState({...this.state, userInfo});
 
     }

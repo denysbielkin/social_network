@@ -36,8 +36,9 @@ class UsersDataRequests {
     }
 
     static async loadAnotherUserInfo(userId) {
-
-        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadAnotherUserPage}`, userId )
+    console.log('userId')
+    console.log(userId)
+        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadAnotherUserPage}`, {userId:userId} )
             .then(res => {
                 return res.data;
             });
