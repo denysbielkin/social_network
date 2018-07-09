@@ -21,6 +21,7 @@ class Validations {
         }
 
         if (!props.middleName.isValid && !props.middleName.content) {
+
             return true;
         } else if (!props.middleName.isValid && props.middleName.content) {
             return false;
@@ -65,7 +66,23 @@ class Validations {
             return true;
         }
     }
+   static detectIfValid(thisInput, id) {
+        const thisInputTag = document.getElementById(`${id}`);
+        const isValid = 'alert-success';
+        const isNotValid = 'alert-danger';
 
+        if (!thisInput.isValid) {
+            if (thisInputTag.className.indexOf(' ' + isNotValid) === -1) {
+                thisInputTag.className += ' ' + isNotValid;
+                thisInputTag.classList.remove(isValid);
+            }
+        } else {
+            if (thisInputTag.className.indexOf(' ' + isValid) === -1) {
+                thisInputTag.className += ' ' + isValid;
+                thisInputTag.classList.remove(isNotValid);
+            }
+        }
+    }
     static regExpAge(age) {
         const minAge = 1;
         const maxAge = 99;

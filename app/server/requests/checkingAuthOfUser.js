@@ -2,9 +2,7 @@ const jwt = require('jsonwebtoken');
 const pswHash = require('password-hash');
 const endPoints = require('../../src/common/endPointsList');
 
-const mongodb = require('mongodb').MongoClient;
-const socialNetworkDb = 'socialNetwork';
-const usersCollection = 'users';
+const commonServerData = require ('../commonServerData');
 
 const checkingAuthOfUser = (req,res) => {
     const params = req.body;
@@ -13,10 +11,10 @@ const checkingAuthOfUser = (req,res) => {
         password: params.password
     };
 
-    mongodb.connect(endPoints.db, (err, db) => {
+    commonServerData.mongodb.connect(endPoints.db, (err, db) => {
 
-        const myDb = db.db(socialNetworkDb);
-        const myCollection = myDb.collection(usersCollection);
+        const myDb = db.db(commonServerData.socialNetworkDb);
+        const myCollection = myDb.collection(commonServerData.usersCollection);
 
         myCollection.findOne({email: userInfo.email}, (err, result) => {
             const hashFlag = pswHash.verify(userInfo.password, result.password);

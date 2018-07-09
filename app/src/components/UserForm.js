@@ -17,7 +17,7 @@ class UserForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.photoHandleChange = this.photoHandleChange.bind(this);
     }
-    
+
     photoHandleChange(event, imgId) {
         const thisInput = {
             content: '',
@@ -48,23 +48,7 @@ class UserForm extends Component {
         }
     }
     
-    detectIfValid(thisInput, id) {
-        const thisInputTag = document.getElementById(`${id}`);
-        const isValid = 'alert-success';
-        const isNotValid = 'alert-danger';
 
-        if (!thisInput.isValid) {
-            if (thisInputTag.className.indexOf(' ' + isNotValid) === -1) {
-                thisInputTag.className += ' ' + isNotValid;
-                thisInputTag.classList.remove(isValid);
-            }
-        } else {
-            if (thisInputTag.className.indexOf(' ' + isValid) === -1) {
-                thisInputTag.className += ' ' + isValid;
-                thisInputTag.classList.remove(isNotValid);
-            }
-        }
-    }
     
     handleChange(event, id, typeOfRegexp) {
         const thisInput = {
@@ -75,7 +59,7 @@ class UserForm extends Component {
         thisInput.content = event.target.value;
 
         this.props.changeFormInput({key: event.target.name, value: thisInput});
-        this.detectIfValid(thisInput, id);
+        Validations.detectIfValid(thisInput, id);
     }
     
     render() {

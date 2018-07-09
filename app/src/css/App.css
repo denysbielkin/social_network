@@ -4,6 +4,7 @@
     min-height: 100vh;
 }
 
+
 #sign-up-form, #sign-in-form {
 
     text-align: center;
@@ -13,6 +14,7 @@
     background: red;
     text-align: start;
 }
+
 
 .user-page-userInfo-form-read {
     cursor: pointer;
@@ -29,12 +31,16 @@
     padding: 5px;
 }
 #save-btn-block{
+    width:60px;
     margin: 3px;
 }
-#user-page-user-age{
+#user-page-user-age-block{
     display: flex;
-    width: 50px;
 
+
+}
+#user-page-user-age{
+    width: 50px;
 }
 #page-content {
     display: flex;
@@ -59,15 +65,44 @@
     padding: 30px;
 
 }
+#search-page-search-input{
+    margin: 10px;
+}
 
-.user-page-data-block {
+.user-page-data-block, #search-page-result-block, #search-page-search-block {
     border: darkgoldenrod 3px dashed;
     border-radius: 5px;
     background-color: darkslategray;
 
-    max-width: 300px;
+
     color: white;
+
+}
+.user-page-data-block,#search-page-result-block,#search-page-search-block{
     padding: 30px;
+}
+#search-page-result-block{
+    width: 630px;
+}
+#search-page{
+    display: flex;
+}
+#search-page-result-block-content{
+
+    position: relative;
+}
+#search-page-search{
+    display: flex;
+}
+
+#search-page-search-block{
+    display:flex;
+
+    width:340px;
+}
+.user-page-data-block{
+
+    max-width: 400px;
 }
 
 #user-page-user-age-title {
@@ -91,7 +126,18 @@
 .menu-button, #sign-out-btn {
     width: 100px;
 }
-
+.modal-container {
+    position: relative;
+}
+.modal-container .modal, .modal-container .modal-backdrop {
+    position: absolute;
+}
+.user-page-gender-option{
+    background: darkslategray;
+}
+#photoProfileEdit{
+    z-index: 0;
+}
 .formBlock {
     max-width: 400px;
 }
@@ -108,8 +154,23 @@
 #photo-preview {
     flex-flow: column;
 }
+.search-result-block{
+    border: 2px darkgoldenrod solid;
+    margin: 4px;
+    padding: 6px;
+    width:500px;
+}
+.search-page-addFriend-btn-block{
+    margin-left: 25px;
+}
+.search-page-btns-block{
 
-#photo-preview-img {
+    display: flex;
+}
+.search-page-pageLink-btn-block{
+
+}
+#photo-preview-img, #user-page-user-avatar,.user-search-user-avatar, #another-user-page-user-avatar {
     max-height: 300px;
     max-width: 300px;
 }
