@@ -82,15 +82,15 @@ class UserHomePage extends Component {
     }
 
     onInfoClick(event) {
-        const input = $(event.target);
-        console.log($(input).attr.class );
-        if ($(input).className.indexOf(this.editMode) === -1) {
-            $(input).toggleClass(this.readMode);
-            $(input).toggleClass(this.editMode);
-            $(input).removeAttr('readonly');
+        const input = event.target;
+
+        if (input.className.indexOf(this.editMode) === -1) {
+            input.classList.remove(this.readMode);
+            input.classList.add(this.editMode);
+            input.removeAttribute('readonly');
             this.setState({...this.state, isEdit: true});
-            const saveBtnBlock = $('#save-btn-block');
-            if (!$('#user-page-saveButton')) {
+            const saveBtnBlock = document.getElementById('save-btn-block');
+            if (!document.getElementById('user-page-saveButton')) {
                 let saveBtn = document.createElement('input');
                 saveBtn.setAttribute('type', 'button');
                 saveBtn.setAttribute('id', 'user-page-saveButton');
@@ -104,14 +104,14 @@ class UserHomePage extends Component {
 
     turnIntoReadMode() {
         for (let i in this.inputId) {
-            const input = $(`#${this.inputId[i]}`);
-            $(input).toggleClass(this.editMode);
-            $(input).toggleClass(this.readMode);
-            $(input).setAttribute('readonly', 'readonly');
-            $(input).blur();
+            const input = document.getElementById(this.inputId[i]);
+           input.classList.remove(this.editMode);
+            input.classList.add(this.readMode);
+            input.setAttribute('readonly', 'readonly');
+            input.blur();
         }
-        let saveBtn = $('#save-btn-block');
-        $(saveBtn).html('');
+        let saveBtn = document.getElementById('save-btn-block');
+        saveBtn.innerHTML='';
 
         this.setState({...this.state, isEdit: false});
     }

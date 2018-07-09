@@ -16,7 +16,7 @@ class SearchResults extends Component{
            result.push(
                <div className='search-result-block'>
                    <div className='search-page-btns-block'>
-                   <div className='user-search-user-avatar-block' key={i}>
+                   <div className='user-search-user-avatar-block'>
                        <img className='user-search-user-avatar' src={this.props.result[i].photo}
                             alt="photo" />
                    </div>
