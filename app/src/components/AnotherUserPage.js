@@ -92,18 +92,19 @@ class AnotherUserPage extends Component {
                                     </div>
 
                                     <div id='user-page-user-names'>
-                                        <h3 id={this.inputId.firstName}>
-                                            {this.state.userInfo.firstName}
-                                       {this.state.userInfo.middleName}
-                                       {this.state.userInfo.lastName}</h3>
+                                        <h3>
+                                            <span>
+                                                {this.state.userInfo.firstName} {this.state.userInfo.middleName} {this.state.userInfo.lastName}
+                                            </span>
+                                        </h3>
 
                                     </div>
                                     <div id='user-page-user-age-block'>
                                         <h5 id={this.inputId.age}>{this.state.userInfo.age}<span
                                             id='user-page-user-age-title'> years</span></h5>
                                     </div>
-                                        <h5 id={this.inputId.email}>{this.state.userInfo.email}</h5>
-                                        <h5 id={this.inputId.gender}>{this.state.userInfo.gender}</h5>
+                                    <h5 id={this.inputId.email}>{this.state.userInfo.email}</h5>
+                                    <h5 id={this.inputId.gender}>{this.state.userInfo.gender}</h5>
 
                                 </form>
                             </div>

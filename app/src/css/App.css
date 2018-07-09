@@ -170,7 +170,7 @@
 .search-page-pageLink-btn-block{
 
 }
-#photo-preview-img, #user-page-user-avatar,.user-search-user-avatar {
+#photo-preview-img, #user-page-user-avatar,.user-search-user-avatar, #another-user-page-user-avatar {
     max-height: 300px;
     max-width: 300px;
 }

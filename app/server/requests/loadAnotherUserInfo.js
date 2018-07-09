@@ -26,6 +26,7 @@ const loadAnotherUserInfo = (req,res) => {
                         middleName: result.middleName,
                         lastName: result.lastName,
                         age: result.age,
+                        photo: result.photo,
                         email: result.email,
                         gender: result.gender
                     }
