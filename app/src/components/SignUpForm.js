@@ -35,7 +35,6 @@ class SignUpForm extends Component {
         if (validateFlag) {
             console.log('valid validation');
             const result = await UsersDataRequests.signUpReq(this.props.signup);
-
             this.setState({...this.state, alert: result});
         } else {
             console.log('invalid validation');
@@ -53,7 +52,6 @@ class SignUpForm extends Component {
                 middleName.isValid = true;
                 this.props.changeRegFormInput({key: 'middleName', value: middleName});
             }
-
         } else {
             validStatus.innerHTML = 'Invalid form filling';
             validStatus.classList.add('alert-danger');

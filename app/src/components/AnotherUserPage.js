@@ -7,6 +7,7 @@ import Alerts from './Alerts';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
+import Friends from "../common/Friends";
 
 class AnotherUserPage extends Component {
 
@@ -21,7 +22,6 @@ class AnotherUserPage extends Component {
             formattedUserInfo: ''
         };
 
-
         this.inputId = {
             firstName: 'another-user-page-user-names-first-name-input',
             middleName: 'another-user-page-user-names-middle-name-input',
@@ -35,7 +35,6 @@ class AnotherUserPage extends Component {
         this.loadUserInfo();
     }
 
-
     isTokenGood() {
         const checkToken = localStorage.getItem('auth-tok');
         if (checkToken) {
@@ -45,18 +44,22 @@ class AnotherUserPage extends Component {
         }
     }
 
-
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadAnotherUserInfo(this.props.match.params.userId);
-        console.log(userInfo)
         this.setState({...this.state, userInfo});
-
     }
 
     componentWillMount() {
         this.isTokenGood();
     }
 
+    addFriend(){
+        let btnValue='Add as Friend';
+        const btn = (
+            <button className='btn btn-success' onClick={ ()=>Friends.addFriend(this.state.userInfo.userId)}>{btnValue}</button>
+        );
+        return btn;
+    }
     render() {
         if (!this.state.isLoggedIn) {
             return (
@@ -68,7 +71,6 @@ class AnotherUserPage extends Component {
         const alert = this.state.alert ?
             <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
                     show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
-
         return (
             <div>
                 {alert}
@@ -90,14 +92,12 @@ class AnotherUserPage extends Component {
                                         <img id={this.inputId.photo} src={this.state.userInfo.photo}
                                              alt="photo"/>
                                     </div>
-
                                     <div id='user-page-user-names'>
                                         <h3>
                                             <span>
                                                 {this.state.userInfo.firstName} {this.state.userInfo.middleName} {this.state.userInfo.lastName}
                                             </span>
                                         </h3>
-
                                     </div>
                                     <div id='user-page-user-age-block'>
                                         <h5 id={this.inputId.age}>{this.state.userInfo.age}<span
@@ -105,7 +105,7 @@ class AnotherUserPage extends Component {
                                     </div>
                                     <h5 id={this.inputId.email}>{this.state.userInfo.email}</h5>
                                     <h5 id={this.inputId.gender}>{this.state.userInfo.gender}</h5>
-
+                                    {this.addFriend()}
                                 </form>
                             </div>
                         </div>

@@ -15,7 +15,10 @@ const updateUserInfo = '/update-user-info';
 const loadUsersForSearch = '/load-users-for-search';
 const loadAnotherUserPage = '/load-another-user-page';
 const anotherUserPage = '/another-user-page/:userId';
-
+const checkFriendsList = '/check-friends-list';
+const addFriend = '/add-friend';
+const checkIfFriendExist = '/check-if-friend-exist';
+const loadFriendsData = '/load-friends-data';
 module.exports = {
     saveNewUser,
     checkingAuthOfUser,
@@ -33,5 +36,10 @@ module.exports = {
     updateUserInfo,
     loadUsersForSearch,
     loadAnotherUserPage,
-    anotherUserPage
+    anotherUserPage,
+    checkFriendsList,
+    addFriend,
+    checkIfFriendExist,
+    loadFriendsData
+
 };

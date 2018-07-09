@@ -24,7 +24,6 @@ class SignInForm extends Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
-
     async handleSubmit(event) {
         event.preventDefault();
         const user = {
@@ -54,7 +53,6 @@ class SignInForm extends Component {
         } else {
             const reqToDb = await UsersDataRequests.signInReq(user);
             if (reqToDb) {
-
                 console.log('Authorized')
             } else {
                 console.log('Nope')

@@ -23,9 +23,7 @@ class UserForm extends Component {
             content: '',
             isValid: false
         };
-
         const img = document.getElementById(imgId);
-
         const reader = new FileReader();
         const validationFlag = Validations.regexpImage(img);
         if (validationFlag) {
@@ -34,22 +32,16 @@ class UserForm extends Component {
                 document.getElementById('photo-preview').innerHTML = `
                      <small class='form-text text-muted'>Photo preview:</small>
                      <img id="photo-preview-img" src='${eventOfLoad.target.result}'/>`;
-
                 thisInput.content = reader.result;
-
                 this.props.changeFormInput({key: 'photo', value: thisInput});
             };
-
             reader.readAsDataURL(img.files[0]);
-
         } else {
             console.log('it is not correct file');
             return false;
         }
     }
-    
 
-    
     handleChange(event, id, typeOfRegexp) {
         const thisInput = {
             content: '',

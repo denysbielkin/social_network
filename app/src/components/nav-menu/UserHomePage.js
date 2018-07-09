@@ -5,8 +5,6 @@ import endPointsList from '../../common/endPointsList';
 import NavigateMenu from './NavigateMenu';
 import {Validations} from '../../common/Validations';
 import Alerts from '../Alerts';
-import {Button, Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle} from 'react-bootstrap';
-import $ from 'jquery';
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../css/App.css';
@@ -26,7 +24,6 @@ class UserHomePage extends Component {
             formattedUserInfo: ''
         };
 
-
         this.inputId = {
             firstName: 'user-page-user-names-first-name-input',
             middleName: 'user-page-user-names-middle-name-input',
@@ -34,7 +31,6 @@ class UserHomePage extends Component {
             age: 'user-page-user-age',
             photo: 'user-page-user-avatar',
             email: 'user-page-user-email',
-
         };
 
         this.typesOfRegexp = {
@@ -125,45 +121,9 @@ class UserHomePage extends Component {
         }
     }
     handlePhoto(){
-console.log(1)
         this.setState({...this.state, showPhotoEditModal: true });
     }
-    handleCloseModal() {
-        console.log(2)
-        this.setState({...this.state, showPhotoEditModal: false });
-    }
 
-    generatePhotoEditModal(){
-        console.log(3)
-       return (
-            <div>
-
-
-                    <Modal id='photoProfileEdit' show={this.state.showPhotoEditModal} onHide={this.handleCloseModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Edit profile photo </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <input type="file"/>
-                            <p>
-                                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                            </p>
-
-                            <p>
-                                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-                                cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-                                dui. Donec ullamcorper nulla non metus auctor fringilla.
-                            </p>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={this.handleCloseModal}>Close</Button>
-                        </Modal.Footer>
-                    </Modal>
-
-                </div>
-
-        );
-    }
     handleSaveInfoClick(event) {
         event.preventDefault();
         const formData = this.props.userInfo;
@@ -174,6 +134,7 @@ console.log(1)
             age: formData.age,
             email: formData.email
         };
+
         const isValid = Validations.validateForm(dataToValidate);
         if (isValid) {
             this.saveData(dataToValidate);
@@ -188,11 +149,8 @@ console.log(1)
         }
     }
 
-
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadUserInfo();
-
-
         const dataToStore = ['firstName', 'middleName', 'lastName', 'age', 'photo', 'email'];
         dataToStore.map(key => {
             this.props.changeUserInfoFormInput({
@@ -218,9 +176,7 @@ console.log(1)
         }
 
         const middleNamePlaceholder = `'Middle name'`;
-
-
-                            const alert = this.state.alert ?
+        const alert = this.state.alert ?
             <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
                     show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
 
@@ -254,8 +210,6 @@ console.log(1)
                                     <span><small
                                         className='text-muted'>Click on the field which you want to edit</small></span>
                                     <div id='user-page-user-names'>
-
-
                                         <input name='firstName'
                                                className='user-page-userInfo-form-read'
                                                type="text"
@@ -267,7 +221,6 @@ console.log(1)
                                                    this.handleChange(event, this.typesOfRegexp.name)
                                                }}
                                         />
-
                                         <input className='user-page-userInfo-form-read'
                                                name='middleName'
                                                type="text"
@@ -279,9 +232,7 @@ console.log(1)
                                                onChange={(event) => {
                                                    this.handleChange(event, this.typesOfRegexp.name)
                                                }}
-
                                         />
-
                                             <input name='lastName'
                                                    className='user-page-userInfo-form-read'
                                                    type="text"
@@ -293,8 +244,6 @@ console.log(1)
                                                        this.handleChange(event, this.typesOfRegexp.name)
                                                    }}
                                             />
-
-
                                     </div>
                                     <div id='user-page-user-age-block'>
                                         <input name='age'
@@ -322,7 +271,6 @@ console.log(1)
                                                }}
                                         />
                                     </div>
-
                                 </form>
                             </div>
                         </div>

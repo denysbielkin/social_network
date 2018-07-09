@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
+import Friends from '../common/Friends';
 
 const endPoints = require('../../src/common/endPointsList');
-
 
 class SearchResults extends Component {
     constructor(props) {
         super(props);
     }
+     addFriend(index){
+        let btnValue='Add as Friend';
 
+        const btn = (
+            <button className='btn btn-success' onClick={ ()=>Friends.addFriend(this.props.result[index].userId)}>{btnValue}</button>
+        );
+        return btn;
+    }
 
     generateResults() {
         let result = [];
@@ -22,7 +29,7 @@ class SearchResults extends Component {
                                  alt="photo"/>
                         </div>
                         <div className='search-page-addFriend-btn-block'>
-                            <button className='btn btn-success'>Add as Friend</button>
+                            {this.addFriend(i)}
                         </div>
                     </div>
                     <div>
@@ -39,20 +46,15 @@ class SearchResults extends Component {
             );
         }
         return (result);
-
     }
 
     render() {
-
         return (
             <div>
                 <div>{this.generateResults()}</div>
             </div>
-
         )
-
     }
-
 }
 
 export default SearchResults;

@@ -11,7 +11,6 @@ class UsersDataRequests {
                 if (alertSettings.type === 'success') {
                     $('#sign-up-block').hide(1000);
                 }
-
                 return alertSettings;
             });
     }
@@ -36,8 +35,6 @@ class UsersDataRequests {
     }
 
     static async loadAnotherUserInfo(userId) {
-    console.log('userId')
-    console.log(userId)
         return axios.post(`${endPointsList.serverUrl}${endPointsList.loadAnotherUserPage}`, {userId:userId} )
             .then(res => {
                 return res.data;

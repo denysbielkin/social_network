@@ -10,9 +10,7 @@ class Alerts extends Component {
         this.state = {
             show: false
         };
-
         this.handleDismiss = this.handleDismiss.bind(this);
-
     }
 
     handleDismiss() {

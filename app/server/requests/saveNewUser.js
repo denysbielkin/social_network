@@ -13,7 +13,7 @@ const saveNewUser = (req, res) => {
         const plainPassword = commonServerData.randomStringGenerator();
         const password = pswHash.generate(plainPassword);
         const userId =  md5(commonServerData.randomStringGenerator());
-console.log(userId)
+        const friendsList = [];
         const userInfo = {
             firstName: params.firstName.content,
             lastName: params.lastName.content,
@@ -23,7 +23,8 @@ console.log(userId)
             age: params.age.content,
             photo: params.photo.content,
             password,
-            userId
+            userId,
+            friendsList
         };
 
         commonServerData.mongodb.connect(endPoints.db, (err, db) => {

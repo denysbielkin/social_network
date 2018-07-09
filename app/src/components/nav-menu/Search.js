@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import NavigateMenu from './NavigateMenu';
 import UsersDataRequests from "../../common/UsersDataRequests";
-
 import SearchResults from '../SearchResults'
 
 class Search extends Component {
@@ -20,30 +19,19 @@ class Search extends Component {
     }
 
     async handleClick() {
-        console.log('Search input:');
-        console.log(this.state.searchInput);
         const resultOfSearch = await UsersDataRequests.loadUsersForSearch(this.state.searchInput);
-        console.log('Result:');
-        console.log(resultOfSearch);
         this.setState({...this.state, resultOfSearch})
     }
 
-
     render() {
-
         return (
             <div>
                 <div id='wrapper'>
-
                     <div id='search-page'>
-
                         <div id='nav-menu-block'>
                             <NavigateMenu/>
                         </div>
-
-
                         <div id='search-page-result-block'>
-
                             <div id='search-page-search-block'>
                                 <input type="text" id='search-page-search-input' onChange={this.handleChange}
                                        className='form-control'
@@ -55,7 +43,6 @@ class Search extends Component {
                             <div id='search-page-result-block-content'>
 
                                 <SearchResults result={this.state.resultOfSearch}/>
-
                             </div>
                         </div>
                     </div>

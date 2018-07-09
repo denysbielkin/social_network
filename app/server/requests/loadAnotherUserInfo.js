@@ -28,7 +28,8 @@ const loadAnotherUserInfo = (req,res) => {
                         age: result.age,
                         photo: result.photo,
                         email: result.email,
-                        gender: result.gender
+                        gender: result.gender,
+                        userId: result.userId
                     }
                     res.send(200, dataToSend);
                 } else {
