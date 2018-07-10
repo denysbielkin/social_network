@@ -55,15 +55,28 @@ const addFriend = (req, res) => {
                         console.log(err);
                     }
                     if (result) {
-                        console.log('result is exist')
-                        res.send(200, 'good');
-                        db.close();
+                        // console.log('result is exist')
+                        myCollection.updateOne({userId: friendId}, updatedFriendsListOfFriend, (err, result) => {
+                            try {
+                                if (err) {
+                                    throw new Error(`Error in somewhere: ${err}`);
+                                }
+                            } catch (err) {
+                                console.log(err);
+                            }
+                            if (result) {
+                                // console.log('result is exist')
+                                res.send(200, 'good');
+                                db.close();
+                            } else {
+                                console.log('result is not exist')
+                            }
+                        });
+                        // db.close();
                     } else {
                         console.log('result is not exist')
                     }
-                   //todo save "friend id" in documents of both users
                 });
-
             }
         });
     });

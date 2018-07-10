@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
-import {Alert, Button} from 'react-bootstrap'
+import {Alert, Button} from 'react-bootstrap';
+import {connect} from "react-redux";
 
 class Alerts extends Component {
     constructor(props) {
@@ -14,17 +15,19 @@ class Alerts extends Component {
     }
 
     handleDismiss() {
-        this.setState({show: false});
+        this.props.toggleAlert({key:'show',value:false})
+        console.log(this.props.alert.show)
     }
 
     componentDidMount() {
-        if (this.props.show) {
-            this.setState({show: true});
+        this.setState({show: true});
+        if (this.props.alert.show) {
+            this.props.toggleAlert({key:'show',value:true})
         }
     }
 
     render() {
-        if (this.state.show) {
+        if (this.props.alert.show) {
             return (
                 <Alert bsStyle={this.props.type} id='myAlert'>
                     <h4>{this.props.tittle}</h4>
@@ -40,4 +43,23 @@ class Alerts extends Component {
     }
 }
 
-export default Alerts;
+const mapStateToProps = state => {
+    return {
+        alert: state
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        toggleAlert: (payload) => dispatch({
+            type: 'TOGGLE_ALERT',
+            payload
+        })
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Alerts)
+//export default Alerts;

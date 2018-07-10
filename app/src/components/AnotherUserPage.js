@@ -56,7 +56,8 @@ class AnotherUserPage extends Component {
     addFriend(){
         let btnValue='Add as Friend';
         const btn = (
-            <button className='btn btn-success' onClick={ ()=>Friends.addFriend(this.state.userInfo.userId)}>{btnValue}</button>
+            <input type="button" className='btn btn-success'
+                   onClick={ ()=>Friends.addFriend(this.state.userInfo.userId)} value={btnValue} />
         );
         return btn;
     }

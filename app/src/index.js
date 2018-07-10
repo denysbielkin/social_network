@@ -15,6 +15,7 @@ import Friends from './components/nav-menu/Friends'
 import Search from './components/nav-menu/Search'
 import UserHomePage from './components/nav-menu/UserHomePage'
 import AnotherUserPage from "./components/AnotherUserPage";
+
 const history = createBrowserHistory();
 const store = createStore(rootReducer);
 ReactDOM.render(

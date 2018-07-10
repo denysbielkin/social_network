@@ -10,7 +10,6 @@ class SearchResults extends Component {
     }
      addFriend(index){
         let btnValue='Add as Friend';
-
         const btn = (
             <button className='btn btn-success' onClick={ ()=>Friends.addFriend(this.props.result[index].userId)}>{btnValue}</button>
         );
@@ -19,7 +18,6 @@ class SearchResults extends Component {
 
     generateResults() {
         let result = [];
-
         for (let i in this.props.result) {
             result.push(
                 <div className='search-result-block'>
@@ -39,7 +37,7 @@ class SearchResults extends Component {
                                 <span>{this.props.result[i].firstName} {this.props.result[i].middleName} {this.props.result[i].lastName}</span>
                             </h5></NavLink>
                     </div>
-                    <div><p>{this.props.result[i].age} years</p></div>
+                    <div><p>{this.props.result[i].age} <small>years</small></p></div>
                     <div><p>Gender: {this.props.result[i].gender}</p></div>
                     <div><p>{this.props.result[i].email}</p></div>
                 </div>

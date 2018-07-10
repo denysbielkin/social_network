@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
-import formReducer from './formReducer'
-
+import formReducer from './formReducer';
+import alertReducer from './alertReducer';
 export default combineReducers({
-    typeOfRegexpReducer: formReducer,
+    formReducer: formReducer,
+    alertReducer: alertReducer
 
 });
