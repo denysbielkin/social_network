@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
-import Friends from '../common/Friends';
+import FriendsRequests from '../common/FriendsRequests';
 
-const endPoints = require('../../src/common/endPointsList');
+import endPointsList from '../../src/common/endPointsList';
 
 class SearchResults extends Component {
     constructor(props) {
@@ -11,7 +11,7 @@ class SearchResults extends Component {
      addFriend(index){
         let btnValue='Add as Friend';
         const btn = (
-            <button className='btn btn-success' onClick={ ()=>Friends.addFriend(this.props.result[index].userId)}>{btnValue}</button>
+            <button className='btn btn-success' onClick={ ()=>FriendsRequests.addFriend(this.props.result[index].userId)}>{btnValue}</button>
         );
         return btn;
     }
@@ -32,7 +32,7 @@ class SearchResults extends Component {
                     </div>
                     <div>
                         <NavLink key={i}
-                                 to={(endPoints.anotherUserPage.replace(':userId', this.props.result[i].userId))}>
+                                 to={(endPointsList.anotherUserPage.replace(':userId', this.props.result[i].userId))}>
                             <h5>
                                 <span>{this.props.result[i].firstName} {this.props.result[i].middleName} {this.props.result[i].lastName}</span>
                             </h5></NavLink>

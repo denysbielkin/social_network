@@ -1,7 +1,7 @@
 import endPointsList from './endPointsList'
 import axios from 'axios';
 
-class Friends {
+class FriendsRequests {
     static checkFriendsList() {
         const token = {token: localStorage.getItem('auth-tok')};
         return axios.post(`${endPointsList.serverUrl}${endPointsList.checkFriendsList}`, token)
@@ -21,10 +21,12 @@ class Friends {
     }
 
     static async loadFriendsData(friendsIds) {
-        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadUserInfo}`, friendsIds)
+        console.log(123)
+        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadFriendsData}`, friendsIds)
             .then(res => {
+                console.log(res.data)
                 return res.data;
             });
     }
 }
-export default Friends;
+export default FriendsRequests;

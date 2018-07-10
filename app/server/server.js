@@ -12,10 +12,12 @@ const {loadUserInfo} = require('./requests/loadUserInfo');
 const {loadAnotherUserInfo} = require('./requests/loadAnotherUserInfo');
 const {updateUserInfo} = require('./requests/updateUserInfo');
 const {loadUsersForSearch} = require('./requests/loadUsersForSearch');
+const {loadUserEmail} = require('./requests/loadUserEmail');
 //friends
 const {checkFriendsList} = require('./requests/friends/checkFriendsList');
 const {addFriend} = require('./requests/friends/addFriend');
 const {loadFriendsData} = require('./requests/friends/loadFriendsData');
+
 
 
 app.use(cors());
@@ -39,5 +41,7 @@ app.post(endPoints.checkFriendsList, checkFriendsList);
 app.post(endPoints.addFriend, addFriend);
 
 app.post(endPoints.loadFriendsData, loadFriendsData);
+
+app.post(endPoints.loadUserEmail, loadUserEmail);
 
 app.listen(port);

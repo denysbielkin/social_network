@@ -1,7 +1,6 @@
 const endPoints = require('../../src/common/endPointsList');
 const commonServerData = require('../commonServerData');
 
-
 const findByNameInDb = (myDb, myCollection, name, callback) => {
     return myCollection.find({$or:[{"firstName":name},{"middleName":name}, {"lastName": name}]}).toArray(function(err, result) {
         if (result) {

@@ -19,6 +19,8 @@ const checkFriendsList = '/check-friends-list';
 const addFriend = '/add-friend';
 const checkIfFriendExist = '/check-if-friend-exist';
 const loadFriendsData = '/load-friends-data';
+const loadUserEmail = '/load-user-email';
+
 module.exports = {
     saveNewUser,
     checkingAuthOfUser,
@@ -40,6 +42,7 @@ module.exports = {
     checkFriendsList,
     addFriend,
     checkIfFriendExist,
-    loadFriendsData
+    loadFriendsData,
+    loadUserEmail
 
 };

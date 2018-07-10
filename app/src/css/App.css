@@ -30,20 +30,17 @@
     border-radius: 2px;
     padding: 5px;
 }
-#save-btn-block{
+#save-btn-block , #save-btn-settings{
     width:60px;
     margin: 3px;
 }
-#user-page-user-age-block{
-    display: flex;
-
-
+.settings-tittles{
+  color: #007af4
 }
+
+
 #user-page-user-age{
     width: 50px;
-}
-#page-content {
-    display: flex;
 }
 
 #myAlert {
@@ -69,7 +66,7 @@
     margin: 10px;
 }
 
-.user-page-data-block, #search-page-result-block, #search-page-search-block {
+.user-page-data-block, #search-page-result-block, #search-page-search-block, .friends-page-content, #settings-page-content {
     border: darkgoldenrod 3px dashed;
     border-radius: 5px;
     background-color: darkslategray;
@@ -78,25 +75,30 @@
     color: white;
 
 }
-.user-page-data-block,#search-page-result-block,#search-page-search-block{
+
+#user-page-user-gender, #user-page-user-avatar{
+    cursor: pointer;
+}
+
+.friends-page-content, #settings-page-content{
+    width: 400px;
+}
+
+.user-page-data-block,#search-page-result-block,#search-page-search-block , .friends-page-content , #settings-page-content{
     padding: 30px;
 }
 #search-page-result-block{
     width: 630px;
 }
-#search-page{
+#search-page, #friends-page-display-flex,#search-page-search,.search-page-btns-block,#search-page-search-block, #user-page-user-age-block, #settings-page-display-flex, #page-content{
     display: flex;
 }
 #search-page-result-block-content{
 
     position: relative;
 }
-#search-page-search{
-    display: flex;
-}
 
 #search-page-search-block{
-    display:flex;
 
     width:340px;
 }
@@ -126,12 +128,6 @@
 .menu-button, #sign-out-btn {
     width: 100px;
 }
-.modal-container {
-    position: relative;
-}
-.modal-container .modal, .modal-container .modal-backdrop {
-    position: absolute;
-}
 .user-page-gender-option{
     background: darkslategray;
 }
@@ -154,7 +150,7 @@
 #photo-preview {
     flex-flow: column;
 }
-.search-result-block{
+.search-result-block {
     border: 2px darkgoldenrod solid;
     margin: 4px;
     padding: 6px;
@@ -163,16 +159,21 @@
 .search-page-addFriend-btn-block{
     margin-left: 25px;
 }
-.search-page-btns-block{
 
-    display: flex;
+.user-page-friends-data-block{
+    margin: 5px;
 }
-.search-page-pageLink-btn-block{
-
+.user-page-my-friends-data-block{
+    margin: 15px;
 }
-#photo-preview-img, #user-page-user-avatar,.user-search-user-avatar, #another-user-page-user-avatar {
+#photo-preview-img, #user-page-user-avatar,.user-search-user-avatar, #another-user-page-user-avatar, .user-page-my-friends-data-block-avatar {
     max-height: 300px;
     max-width: 300px;
+}
+.user-page-friends-data-block-avatar{
+    max-height: 100px;
+    max-width: 100px;
+    margin-bottom: 5px;
 }
 
 .signUpGender {

@@ -16,7 +16,6 @@ class Alerts extends Component {
 
     handleDismiss() {
         this.props.toggleAlert({key:'show',value:false})
-        console.log(this.props.alert.show)
     }
 
     componentDidMount() {

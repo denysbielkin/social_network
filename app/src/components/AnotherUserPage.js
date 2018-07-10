@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, NavLink} from 'react-router-dom';
 import UsersDataRequests from '../common/UsersDataRequests';
 import endPointsList from '../common/endPointsList';
 import NavigateMenu from './nav-menu/NavigateMenu';
 import Alerts from './Alerts';
+import FriendsRequests from "../common/FriendsRequests";
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
-import Friends from "../common/Friends";
+
 
 class AnotherUserPage extends Component {
 
@@ -46,21 +47,49 @@ class AnotherUserPage extends Component {
 
     async loadUserInfo() {
         const userInfo = await UsersDataRequests.loadAnotherUserInfo(this.props.match.params.userId);
-        this.setState({...this.state, userInfo});
+        const friendsInfo = await FriendsRequests.loadFriendsData(userInfo.friendsList);
+        this.setState({...this.state, userInfo, friendsInfo});
     }
 
     componentWillMount() {
         this.isTokenGood();
     }
 
-    addFriend(){
-        let btnValue='Add as Friend';
+    addFriend() {
+
+        let btnValue = 'Add as Friend';
         const btn = (
             <input type="button" className='btn btn-success'
-                   onClick={ ()=>Friends.addFriend(this.state.userInfo.userId)} value={btnValue} />
+                   onClick={() => FriendsRequests.addFriend(this.state.userInfo.userId)} value={btnValue}/>
         );
         return btn;
     }
+
+    loadFriendsInfo() {
+        let friendsInfo = [];
+
+        let counter = 0;
+        const maxValue = 4;
+        for (let i in this.state.friendsInfo) {
+
+            if (counter === maxValue) {
+                break;
+            }
+            friendsInfo.push(
+                <div className='user-page-friends-data-block'>
+                    <NavLink key={i}
+                             to={(endPointsList.anotherUserPage.replace(':userId', this.state.friendsInfo[i].userId))}>
+                        <div><img className='user-page-friends-data-block-avatar' src={this.state.friendsInfo[i].photo}
+                                  alt=""/></div>
+                        <h5><span>{this.state.friendsInfo[i].firstName} {this.state.friendsInfo[i].lastName}</span></h5>
+                    </NavLink>
+                </div>
+            );
+            counter++;
+        }
+        return friendsInfo;
+    }
+
     render() {
         if (!this.state.isLoggedIn) {
             return (
@@ -83,7 +112,7 @@ class AnotherUserPage extends Component {
                         <div id='user-page-user-friendlist-block' className='user-page-data-block'>
                             <h2>Friends</h2>
                             <div id='user-page-user-friendlist'>
-                                Blah-blah
+                                {this.loadFriendsInfo()}
                             </div>
                         </div>
                         <div className='user-page-data-block' id='user-page-infoBlock'>
@@ -105,7 +134,7 @@ class AnotherUserPage extends Component {
                                             id='user-page-user-age-title'> years</span></h5>
                                     </div>
                                     <h5 id={this.inputId.email}>{this.state.userInfo.email}</h5>
-                                    <h5 id={this.inputId.gender}>{this.state.userInfo.gender}</h5>
+                                    <h5 id={this.inputId.gender}>Gender: {this.state.userInfo.gender}</h5>
                                     {this.addFriend()}
                                 </form>
                             </div>

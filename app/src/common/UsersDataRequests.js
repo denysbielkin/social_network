@@ -34,6 +34,15 @@ class UsersDataRequests {
             });
     }
 
+    static async loadUserEmail() {
+        const token = {token: localStorage.getItem('auth-tok')};
+
+        return axios.post(`${endPointsList.serverUrl}${endPointsList.loadUserEmail}`, token)
+            .then(res => {
+                return res.data;
+            });
+    }
+
     static async loadAnotherUserInfo(userId) {
         return axios.post(`${endPointsList.serverUrl}${endPointsList.loadAnotherUserPage}`, {userId:userId} )
             .then(res => {
