@@ -37,6 +37,8 @@ const formReducer = (state = initialState, action) => {
         case 'CHANGE_USER_INFO_EMAIL':
             const key = action.payload.key;
             return {...state, [key]: action.payload.value};
+        case 'CLEAR_FORMS':
+            return {...state, ...initialState};
         default:
             return {...state};
     }

@@ -41,11 +41,33 @@ class Settings extends Component {
 
                             <div>
                                 <h4>Change email</h4>
-                                <input name='email'
+
+                                <h5 className='settings-tittles'>Old email</h5>
+                                <input name='oldEmail'
                                        className='form-control'
                                        type="email"
-                                       id='settings-email-input'
-                                       value={this.state.email}
+                                       id='settings-oldEmail-input'
+
+                                       onChange={(event) => {
+                                           this.handleChange(event, 'email');
+                                       }}
+                                />
+                                <h5 className='settings-tittles'>New email</h5>
+                                <input name='newEmail'
+                                       className='form-control'
+                                       type="email"
+                                       id='settings-newEmail-input'
+
+                                       onChange={(event) => {
+                                           this.handleChange(event, 'email');
+                                       }}
+                                />
+                                <h5 className='settings-tittles'>New email confirm</h5>
+                                <input name='newEmailConfirm'
+                                       className='form-control'
+                                       type="email"
+                                       id='settings-newEmailConfirm-input'
+
                                        onChange={(event) => {
                                            this.handleChange(event, 'email');
                                        }}
@@ -97,7 +119,8 @@ class Settings extends Component {
 
 const mapStateToProps = state => {
     return {
-        settingsInfo: state
+        settingsInfo: state,
+        alert: state.alert
     }
 };
 
@@ -105,6 +128,10 @@ const mapDispatchToProps = dispatch => {
     return {
         changeUserInfoEmail: (payload) => dispatch({
             type: 'CHANGE_USER_INFO_EMAIL',
+            payload
+        }),
+        showAlert: (payload) => dispatch({
+            type: 'TOGGLE_ALERT',
             payload
         })
     }

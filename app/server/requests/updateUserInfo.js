@@ -18,7 +18,6 @@ const updateUserInfo = (req,res) => {
                     middleName: params.middleName.content,
                     lastName: params.lastName.content,
                     age: params.age.content,
-                    email: params.email.content
                 }
             };
 

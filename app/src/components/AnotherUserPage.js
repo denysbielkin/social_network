@@ -8,6 +8,7 @@ import FriendsRequests from "../common/FriendsRequests";
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/App.css';
+import {connect} from "react-redux";
 
 
 class AnotherUserPage extends Component {
@@ -98,12 +99,10 @@ class AnotherUserPage extends Component {
                 </div>
             )
         }
-        const alert = this.state.alert ?
-            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
-                    show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
+
         return (
             <div>
-                {alert}
+                <Alerts />
                 <div id='wrapper'>
                     <div id='page-content'>
                         <div id='nav-menu-block'>
@@ -147,4 +146,24 @@ class AnotherUserPage extends Component {
 }
 
 
-export default AnotherUserPage;
+const mapStateToProps = state => {
+    return {
+        alert: state.alert
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+
+    return {
+
+        showAlert: (payload) => dispatch({
+            type: 'TOGGLE_ALERT',
+            payload
+        })
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AnotherUserPage)

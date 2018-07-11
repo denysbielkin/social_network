@@ -16,6 +16,7 @@ const {loadUserEmail} = require('./requests/loadUserEmail');
 //friends
 const {checkFriendsList} = require('./requests/friends/checkFriendsList');
 const {addFriend} = require('./requests/friends/addFriend');
+const {removeFriend} = require('./requests/friends/removeFriend');
 const {loadFriendsData} = require('./requests/friends/loadFriendsData');
 
 
@@ -39,6 +40,8 @@ app.post(endPoints.loadAnotherUserPage, loadAnotherUserInfo);
 app.post(endPoints.checkFriendsList, checkFriendsList);
 
 app.post(endPoints.addFriend, addFriend);
+
+app.post(endPoints.addFriend, removeFriend);
 
 app.post(endPoints.loadFriendsData, loadFriendsData);
 

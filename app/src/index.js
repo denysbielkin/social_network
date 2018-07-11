@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
-import rootReducer from './reducers/formReducer'
+import rootReducer from './reducers'
 import endPointsList from './common/endPointsList';
 import {Router, Route} from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'

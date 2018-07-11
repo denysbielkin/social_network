@@ -57,6 +57,7 @@ const saveNewUser = (req, res) => {
                             tittle: `Account has been created successfully! Congrats! Take your password:  ${plainPassword}`
 
                         };
+                        console.log(dataToSend)
                         res.send(200, dataToSend);
                     });
                 } else {

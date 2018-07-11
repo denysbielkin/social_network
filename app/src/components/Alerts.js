@@ -8,43 +8,36 @@ class Alerts extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            show: false
-        };
         this.handleDismiss = this.handleDismiss.bind(this);
     }
 
     handleDismiss() {
-        this.props.toggleAlert({key:'show',value:false})
+        this.props.toggleAlert({show: false});
     }
 
     componentDidMount() {
-        this.setState({show: true});
-        if (this.props.alert.show) {
-            this.props.toggleAlert({key:'show',value:true})
+        if (this.props.show) {
+            this.props.toggleAlert({key:'show',value:true});
         }
     }
 
     render() {
         if (this.props.alert.show) {
             return (
-                <Alert bsStyle={this.props.type} id='myAlert'>
-                    <h4>{this.props.tittle}</h4>
-                    <p>
-                        {this.props.message}
-                    </p>
+                <Alert bsStyle={this.props.alert.type} id='myAlert'>
+                    <h4>{this.props.alert.tittle}</h4>
                     <Button className='alertCloseBtn' onClick={this.handleDismiss}>X</Button>
                 </Alert>
             );
         } else {
-            return <div></div>
+            return ''
         }
     }
 }
 
 const mapStateToProps = state => {
     return {
-        alert: state
+        alert: state.alert
     }
 };
 
@@ -60,5 +53,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Alerts)
-//export default Alerts;
+)(Alerts);

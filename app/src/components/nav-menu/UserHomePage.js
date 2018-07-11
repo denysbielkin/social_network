@@ -32,13 +32,11 @@ class UserHomePage extends Component {
             lastName: 'user-page-user-names-last-name-input',
             age: 'user-page-user-age',
             photo: 'user-page-user-avatar',
-            email: 'user-page-user-email',
             gender: 'user-page-user-gender',
         };
 
         this.typesOfRegexp = {
             name: 'name',
-            email: 'email',
             gender: 'gender',
             age: 'age',
             photo: 'photo'
@@ -119,8 +117,9 @@ class UserHomePage extends Component {
         const result = await UsersDataRequests.updateUserInfo(updatedData);
         if (!result.show) {
             this.turnIntoReadMode();
+            this.props.showAlert({show:false});
         } else {
-            this.setState({...this.state, alert: result});
+            this.props.showAlert(result);
         }
     }
 
@@ -142,12 +141,10 @@ class UserHomePage extends Component {
         if (isValid) {
             this.saveData(dataToValidate);
         } else {
-            this.setState({
-                ...this.state, alert: {
-                    show: true,
-                    type: 'danger',
-                    tittle: `Invalid form filling!`
-                }
+            this.props.showAlert({
+                show: true,
+                type: 'danger',
+                tittle: `Invalid form filling!`
             });
         }
     }
@@ -206,13 +203,10 @@ class UserHomePage extends Component {
         }
 
         const middleNamePlaceholder = `'Middle name'`;
-        const alert = this.state.alert ?
-            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
-                    show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
 
         return (
             <div>
-                {alert}
+                <Alerts />
                 <div id='wrapper'>
                     <div id='page-content'>
                         <div id='nav-menu-block'>
@@ -301,7 +295,8 @@ class UserHomePage extends Component {
 
 const mapStateToProps = state => {
     return {
-        userInfo: state
+        userInfo: state.user,
+        alert: state.alert
     }
 };
 
@@ -310,6 +305,10 @@ const mapDispatchToProps = dispatch => {
     return {
         changeUserInfoFormInput: (payload) => dispatch({
             type: 'CHANGE_USER_INFO_FORM_INPUT',
+            payload
+        }),
+        showAlert: (payload) => dispatch({
+            type: 'TOGGLE_ALERT',
             payload
         })
     }

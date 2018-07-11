@@ -20,6 +20,7 @@ class UsersDataRequests {
             .then(res => {
                 const myTok = res.data.token;
                 localStorage.setItem('auth-tok', myTok);
+                localStorage.setItem('userId', res.data.userId);
                 return res.data;
 
             });

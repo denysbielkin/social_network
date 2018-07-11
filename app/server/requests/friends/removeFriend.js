@@ -1,7 +1,7 @@
 const endPoints = require('../../../src/common/endPointsList');
 const commonServerData = require('../../commonServerData');
 
-const addFriend = (req, res) => {
+const removeFriend = (req, res) => {
     const params = req.body;
     const token = params.token;
     const userId = params.userId;
@@ -12,12 +12,12 @@ const addFriend = (req, res) => {
         const myCollection = myDb.collection(commonServerData.usersCollection);
 
         const updatedFriendsList = {
-            $push: {
+            $pull: {
                 friendsList: friendId
             }
         };
         const updatedFriendsListOfFriend = {
-            $push: {
+            $pull: {
                 friendsList: userId
             }
         };
@@ -42,7 +42,7 @@ const addFriend = (req, res) => {
                     if (result) {
 
 
-                        res.send(200, 'added successfully');
+                        res.send(200, 'removed successfully');
                         db.close();
                     } else {
                         console.log('result is not exist')
@@ -54,9 +54,9 @@ const addFriend = (req, res) => {
             }
         });
 
-});
+    });
 
 
 };
 
-module.exports = {addFriend};
+module.exports = {removeFriend};

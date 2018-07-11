@@ -62,7 +62,6 @@ class UserForm extends Component {
                         First name<span className='mandatory-field'>*</span>:
                         <input className='form-control signUpElement' type="text"
                                id='sign-up-firstName'
-                               required
                                name='firstName'
                                value={this.props.user.firstName.content}
                                onChange={(event) => this.handleChange(event, this.props.inputId.firstName, this.typesOfRegexp.name)}/>
@@ -74,7 +73,6 @@ class UserForm extends Component {
                         <input className='form-control signUpElement' type="text"
                                id='sign-up-lastName'
                                name='lastName'
-                               required
                                value={this.props.user.lastName.content}
                                onChange={(event) => this.handleChange(event, this.props.inputId.lastName, this.typesOfRegexp.name)}/>
                     </label>
@@ -100,7 +98,6 @@ class UserForm extends Component {
                         Email<span className='mandatory-field'>*</span>:
                         <input className='form-control signUpElement' type="email" id='sign-up-email'
                                name='email'
-                               required
                                value={this.props.user.email.content}
                                onChange={(event) => this.handleChange(event, this.props.inputId.email, this.typesOfRegexp.email)}/>
                     </label>
@@ -132,7 +129,6 @@ class UserForm extends Component {
                         Age<span className='mandatory-field'>*</span>:
                         <input className='form-control signUpElement' type="number"
                                id='sign-up-age'
-                               required
                                value={this.props.user.age.content}
                                name='age'
                                onChange={(event) => this.handleChange(event, this.props.inputId.age, this.typesOfRegexp.age)}/>
@@ -144,7 +140,6 @@ class UserForm extends Component {
                         <input className='form-control signUpElement' type="file" id='sign-up-photo'
                                aria-describedby="sign-up-photo-tip"
                                name='photo'
-                               required
                                onChange={(event) => this.photoHandleChange(event, this.props.inputId.photo)}
                         />
                     </label>

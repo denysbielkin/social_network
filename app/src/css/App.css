@@ -124,6 +124,9 @@
 #nav-menu, #sign-out-btn {
     list-style: none;
 }
+#nav-menu{
+    margin-right: 20px;
+}
 
 .menu-button, #sign-out-btn {
     width: 100px;
@@ -139,7 +142,7 @@
 }
 
 #sign-up-back {
-    margin-top: 80px;
+    margin-top: 120px;
     position: absolute;
 }
 

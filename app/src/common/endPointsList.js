@@ -17,6 +17,7 @@ const loadAnotherUserPage = '/load-another-user-page';
 const anotherUserPage = '/another-user-page/:userId';
 const checkFriendsList = '/check-friends-list';
 const addFriend = '/add-friend';
+const removeFriend = '/remove-friend';
 const checkIfFriendExist = '/check-if-friend-exist';
 const loadFriendsData = '/load-friends-data';
 const loadUserEmail = '/load-user-email';
@@ -41,6 +42,7 @@ module.exports = {
     anotherUserPage,
     checkFriendsList,
     addFriend,
+    removeFriend,
     checkIfFriendExist,
     loadFriendsData,
     loadUserEmail

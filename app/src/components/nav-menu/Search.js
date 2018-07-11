@@ -19,8 +19,14 @@ class Search extends Component {
     }
 
     async handleClick() {
+        if(!this.state.searchInput) {
+            // todo: show modal with notification
+            return;
+        }
         const resultOfSearch = await UsersDataRequests.loadUsersForSearch(this.state.searchInput);
-        this.setState({...this.state, resultOfSearch})
+        const authorizedUserInfo = await UsersDataRequests.loadUserInfo();
+        this.setState({...this.state, resultOfSearch});
+        this.setState({...this.state, authorizedUserInfo})
     }
 
     render() {
@@ -41,8 +47,7 @@ class Search extends Component {
                                 </button>
                             </div>
                             <div id='search-page-result-block-content'>
-
-                                <SearchResults result={this.state.resultOfSearch}/>
+                                <SearchResults result={this.state.resultOfSearch} authorizedUserInfo={this.state.authorizedUserInfo}/>
                             </div>
                         </div>
                     </div>
