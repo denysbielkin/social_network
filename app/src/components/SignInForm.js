@@ -6,6 +6,7 @@ import {NavLink} from 'react-router-dom'
 import Alerts from './Alerts';
 import UsersDataRequests from "../common/UsersDataRequests";
 import endPointsList from '../common/endPointsList';
+import {connect} from "react-redux";
 
 class SignInForm extends Component {
     constructor(props) {
@@ -24,7 +25,6 @@ class SignInForm extends Component {
         this.setState({[event.target.name]: event.target.value});
     }
 
-
     async handleSubmit(event) {
         event.preventDefault();
         const user = {
@@ -42,8 +42,8 @@ class SignInForm extends Component {
             console.log(err);
         }
 
-        this.setState({...this.state, alert: validationResult});
-        if (this.state.alert.type === 'success') {
+        this.props.showAlert(validationResult);
+        if (validationResult.type === 'success') {
             this.setState({isLoggedIn: true});
         }
     }
@@ -54,7 +54,6 @@ class SignInForm extends Component {
         } else {
             const reqToDb = await UsersDataRequests.signInReq(user);
             if (reqToDb) {
-
                 console.log('Authorized')
             } else {
                 console.log('Nope')
@@ -64,16 +63,13 @@ class SignInForm extends Component {
     }
 
     render() {
-        const alert = this.state.alert ?
-            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
-                    show={this.state.alert.show}> </Alerts> : '';
         const checkingIsGuest = isGuest;
         if (checkingIsGuest()) {
             return isGuest();
         } else {
             return (
                 <div>
-                    {alert}
+                    <Alerts />
                     <div id='wrapper'>
                         <div id='sign-in-form' className='container formBlock'>
                             <form id='sign-in-form' onSubmit={this.handleSubmit}>
@@ -83,7 +79,7 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="email"
                                                id='sign-in-email'
                                                name='email'
-                                               required
+
                                                value={this.state.email}
                                                onChange={(event) => this.handleChange(event)}
                                         />
@@ -95,7 +91,7 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="password"
                                                id='sign-in-password'
                                                name='password'
-                                               required
+
                                                value={this.state.password}
                                                onChange={(event) => this.handleChange(event)}
                                         />
@@ -120,4 +116,24 @@ class SignInForm extends Component {
     }
 }
 
-export default SignInForm;
+const mapStateToProps = state => {
+    return {
+        alert: state.alert
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+
+    return {
+
+        showAlert: (payload) => dispatch({
+            type: 'TOGGLE_ALERT',
+            payload
+        })
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignInForm)

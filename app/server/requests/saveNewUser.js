@@ -1,20 +1,19 @@
 const {Validations} = require("../../src/common/Validations.js");
 const pswHash = require('password-hash');
-const {passwordGenerator} = require ('../functions');
-const endPoints = require('../../src/common/endPointsList');
 
-const mongodb = require('mongodb').MongoClient;
-const socialNetworkDb = 'socialNetwork';
-const usersCollection = 'users';
+const endPoints = require('../../src/common/endPointsList');
+const commonServerData = require ('../commonServerData');
+const md5 = require ('js-md5');
 
 const saveNewUser = (req, res) => {
     const params = req.body;
     const validationFlag = Validations.validateForm(params);
 
     if (validationFlag) {
-        const plainPassword = passwordGenerator();
+        const plainPassword = commonServerData.randomStringGenerator();
         const password = pswHash.generate(plainPassword);
-
+        const userId =  md5(commonServerData.randomStringGenerator());
+        const friendsList = [];
         const userInfo = {
             firstName: params.firstName.content,
             lastName: params.lastName.content,
@@ -23,12 +22,14 @@ const saveNewUser = (req, res) => {
             gender: params.gender.content,
             age: params.age.content,
             photo: params.photo.content,
-            password
+            password,
+            userId,
+            friendsList
         };
 
-        mongodb.connect(endPoints.db, (err, db) => {
-            const myDb = db.db(socialNetworkDb);
-            const myCollection = myDb.collection(usersCollection);
+        commonServerData.mongodb.connect(endPoints.db, (err, db) => {
+            const myDb = db.db(commonServerData.socialNetworkDb);
+            const myCollection = myDb.collection(commonServerData.usersCollection);
             myCollection.findOne({email: userInfo.email}, (err, result) => {
                 try {
                     if (err) {
@@ -56,6 +57,7 @@ const saveNewUser = (req, res) => {
                             tittle: `Account has been created successfully! Congrats! Take your password:  ${plainPassword}`
 
                         };
+                        console.log(dataToSend)
                         res.send(200, dataToSend);
                     });
                 } else {

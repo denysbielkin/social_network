@@ -1,7 +1,7 @@
 const endPoints = require('../../src/common/endPointsList');
 const commonServerData = require ('../commonServerData');
 
-const loadUserInfo = (req,res) => {
+const loadUserEmail = (req,res) => {
     const params = req.body;
     const token = params.token;
     commonServerData.mongodb.connect(endPoints.db, (err, db) => {
@@ -17,7 +17,7 @@ const loadUserInfo = (req,res) => {
             }
             if (result) {
                 if (token === result.token) {
-                    res.send(200, result);
+                    res.send(200, result.email);
                 } else {
                     res.send(200, 'nope');
                 }
@@ -29,4 +29,4 @@ const loadUserInfo = (req,res) => {
     });
 };
 
-module.exports = {loadUserInfo};
+module.exports = {loadUserEmail};

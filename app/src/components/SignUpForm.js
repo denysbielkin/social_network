@@ -29,19 +29,27 @@ class SignUpForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentWillMount(){
+       this.props.clearForms();
+    }
+
     async handleSubmit(event) {
         event.preventDefault();
         const validateFlag = this.validateForm();
         if (validateFlag) {
-            console.log('valid validation');
             const result = await UsersDataRequests.signUpReq(this.props.signup);
-
-            this.setState({...this.state, alert: result});
+            this.props.showAlert(result);
         } else {
-            console.log('invalid validation');
+            this.props.showAlert({
+                alert: {
+                    show: true,
+                    type: 'danger',
+                    tittle: 'Invalid form filling!'
+                }
+            });
         }
     }
-    
+
     validateForm() {
         const validStatus = document.getElementById('valid-status');
         const validateFlag = Validations.validateForm(this.props.signup);
@@ -53,18 +61,17 @@ class SignUpForm extends Component {
                 middleName.isValid = true;
                 this.props.changeRegFormInput({key: 'middleName', value: middleName});
             }
-
         } else {
-            validStatus.innerHTML = 'Invalid form filling';
-            validStatus.classList.add('alert-danger');
+            this.props.showAlert({
+                show: true,
+                type: 'danger',
+                tittle: `Invalid form filling!`
+            });
         }
         return validateFlag;
     }
-    
+
     render() {
-        const alert = this.state.alert ?
-            <Alerts type={this.state.alert.type} tittle={this.state.alert.tittle}
-                    show={this.state.alert.show}> {this.state.alert.message} </Alerts> : '';
 
         const checkingIsGuest = isGuest;
         if (checkingIsGuest()) {
@@ -72,14 +79,15 @@ class SignUpForm extends Component {
         } else {
             return (
                 <div>
-                    {alert}
+                    <Alerts/>
                     <div id='wrapper'>
                         <NavLink to={endPointsList.signIn}>
-                            <input id='sign-up-back' className='btn btn-dark' type="button" value='<Back'/>
+                            <input id='sign-up-back' className='btn btn-warning' type="button" value='<Authorization'/>
                         </NavLink>
                         <div id='sign-up-block' className='formBlock container'>
-                            <UserForm formId='sign-up-form' submitHandler={this.handleSubmit} inputId={this.signUpInputId} user={this.props.signup}
-                             changeFormInput={this.props.changeRegFormInput}/>
+                            <UserForm formId='sign-up-form' submitHandler={this.handleSubmit}
+                                      inputId={this.signUpInputId} user={this.props.signup}
+                                      changeFormInput={this.props.changeRegFormInput}/>
                         </div>
                     </div>
                 </div>
@@ -90,7 +98,8 @@ class SignUpForm extends Component {
 
 const mapStateToProps = state => {
     return {
-        signup: state
+        signup: state.user,
+        alert: state.alert
     }
 };
 
@@ -99,9 +108,19 @@ const mapDispatchToProps = dispatch => {
         changeRegFormInput: (payload) => dispatch({
             type: 'CHANGE_REG_FORM_INPUT',
             payload
-        })
+        }),
+
+        showAlert: (payload) => dispatch({
+            type: 'TOGGLE_ALERT',
+            payload
+        }),
+
+        clearForms:() => dispatch({
+            type: 'CLEAR_FORMS',
+        }),
     }
 };
+
 
 export default connect(
     mapStateToProps,

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
-import rootReducer from './reducers/formReducer'
+import rootReducer from './reducers'
 import endPointsList from './common/endPointsList';
 import {Router, Route} from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
@@ -14,6 +14,8 @@ import Settings from './components/nav-menu/Settings'
 import Friends from './components/nav-menu/Friends'
 import Search from './components/nav-menu/Search'
 import UserHomePage from './components/nav-menu/UserHomePage'
+import AnotherUserPage from "./components/AnotherUserPage";
+
 const history = createBrowserHistory();
 const store = createStore(rootReducer);
 ReactDOM.render(
@@ -27,6 +29,7 @@ ReactDOM.render(
                 <Route path={endPointsList.settings} component={Settings}/>
                 <Route path={endPointsList.friends} component={Friends}/>
                 <Route path={endPointsList.search} component={Search}/>
+                <Route path={endPointsList.anotherUserPage} component={AnotherUserPage}/>
             </div>
         </Router>
     </Provider> , document.getElementById('root')

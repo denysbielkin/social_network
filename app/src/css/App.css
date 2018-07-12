@@ -4,6 +4,7 @@
     min-height: 100vh;
 }
 
+
 #sign-up-form, #sign-in-form {
 
     text-align: center;
@@ -13,6 +14,7 @@
     background: red;
     text-align: start;
 }
+
 
 .user-page-userInfo-form-read {
     cursor: pointer;
@@ -28,22 +30,23 @@
     border-radius: 2px;
     padding: 5px;
 }
-#save-btn-block{
+#save-btn-block , #save-btn-settings{
+    width:60px;
     margin: 3px;
 }
-#user-page-user-age{
-    display: flex;
-    width: 50px;
-
+.settings-tittles{
+  color: #007af4
 }
-#page-content {
-    display: flex;
+
+
+#user-page-user-age{
+    width: 50px;
 }
 
 #myAlert {
-
     text-align: center;
     position: fixed;
+    left: 50%;
 }
 
 .signUpElement, .signInElement {
@@ -59,15 +62,49 @@
     padding: 30px;
 
 }
+#search-page-search-input{
+    margin: 10px;
+}
 
-.user-page-data-block {
+.user-page-data-block, #search-page-result-block, #search-page-search-block, .friends-page-content, #settings-page-content {
     border: darkgoldenrod 3px dashed;
     border-radius: 5px;
     background-color: darkslategray;
 
-    max-width: 300px;
+
     color: white;
+
+}
+
+#user-page-user-gender, #user-page-user-avatar{
+    cursor: pointer;
+}
+
+.friends-page-content, #settings-page-content{
+    width: 400px;
+}
+
+.user-page-data-block,#search-page-result-block,#search-page-search-block , .friends-page-content , #settings-page-content{
     padding: 30px;
+}
+#search-page-result-block{
+    width: 630px;
+}
+#search-page, #friends-page-display-flex,#search-page-search,.search-page-btns-block,#search-page-search-block, #user-page-user-age-block, #settings-page-display-flex, #page-content{
+    display: flex;
+}
+#search-page-result-block-content{
+
+    position: relative;
+}
+
+#search-page-search-block{
+
+    width:340px;
+}
+.user-page-data-block{
+
+    max-width: 400px;
 }
 
 #user-page-user-age-title {
@@ -87,31 +124,61 @@
 #nav-menu, #sign-out-btn {
     list-style: none;
 }
+#nav-menu{
+    margin-right: 20px;
+}
 
 .menu-button, #sign-out-btn {
     width: 100px;
 }
-
+.user-page-gender-option{
+    background: darkslategray;
+}
+#photoProfileEdit{
+    z-index: 0;
+}
 .formBlock {
     max-width: 400px;
 }
 
 #sign-up-back {
-    margin-top: 80px;
+    margin-top: 180px;
     position: absolute;
 }
 
 .mandatory-field {
     color: red;
 }
-
+#search-noResults{
+    margin: 10px;
+}
 #photo-preview {
     flex-flow: column;
 }
+.search-result-block {
+    border: 2px darkgoldenrod solid;
+    margin: 4px;
+    padding: 6px;
+    width:550px;
+}
+.search-page-addFriend-btn-block{
+    margin-left: 25px;
+}
 
-#photo-preview-img {
+.user-page-friends-data-block{
+    margin: 5px;
+}
+.user-page-my-friends-data-block{
+    margin: 15px;
+}
+#photo-preview-img, #user-page-user-avatar,.user-search-user-avatar, #another-user-page-user-avatar, .user-page-my-friends-data-block-avatar {
     max-height: 300px;
     max-width: 300px;
+}
+.user-page-friends-data-block-avatar{
+    max-height: 100px;
+    max-width: 100px;
+    margin-bottom: 5px;
 }
 
 .signUpGender {

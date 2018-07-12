@@ -17,15 +17,13 @@ class UserForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.photoHandleChange = this.photoHandleChange.bind(this);
     }
-    
+
     photoHandleChange(event, imgId) {
         const thisInput = {
             content: '',
             isValid: false
         };
-
         const img = document.getElementById(imgId);
-
         const reader = new FileReader();
         const validationFlag = Validations.regexpImage(img);
         if (validationFlag) {
@@ -34,38 +32,16 @@ class UserForm extends Component {
                 document.getElementById('photo-preview').innerHTML = `
                      <small class='form-text text-muted'>Photo preview:</small>
                      <img id="photo-preview-img" src='${eventOfLoad.target.result}'/>`;
-
                 thisInput.content = reader.result;
-
                 this.props.changeFormInput({key: 'photo', value: thisInput});
             };
-
             reader.readAsDataURL(img.files[0]);
-
         } else {
             console.log('it is not correct file');
             return false;
         }
     }
-    
-    detectIfValid(thisInput, id) {
-        const thisInputTag = document.getElementById(`${id}`);
-        const isValid = 'alert-success';
-        const isNotValid = 'alert-danger';
 
-        if (!thisInput.isValid) {
-            if (thisInputTag.className.indexOf(' ' + isNotValid) === -1) {
-                thisInputTag.className += ' ' + isNotValid;
-                thisInputTag.classList.remove(isValid);
-            }
-        } else {
-            if (thisInputTag.className.indexOf(' ' + isValid) === -1) {
-                thisInputTag.className += ' ' + isValid;
-                thisInputTag.classList.remove(isNotValid);
-            }
-        }
-    }
-    
     handleChange(event, id, typeOfRegexp) {
         const thisInput = {
             content: '',
@@ -75,7 +51,7 @@ class UserForm extends Component {
         thisInput.content = event.target.value;
 
         this.props.changeFormInput({key: event.target.name, value: thisInput});
-        this.detectIfValid(thisInput, id);
+        Validations.detectIfValid(thisInput, id);
     }
     
     render() {
@@ -86,7 +62,6 @@ class UserForm extends Component {
                         First name<span className='mandatory-field'>*</span>:
                         <input className='form-control signUpElement' type="text"
                                id='sign-up-firstName'
-                               required
                                name='firstName'
                                value={this.props.user.firstName.content}
                                onChange={(event) => this.handleChange(event, this.props.inputId.firstName, this.typesOfRegexp.name)}/>
@@ -98,7 +73,6 @@ class UserForm extends Component {
                         <input className='form-control signUpElement' type="text"
                                id='sign-up-lastName'
                                name='lastName'
-                               required
                                value={this.props.user.lastName.content}
                                onChange={(event) => this.handleChange(event, this.props.inputId.lastName, this.typesOfRegexp.name)}/>
                     </label>
@@ -124,7 +98,6 @@ class UserForm extends Component {
                         Email<span className='mandatory-field'>*</span>:
                         <input className='form-control signUpElement' type="email" id='sign-up-email'
                                name='email'
-                               required
                                value={this.props.user.email.content}
                                onChange={(event) => this.handleChange(event, this.props.inputId.email, this.typesOfRegexp.email)}/>
                     </label>
@@ -156,7 +129,6 @@ class UserForm extends Component {
                         Age<span className='mandatory-field'>*</span>:
                         <input className='form-control signUpElement' type="number"
                                id='sign-up-age'
-                               required
                                value={this.props.user.age.content}
                                name='age'
                                onChange={(event) => this.handleChange(event, this.props.inputId.age, this.typesOfRegexp.age)}/>
@@ -168,7 +140,6 @@ class UserForm extends Component {
                         <input className='form-control signUpElement' type="file" id='sign-up-photo'
                                aria-describedby="sign-up-photo-tip"
                                name='photo'
-                               required
                                onChange={(event) => this.photoHandleChange(event, this.props.inputId.photo)}
                         />
                     </label>
