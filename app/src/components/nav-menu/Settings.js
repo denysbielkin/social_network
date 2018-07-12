@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
 import NavigateMenu from './NavigateMenu';
+import {Redirect} from 'react-router-dom';
+
 import UsersDataRequests from "../../common/UsersDataRequests";
-import endPointsList from "../../common/endPointsList";
 import {connect} from "react-redux";
+import SettingsRequests from "../../common/SettingsRequests";
+import Alerts from '../Alerts';
+import endPointsList from "../../common/endPointsList";
 
 class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: ''
+            email: '',
+            isLoggedIn: true
         };
 
         this.loadUserEmail()
@@ -21,92 +25,40 @@ class Settings extends Component {
         this.props.changeUserInfoEmail({key:'email', value:email});
     }
 
-    handleChange(event, typeOfRegExp) {
+    async generatePassword() {
+        const alert = await SettingsRequests.generatePassword();
+        this.props.showAlert(alert);
+    };
 
+    onSignOut() {
+        localStorage.removeItem('auth-tok');
+        localStorage.removeItem('userId');
+        this.setState({...this.state, isLoggedIn: false});
     }
-    handleSaveButton(){
-
-    }
-
 
     render() {
+        if (!this.state.isLoggedIn) {
+            return (
+                <div>
+                    <Redirect to={endPointsList.signIn}/>
+                </div>
+            )
+        }
+
         return (
             <div>
+                <Alerts />
                 <div id='wrapper'>
                     <div id='settings-page-display-flex'>
                         <NavigateMenu/>
                         <div id='settings-page-content'>
-
-                            <div><input id='save-btn-settings' type="button" className='btn btn-primary' value='Save'/></div>
-
-                            <div>
-                                <h4>Change email</h4>
-
-                                <h5 className='settings-tittles'>Old email</h5>
-                                <input name='oldEmail'
-                                       className='form-control'
-                                       type="email"
-                                       id='settings-oldEmail-input'
-
-                                       onChange={(event) => {
-                                           this.handleChange(event, 'email');
-                                       }}
-                                />
-                                <h5 className='settings-tittles'>New email</h5>
-                                <input name='newEmail'
-                                       className='form-control'
-                                       type="email"
-                                       id='settings-newEmail-input'
-
-                                       onChange={(event) => {
-                                           this.handleChange(event, 'email');
-                                       }}
-                                />
-                                <h5 className='settings-tittles'>New email confirm</h5>
-                                <input name='newEmailConfirm'
-                                       className='form-control'
-                                       type="email"
-                                       id='settings-newEmailConfirm-input'
-
-                                       onChange={(event) => {
-                                           this.handleChange(event, 'email');
-                                       }}
-                                />
-                            </div>
                             <div>
 
-                                <h4>Change password</h4>
-
-                                <h5 className='settings-tittles'>Old password</h5>
-                                <input name='oldPassword'
-                                       className='form-control'
-                                       type="password"
-                                       id='settings-oldPassword-input'
-                                    // value={this.state.oldPassword}
-                                       onChange={(event) => {
-                                           this.handleChange(event, 'oldPassword');
-                                       }}
-                                />
-                                <h5 className='settings-tittles'>New password</h5>
-                                <input name='newPassword'
-                                       className='form-control'
-                                       type="password"
-                                       id='settings-newPassword-input'
-                                    // value={this.state.oldPassword}
-                                       onChange={(event) => {
-                                           this.handleChange(event, 'newPassword');
-                                       }}
-                                />
-                                <h5 className='settings-tittles'>New password confirm</h5>
-                                <input name='newPasswordConfirm'
-                                       className='form-control'
-                                       type="password"
-                                       id='settings-newPasswordConfirm-input'
-                                    // value={this.state.oldPassword}
-                                       onChange={(event) => {
-                                           this.handleChange(event, 'newPasswordConfirm');
-                                       }}
-                                />
+                                <button className="btn btn-warning" onClick={() => this.generatePassword()}>Generate new password</button>
+                                <br />
+                                <br />
+                                <br />
+                                <button className="btn btn-danger" onClick={() => this.onSignOut()}>Sign out</button>
                             </div>
                         </div>
                     </div>

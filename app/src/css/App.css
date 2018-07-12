@@ -44,9 +44,9 @@
 }
 
 #myAlert {
-
     text-align: center;
     position: fixed;
+    left: 50%;
 }
 
 .signUpElement, .signInElement {
@@ -142,14 +142,16 @@
 }
 
 #sign-up-back {
-    margin-top: 120px;
+    margin-top: 180px;
     position: absolute;
 }
 
 .mandatory-field {
     color: red;
 }
-
+#search-noResults{
+    margin: 10px;
+}
 #photo-preview {
     flex-flow: column;
 }
@@ -157,7 +159,7 @@
     border: 2px darkgoldenrod solid;
     margin: 4px;
     padding: 6px;
-    width:500px;
+    width:550px;
 }
 .search-page-addFriend-btn-block{
     margin-left: 25px;

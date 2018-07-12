@@ -42,7 +42,7 @@ class SignInForm extends Component {
             console.log(err);
         }
 
-        this.props.showAlert({ alert: validationResult});
+        this.props.showAlert(validationResult);
         if (validationResult.type === 'success') {
             this.setState({isLoggedIn: true});
         }
@@ -79,7 +79,7 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="email"
                                                id='sign-in-email'
                                                name='email'
-                                               required
+
                                                value={this.state.email}
                                                onChange={(event) => this.handleChange(event)}
                                         />
@@ -91,7 +91,7 @@ class SignInForm extends Component {
                                         <input className='form-control signInElement' type="password"
                                                id='sign-in-password'
                                                name='password'
-                                               required
+
                                                value={this.state.password}
                                                onChange={(event) => this.handleChange(event)}
                                         />

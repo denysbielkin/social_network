@@ -24,9 +24,7 @@ class Search extends Component {
             return;
         }
         const resultOfSearch = await UsersDataRequests.loadUsersForSearch(this.state.searchInput);
-        const authorizedUserInfo = await UsersDataRequests.loadUserInfo();
         this.setState({...this.state, resultOfSearch});
-        this.setState({...this.state, authorizedUserInfo})
     }
 
     render() {
@@ -47,7 +45,7 @@ class Search extends Component {
                                 </button>
                             </div>
                             <div id='search-page-result-block-content'>
-                                <SearchResults result={this.state.resultOfSearch} authorizedUserInfo={this.state.authorizedUserInfo}/>
+                                <SearchResults result={this.state.resultOfSearch} />
                             </div>
                         </div>
                     </div>

@@ -37,6 +37,12 @@ class AnotherUserPage extends Component {
         this.loadUserInfo();
     }
 
+    async loadFriendsDataFromDb() {
+        const userInfo = await UsersDataRequests.loadUserInfo();
+        const friendsInfo = await FriendsRequests.loadFriendsData(userInfo.friendsList);
+        this.props.initFriendsList(friendsInfo);
+    }
+
     isTokenGood() {
         const checkToken = localStorage.getItem('auth-tok');
         if (checkToken) {
@@ -54,16 +60,48 @@ class AnotherUserPage extends Component {
 
     componentWillMount() {
         this.isTokenGood();
+        this.loadFriendsDataFromDb();
     }
 
-    addFriend() {
 
-        let btnValue = 'Add as Friend';
-        const btn = (
-            <input type="button" className='btn btn-success'
-                   onClick={() => FriendsRequests.addFriend(this.state.userInfo.userId)} value={btnValue}/>
-        );
+    printFriendBtn() {
+        const typeOfBtn = this.checkFriendsList();
+
+        let btn = [];
+       if (typeOfBtn.remove) {
+            btn = (
+                <button className='btn btn-danger'
+                        onClick={() => this.props.removeFriend({userId: this.state.userInfo.userId})}>Remove from
+                    Friendlist</button>
+            );
+        } else if (typeOfBtn.add) {
+            btn = (
+                <button className='btn btn-success'
+                        onClick={() => this.props.addFriend({userId: this.state.userInfo.userId})}>Add as
+                    Friend</button>
+            );
+        }
         return btn;
+    }
+
+    checkFriendsList() {
+        const typeOfBtn = {
+            add: false,
+            remove: false
+        };
+
+        for (let i in this.props.friendsInfo) {
+            if (this.props.friendsInfo[i].userId === this.state.userInfo.userId) {
+                typeOfBtn.remove = true;
+                return typeOfBtn;
+            }
+        }
+        //else=>
+        if (!typeOfBtn.remove) {
+            typeOfBtn.add = true;
+            return typeOfBtn;
+        }
+
     }
 
     loadFriendsInfo() {
@@ -80,9 +118,15 @@ class AnotherUserPage extends Component {
                 <div className='user-page-friends-data-block'>
                     <NavLink key={i}
                              to={(endPointsList.anotherUserPage.replace(':userId', this.state.friendsInfo[i].userId))}>
-                        <div><img className='user-page-friends-data-block-avatar' src={this.state.friendsInfo[i].photo}
-                                  alt=""/></div>
-                        <h5><span>{this.state.friendsInfo[i].firstName} {this.state.friendsInfo[i].lastName}</span></h5>
+                        <div onClick={() => window.location.reload()}>
+                            <div>
+                                <img className='user-page-friends-data-block-avatar' src={this.state.friendsInfo[i].photo}
+                                      alt=""/>
+                            </div>
+                            <h5>
+                                <span>{this.state.friendsInfo[i].firstName} {this.state.friendsInfo[i].lastName}</span>
+                            </h5>
+                        </div>
                     </NavLink>
                 </div>
             );
@@ -116,7 +160,7 @@ class AnotherUserPage extends Component {
                         </div>
                         <div className='user-page-data-block' id='user-page-infoBlock'>
                             <div id='user-page'>
-                                <form name='userInfoForm'>
+                                <div>
                                     <div id='user-page-user-avatar-block'>
                                         <img id={this.inputId.photo} src={this.state.userInfo.photo}
                                              alt="photo"/>
@@ -134,8 +178,8 @@ class AnotherUserPage extends Component {
                                     </div>
                                     <h5 id={this.inputId.email}>{this.state.userInfo.email}</h5>
                                     <h5 id={this.inputId.gender}>Gender: {this.state.userInfo.gender}</h5>
-                                    {this.addFriend()}
-                                </form>
+                                    {this.printFriendBtn()}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -148,16 +192,28 @@ class AnotherUserPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        alert: state.alert
+        alert: state.alert,
+        friendsInfo: state.friends
     }
 };
 
 const mapDispatchToProps = dispatch => {
 
     return {
-
         showAlert: (payload) => dispatch({
             type: 'TOGGLE_ALERT',
+            payload
+        }),
+        removeFriend: (payload) => dispatch({
+            type: 'REMOVE_FRIEND',
+            payload
+        }),
+        addFriend: (payload) => dispatch({
+            type: 'ADD_FRIEND',
+            payload
+        }),
+        initFriendsList: (payload) => dispatch({
+            type: 'INIT_FRIENDS_LIST',
             payload
         })
     }

@@ -21,6 +21,7 @@ const removeFriend = '/remove-friend';
 const checkIfFriendExist = '/check-if-friend-exist';
 const loadFriendsData = '/load-friends-data';
 const loadUserEmail = '/load-user-email';
+const generatePassword = '/new-password';
 
 module.exports = {
     saveNewUser,
@@ -45,6 +46,7 @@ module.exports = {
     removeFriend,
     checkIfFriendExist,
     loadFriendsData,
-    loadUserEmail
+    loadUserEmail,
+    generatePassword
 
 };

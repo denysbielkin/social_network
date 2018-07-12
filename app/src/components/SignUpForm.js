@@ -82,7 +82,7 @@ class SignUpForm extends Component {
                     <Alerts/>
                     <div id='wrapper'>
                         <NavLink to={endPointsList.signIn}>
-                            <input id='sign-up-back' className='btn btn-dark' type="button" value='<Authorization'/>
+                            <input id='sign-up-back' className='btn btn-warning' type="button" value='<Authorization'/>
                         </NavLink>
                         <div id='sign-up-block' className='formBlock container'>
                             <UserForm formId='sign-up-form' submitHandler={this.handleSubmit}

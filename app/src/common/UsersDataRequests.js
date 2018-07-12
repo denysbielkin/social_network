@@ -19,8 +19,12 @@ class UsersDataRequests {
         return axios.post(`${endPointsList.serverUrl}${endPointsList.checkingAuthOfUser}`, user)
             .then(res => {
                 const myTok = res.data.token;
+                const myId = res.data.userId;
                 localStorage.setItem('auth-tok', myTok);
-                localStorage.setItem('userId', res.data.userId);
+                localStorage.setItem('userId', myId);
+                delete res.data.token;
+                delete res.data.userId;
+
                 return res.data;
 
             });

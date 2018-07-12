@@ -40,8 +40,6 @@ const addFriend = (req, res) => {
                         console.log(err);
                     }
                     if (result) {
-
-
                         res.send(200, 'added successfully');
                         db.close();
                     } else {

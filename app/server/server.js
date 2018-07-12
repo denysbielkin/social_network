@@ -13,6 +13,7 @@ const {loadAnotherUserInfo} = require('./requests/loadAnotherUserInfo');
 const {updateUserInfo} = require('./requests/updateUserInfo');
 const {loadUsersForSearch} = require('./requests/loadUsersForSearch');
 const {loadUserEmail} = require('./requests/loadUserEmail');
+const {generatePassword} = require('./requests/generatePassword');
 //friends
 const {checkFriendsList} = require('./requests/friends/checkFriendsList');
 const {addFriend} = require('./requests/friends/addFriend');
@@ -41,10 +42,12 @@ app.post(endPoints.checkFriendsList, checkFriendsList);
 
 app.post(endPoints.addFriend, addFriend);
 
-app.post(endPoints.addFriend, removeFriend);
+app.post(endPoints.removeFriend, removeFriend);
 
 app.post(endPoints.loadFriendsData, loadFriendsData);
 
 app.post(endPoints.loadUserEmail, loadUserEmail);
+
+app.post(endPoints.generatePassword, generatePassword);
 
 app.listen(port);

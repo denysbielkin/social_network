@@ -46,7 +46,6 @@ class UserHomePage extends Component {
         this.readMode = 'user-page-userInfo-form-read';
         this.editMode = 'user-page-userInfo-form-edit';
         this.loadUserInfo();
-        this.onSignOut = this.onSignOut.bind(this);
         this.onInfoClick = this.onInfoClick.bind(this);
         this.handleSaveInfoClick = this.handleSaveInfoClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -62,11 +61,6 @@ class UserHomePage extends Component {
         thisInput.isValid = Validations.typeOfRegexp(event.target.value, typeOfRegexp);
         this.props.changeUserInfoFormInput({key: event.target.name, value: thisInput});
         Validations.detectIfValid(thisInput, event.target.id);
-    }
-
-    onSignOut() {
-        localStorage.removeItem('auth-tok');
-        this.setState({...this.state, isLoggedIn: false});
     }
 
     isTokenGood() {
@@ -211,11 +205,6 @@ class UserHomePage extends Component {
                     <div id='page-content'>
                         <div id='nav-menu-block'>
                             <NavigateMenu/>
-                            <li>
-                                <button id='sign-out-btn' className='btn btn-outline-danger'
-                                        onClick={this.onSignOut}>SIGN OUT
-                                </button>
-                            </li>
                         </div>
                         <div id='user-page-user-friendlist-block' className='user-page-data-block'>
                             <h2>Friends</h2>
